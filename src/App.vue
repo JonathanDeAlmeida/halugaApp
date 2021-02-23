@@ -1,42 +1,33 @@
 <template>
   <section>
-    <div id="app">
       <!--<img alt="Vue logo" src="./assets/logo.png">-->
       <!--<HelloWorld msg="Welcome to Your Vue.js App"/>-->
       <Menu/>
-      {{selectedDate}}
-      <!--<CriarLocal/>-->
-      <!--<CadastroPerfil/>-->
-      <!--<Login/>-->
-      <!--<PesquisarLocais/>-->
-      <Agendamentos/>
-      <v-date-picker v-model="selectedDate"/>
-    </div>
+      <Gerenciar/>
   </section>
 </template>
 
 <script>
+import Menu from './components/Menu.vue'
 // import HelloWorld from './components/HelloWorld.vue'
 // import CriarLocal from './components/CriarLocal.vue'
 // import CadastroPerfil from './components/CadastroPerfil.vue'
 // import Login from './components/Login.vue'
 // import PesquisarLocais from './components/PesquisarLocais.vue'
-import Agendamentos from './components/Agendamentos.vue'
-import Menu from './components/Menu.vue'
+// import Agendamentos from './components/Agendamentos.vue'
+import Gerenciar from './components/Gerenciar.vue'
 
 export default {
   name: 'App',
-  data: () => ({
-    selectedDate: null
-  }),
   components: {
+    Menu,
     // HelloWorld,
     // CriarLocal,
     // CadastroPerfil,
     // Login,
     // PesquisarLocais,
-    Agendamentos,
-    Menu
+    // Agendamentos,
+    Gerenciar
   }
 }
 </script>
