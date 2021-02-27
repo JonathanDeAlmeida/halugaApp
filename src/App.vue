@@ -3,6 +3,9 @@
       <!--<img alt="Vue logo" src="./assets/logo.png">-->
       <!--<HelloWorld msg="Welcome to Your Vue.js App"/>-->
       <Menu/>
+      <!-- <Agendamentos/> -->
+      <!-- <Horarios/> -->
+      <!-- <PesquisarLocais/> -->
       <Gerenciar/>
   </section>
 </template>
@@ -16,6 +19,7 @@ import Menu from './components/Menu.vue'
 // import PesquisarLocais from './components/PesquisarLocais.vue'
 // import Agendamentos from './components/Agendamentos.vue'
 import Gerenciar from './components/Gerenciar.vue'
+// import Horarios from './components/Horarios.vue'
 
 export default {
   name: 'App',
@@ -27,7 +31,8 @@ export default {
     // Login,
     // PesquisarLocais,
     // Agendamentos,
-    Gerenciar
+    Gerenciar,
+    // Horarios
   }
 }
 </script>
@@ -49,6 +54,9 @@ export default {
 .mb-80 {
   margin-bottom: 80px;
 }
+/* .h-calendar {
+  height: 240px !important;
+} */
 .btn-blue {
   background-color: rgb(14, 14, 255);
   border: none;
@@ -71,6 +79,11 @@ export default {
   font-size: 15px;
   margin-bottom: 5px;
 }
+.place-border-schedules {
+  border: 1px solid black;
+  padding: 5px;
+  margin-bottom: 35px;
+}
 .place-border {
   border: 1px solid black;
   padding: 5px;
@@ -89,6 +102,17 @@ export default {
 }
 .place-buttons button {
   margin: 5px;
+}
+.place-border-schedules img {
+  height: 100%;
+  width: 100%;
+}
+@media (max-width: 991px)
+{
+  .place-border-schedules img {
+    height: 250px;
+    width: 100%;
+  }
 }
 .place-border img {
   height: 100%;
@@ -118,5 +142,34 @@ export default {
   .place-infos {
     margin-top: 10px;
   }
+}
+.modal-backdrop {
+  opacity: 0.6;
+}
+.modal-body {
+  padding: 15px 0 !important;
+}
+.modal-border {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+.add-hours .start {
+  margin-bottom: 24px;
+}
+@media (min-width: 992px)
+{
+  .add-hours .finish{
+    float: right;
+  }
+}
+@media (max-width: 991px)
+{
+  .add-hours {
+    text-align: center;
+  }
+}
+.vdatetime-input {
+  font-size: 20px;
+  text-align: center;
 }
 </style>
