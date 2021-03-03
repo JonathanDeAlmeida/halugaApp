@@ -131,8 +131,11 @@ export default {
         time: null
     }),
     methods: {
-        hey () {
-            console.log('ola')
+        formSubmit () {      
+            this.form.userId = window.localStorage.getItem('user')  
+            this.$http.post('http://localhost:8000/api/place-create', this.form).then(response => {
+                console.log(response.body)
+            })
         }
     },
 }

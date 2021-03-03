@@ -1,62 +1,28 @@
 <template>
   <section>
-      <!--<img alt="Vue logo" src="./assets/logo.png">-->
-      <!--<HelloWorld msg="Welcome to Your Vue.js App"/>-->
       <Menu/>
-      <!-- <Agendamentos/> -->
-      <!-- <Horarios/> -->
-      <!-- <PesquisarLocais/> -->
-      <Gerenciar/>
+      <router-view></router-view>
   </section>
 </template>
 
 <script>
 import Menu from './components/Menu.vue'
-// import HelloWorld from './components/HelloWorld.vue'
-// import CriarLocal from './components/CriarLocal.vue'
-// import CadastroPerfil from './components/CadastroPerfil.vue'
-// import Login from './components/Login.vue'
-// import PesquisarLocais from './components/PesquisarLocais.vue'
-// import Agendamentos from './components/Agendamentos.vue'
-import Gerenciar from './components/Gerenciar.vue'
-// import Horarios from './components/Horarios.vue'
 
 export default {
   name: 'App',
   components: {
     Menu,
-    // HelloWorld,
-    // CriarLocal,
-    // CadastroPerfil,
-    // Login,
-    // PesquisarLocais,
-    // Agendamentos,
-    Gerenciar,
-    // Horarios
   }
 }
 </script>
 
 <style>
-/*
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-*/
 .mb-25 {
   margin-bottom: 25px;
 }
 .mb-80 {
   margin-bottom: 80px;
 }
-/* .h-calendar {
-  height: 240px !important;
-} */
 .btn-blue {
   background-color: rgb(14, 14, 255);
   border: none;

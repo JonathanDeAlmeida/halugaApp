@@ -21,7 +21,7 @@
                 <button class="btn-blue">Entrar</button>
             </div>
             <div class="col-md-12 text-center">
-                <a href="">Ainda não tenho cadastro</a>
+                <router-link to="/cadastro-perfil">Ainda não tenho cadastro</router-link>
             </div>
         </div>
     </div>
