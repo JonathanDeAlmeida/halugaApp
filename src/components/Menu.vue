@@ -2,7 +2,7 @@
   <section class="mb-80">
     <nav class="navbar navbar-expand-lg bg-blue">
       <div class="container">
-        <router-link class="navbar-brand" to="/pesquisar-locais">Reservas</router-link>
+        <router-link class="navbar-brand" to="/">Reservas</router-link>
         <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false">
           <span class="navbar-toggler-icon"></span>
         </button>
