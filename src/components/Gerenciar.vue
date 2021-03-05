@@ -5,18 +5,20 @@
                 <h4>Barbearia</h4>
             </div>
             <div class="col-md-12">
-                <input class="w-100 mb-4" placeholder="Nome">
+                <input class="w-100 mb-4" placeholder="Nome" v-model="form.name">
                 <div class="row add-hours">
                     <div class="col-lg-6 col-md-12">
                         <div class="start">
-                        Início ás:
-                        <datetime type="time" v-model="time"></datetime>
+                            Início ás:
+                            <input type="time" class="form-control" v-model="form.start">
+                            <!-- <datetime type="time" v-model="form.start"></datetime> -->
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-12">
                         <div class="finish">
                             Término ás:
-                            <datetime type="time" v-model="time"></datetime>
+                            <input type="time" class="form-control" v-model="form.finish">
+                            <!-- <datetime type="time" v-model="form.finish"></datetime> -->
                         </div>
                     </div>
                 </div>
@@ -25,6 +27,7 @@
             <div class="col-md-12">
                 <div class="float-right">
                     <button class="btn-blue" @click="modalShow = false"> Fechar </button>
+                    <button class="btn-blue" @click.prevent="formSubmit()"> Confirmar </button>
                 </div>
             </div>
         </b-modal>
@@ -38,14 +41,16 @@
                 <div class="row add-hours">
                     <div class="col-lg-6 col-md-12">
                         <div class="start">
-                        Início ás:
-                        <datetime type="time" v-model="time"></datetime>
+                            Início ás:
+                            <input type="time" v-model="form.start">
+                            <!-- <datetime type="time" v-model="time"></datetime> -->
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-12">
                         <div class="finish">
                             Término ás:
-                            <datetime type="time" v-model="time"></datetime>
+                            <input type="time" v-model="form.finish">
+                            <!-- <datetime type="time" v-model="time"></datetime> -->
                         </div>
                     </div>
                 </div>
@@ -128,12 +133,20 @@ export default {
         modalShowEdit: false,
         modalShowRemove: false,
         date: new Date(),
-        time: null
+        time: null,
+        form: {
+            userId: null,
+            name: null,
+            start: null,
+            finish: null,
+            date: null
+        }
     }),
     methods: {
         formSubmit () {      
-            this.form.userId = window.localStorage.getItem('user')  
-            this.$http.post('http://localhost:8000/api/place-create', this.form).then(response => {
+            this.form.userId = window.localStorage.getItem('user')
+            this.form.date = this.moment(this.date).format('YYYY-MM-DD')
+            this.$http.post('http://localhost:8000/api/time-create', this.form).then(response => {
                 console.log(response.body)
             })
         }

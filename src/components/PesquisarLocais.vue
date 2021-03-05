@@ -43,7 +43,7 @@
                                     <p class="place-info"><strong>Cidade:</strong> Itajaí</p>
                                     <div class="place-buttons">
                                         <button @click="modalShow = true" class="btn-blue">Informações</button>
-                                        <button class="btn-blue">Horários</button>
+                                        <router-link class="btn-blue" to="/horarios">Horários</router-link>
                                     </div>
                                 </div>
                             </div>
@@ -65,7 +65,7 @@
                                     <p class="place-info"><strong>Cidade:</strong> Itajaí</p>
                                     <div class="place-buttons">
                                         <button @click="modalShow = true" class="btn-blue">Informações</button>
-                                        <button class="btn-blue">Horários</button>
+                                        <router-link class="btn-blue" to="/horarios">Horários</router-link>
                                     </div>
                                 </div>
                             </div>

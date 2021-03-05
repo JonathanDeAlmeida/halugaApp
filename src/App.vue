@@ -124,9 +124,9 @@ export default {
 }
 @media (min-width: 992px)
 {
-  .add-hours .finish{
+  /* .add-hours .finish{
     float: right;
-  }
+  } */
 }
 @media (max-width: 991px)
 {
