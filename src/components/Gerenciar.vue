@@ -33,24 +33,26 @@
             </div>
         </b-modal>
 
-        <!-- <b-modal v-model="modalShowEdit" hide-header hide-footer> 
+        <b-modal v-model="modalShowEdit" hide-header hide-footer> 
             <div class="col-md-12 modal-border">
                 <h4>Barbearia</h4>
             </div>
             <div class="col-md-12">
-                <input class="w-100 mb-4" placeholder="Nome">
+                <input class="w-100 mb-4" placeholder="Nome" v-model="time.name">
+                <input class="w-100 mb-4" placeholder="Detalhes" v-model="time.details">
                 <div class="row add-hours">
                     <div class="col-lg-6 col-md-12">
                         <div class="start">
                             Início ás:
-                            {{zone}}
-                            <datetime type="time" v-model="time" :zone="zone"></datetime>
+                            <!-- <input type="time" class="form-control" v-model="form.start"> -->
+                            <datetime type="time" v-model="time.start" value-zone="America/Sao_Paulo"></datetime>
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-12">
                         <div class="finish">
                             Término ás:
-                            <datetime type="time" v-model="time"></datetime>
+                            <!-- <input type="time" class="form-control" v-model="form.finish"> -->
+                            <datetime type="time" v-model="time.finish" value-zone="America/Sao_Paulo"></datetime>
                         </div>
                     </div>
                 </div>
@@ -58,26 +60,27 @@
             <hr>
             <div class="col-md-12">
                 <div class="float-right">
-                    <button class="btn-blue" @click="modalShowEdit = false"> Fechar </button>
+                    <button class="btn-blue" @click="modalShow = false"> Fechar </button>
+                    <button class="btn-blue" @click.prevent="formSubmit()"> Confirmar </button>
                 </div>
             </div>
-        </b-modal> -->
+        </b-modal>
 
-        <b-modal v-model="modalShowRemove" hide-header hide-footer> 
+        <b-modal v-model="modalShowExcluded" hide-header hide-footer> 
             <div class="col-md-12 modal-border">
                 <h4>Barbearia</h4>
             </div>
-            <div class="col-md-12">
+            <div class="col-md-12" v-if="time">
                 <p>Tem certeza que deseja remover ?</p>
-                <p>Nome: Alvo Percival Wulfrico Brian Dumbledore</p>
-                <p>Início ás: 14:00</p>
-                <p>Término ás: 15:00</p>
+                <p>{{time.name}}</p>
+                <p>{{time.start}}</p>
+                <p>{{time.finish}}</p>
             </div>
             <hr>
             <div class="col-md-12">
                 <div class="float-right">
-                    <button class="btn btn-info" @click="modalShowRemove = false"> Cancelar </button>
-                    <button class="btn btn-primary"> Confirmar </button>
+                    <button class="btn btn-info" @click="modalShowExcluded = false"> Cancelar </button>
+                    <button class="btn btn-primary" @click="excludedTime()"> Confirmar </button>
                 </div>
             </div>
         </b-modal>
@@ -85,7 +88,9 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-5 col-md-12 mb-5">
-                    <v-date-picker v-on:click="getTimes()" class="w-100 h-calendar" v-model="date"/>
+                    <div v-on:click="getTimes()">
+                        <v-date-picker class="w-100 h-calendar" v-model="date"/>
+                    </div>
                 </div>
                 <div class="col-lg-7 col-md-12">
                     <div class="row mb-4">
@@ -105,20 +110,19 @@
                                     <th colspan="2">Ações</th>
                                 </tr>
                             </thead>
-                            <tbody v-for="time of times" :key="time">
+                            <tbody v-for="(time, index) of times" :key="index">
                                 <tr>
                                     <td>{{time.start}} ás {{time.finish}}</td>
                                     <td>{{time.name}}</td>
                                     <td>
-                                        <button @click="modalShowEdit = true" class="btn btn-primary">Editar</button>
+                                        <button @click="setTime(time, 'edit')" class="btn btn-primary">Editar</button>
                                     </td>
                                     <td>
-                                        <button @click="modalShowRemove = true" class="btn btn-danger">Excluir</button>
+                                        <button @click="setTime(time, 'excluded')" class="btn btn-danger">Excluir</button>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
-                        <button @click="getTimes">ola</button>
                     </div>
                 </div>
             </div>
@@ -132,7 +136,7 @@ export default {
     data: () => ({
         modalShow: false,
         modalShowEdit: false,
-        modalShowRemove: false,
+        modalShowExcluded: false,
         date: new Date(),
         details: null,
         time: null,
@@ -153,17 +157,32 @@ export default {
             }
             this.$http.post('http://localhost:8000/api/time-create', form).then(response => {
                 console.log(response.body)
+                this.getTimes()
+                this.modalShow =  false
             })
         },
         getTimes () {
-            console.log(this.date)
             let form = {
                 userId: window.localStorage.getItem('user'),
                 selectedDate: this.moment(this.date).format('YYYY-MM-DD')
             }
             this.$http.post('http://localhost:8000/api/get-times', form).then(response => {
                 this.times = response.body
-                console.log(this.times)
+            })
+        },
+        setTime (time, type) {
+            this.time = time
+            if (type === 'edit') {
+                this.modalShowEdit = true
+            } else {
+                this.modalShowExcluded = true
+            }
+        },
+        excludedTime () {
+            this.$http.post('http://localhost:8000/api/time-excluded', {timeId: this.time.id}).then(() => {
+                console.log('excluído com sucesso')
+                this.getTimes()
+                this.modalShowExcluded =  false
             })
         },
     },
