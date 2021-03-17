@@ -5,21 +5,21 @@
                 <h4>Barbearia</h4>
             </div>
             <div class="col-md-12">
-                <input class="w-100 mb-4" placeholder="Nome" v-model="name">
-                <input class="w-100 mb-4" placeholder="Detalhes" v-model="details">
+                <input class="w-100 mb-4" placeholder="Nome" v-model="form.name">
+                <input class="w-100 mb-4" placeholder="Detalhes" v-model="form.details">
                 <div class="row add-hours">
                     <div class="col-lg-6 col-md-12">
                         <div class="start">
                             Início ás:
                             <!-- <input type="time" class="form-control" v-model="form.start"> -->
-                            <datetime type="time" v-model="start" value-zone="America/Sao_Paulo"></datetime>
+                            <datetime type="time" v-model="form.start" value-zone="America/Sao_Paulo"></datetime>
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-12">
                         <div class="finish">
                             Término ás:
                             <!-- <input type="time" class="form-control" v-model="form.finish"> -->
-                            <datetime type="time" v-model="finish" value-zone="America/Sao_Paulo"></datetime>
+                            <datetime type="time" v-model="form.finish" value-zone="America/Sao_Paulo"></datetime>
                         </div>
                     </div>
                 </div>
@@ -37,7 +37,7 @@
             <div class="col-md-12 modal-border">
                 <h4>Barbearia</h4>
             </div>
-            <div class="col-md-12">
+            <div class="col-md-12" v-if="time">
                 <input class="w-100 mb-4" placeholder="Nome" v-model="time.name">
                 <input class="w-100 mb-4" placeholder="Detalhes" v-model="time.details">
                 <div class="row add-hours">
@@ -60,8 +60,8 @@
             <hr>
             <div class="col-md-12">
                 <div class="float-right">
-                    <button class="btn-blue" @click="modalShow = false"> Fechar </button>
-                    <button class="btn-blue" @click.prevent="formSubmit()"> Confirmar </button>
+                    <button class="btn-blue" @click="modalShowEdit = false"> Fechar </button>
+                    <button class="btn-blue" @click.prevent="editTime()"> Confirmar </button>
                 </div>
             </div>
         </b-modal>
@@ -110,15 +110,15 @@
                                     <th colspan="2">Ações</th>
                                 </tr>
                             </thead>
-                            <tbody v-for="(time, index) of times" :key="index">
+                            <tbody v-for="(hour, index) of times" :key="index">
                                 <tr>
-                                    <td>{{time.start}} ás {{time.finish}}</td>
-                                    <td>{{time.name}}</td>
+                                    <td>{{hour.start}} ás {{hour.finish}}</td>
+                                    <td>{{hour.name}}</td>
                                     <td>
-                                        <button @click="setTime(time, 'edit')" class="btn btn-primary">Editar</button>
+                                        <button @click="setTime(hour.id, 'edit')" class="btn btn-primary">Editar</button>
                                     </td>
                                     <td>
-                                        <button @click="setTime(time, 'excluded')" class="btn btn-danger">Excluir</button>
+                                        <button @click="setTime(hour.id, 'excluded')" class="btn btn-danger">Excluir</button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -138,24 +138,21 @@ export default {
         modalShowEdit: false,
         modalShowExcluded: false,
         date: new Date(),
-        details: null,
+        form: {
+            name: null,
+            details: null,
+            start: '00:00',
+            finish: '00:00'
+        },
         time: null,
-        name: null,
-        start: '00:00',
-        finish: '00:00',
         times: null
     }),
     methods: {
         formSubmit () {     
-            let form = {
-                name: this.name,
-                details: this.details,
-                userId: window.localStorage.getItem('user'),
-                selectedDate: this.moment(this.date).format('YYYY-MM-DD'),
-                start: this.moment(this.start).format('hh:mm'),
-                finish: this.moment(this.finish).format('hh:mm')
-            }
-            this.$http.post('http://localhost:8000/api/time-create', form).then(response => {
+            this.form.userId = window.localStorage.getItem('user')
+            this.form.selectedDate =  this.moment(this.date).format('YYYY-MM-DD')
+
+            this.$http.post('http://localhost:8000/api/time-create', this.form).then(response => {
                 console.log(response.body)
                 this.getTimes()
                 this.modalShow =  false
@@ -170,8 +167,14 @@ export default {
                 this.times = response.body
             })
         },
-        setTime (time, type) {
-            this.time = time
+        setTime (timeId, type) {
+            let self = this            
+            this.times.filter(function (element) {
+                if (element.id === timeId) {
+                    self.time = element
+                }
+            })
+            console.log(this.time)
             if (type === 'edit') {
                 this.modalShowEdit = true
             } else {
@@ -185,6 +188,12 @@ export default {
                 this.modalShowExcluded =  false
             })
         },
+        editTime () {
+            this.$http.post('http://localhost:8000/api/time-edit', {time: this.time}).then(() => {
+                this.getTimes()
+                this.modalShowEdit =  false
+            })
+        }
     },
     created () {
         this.getTimes()
