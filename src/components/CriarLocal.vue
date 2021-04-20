@@ -114,6 +114,25 @@ export default {
         onRemoved() {
             this.image = ''
         },
+        getPlace () {
+            let userId = window.localStorage.getItem('user')
+            this.$http.post('http://localhost:8000/api/get-place', {user_id: userId}).then(response => {
+                let place = response.body
+                this.form = {
+                    name: place.name,
+                    phone: place.phone.phone,
+                    cep: place.address.cep,
+                    street: place.address.street,
+                    district: place.address.district,
+                    city: place.address.city,
+                    state: place.address.state,
+                    number: place.address.number,
+                    complement: place.address.complement,
+                    description: place.description
+                }
+                console.log(this.form)
+            })
+        }
         // attemptUpload() {
         //     console.log(this.image)
         //     if (this.image) {
@@ -130,6 +149,9 @@ export default {
         //     // }
         //     }
         // }
+    },
+    created () {
+        this.getPlace()
     }
 }
 </script>
