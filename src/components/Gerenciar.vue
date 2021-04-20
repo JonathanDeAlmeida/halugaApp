@@ -26,9 +26,9 @@
             </div>
             <hr>
             <div class="col-md-12">
-                <div class="float-right">
-                    <button class="btn-blue" @click="modalShow = false"> Fechar </button>
-                    <button class="btn-blue" @click.prevent="formSubmit()"> Confirmar </button>
+                <div class="btn-space float-right">
+                    <button class="btn-general green" @click="modalShow = false"> Fechar </button>
+                    <button class="btn-general blue" @click.prevent="formSubmit()"> Confirmar </button>
                 </div>
             </div>
         </b-modal>
@@ -59,9 +59,9 @@
             </div>
             <hr>
             <div class="col-md-12">
-                <div class="float-right">
-                    <button class="btn-blue" @click="modalShowEdit = false"> Fechar </button>
-                    <button class="btn-blue" @click.prevent="editTime()"> Confirmar </button>
+                <div class="btn-space float-right">
+                    <button class="btn-general green" @click="modalShowEdit = false"> Fechar </button>
+                    <button class="btn-general blue" @click.prevent="editTime()"> Confirmar </button>
                 </div>
             </div>
         </b-modal>
@@ -78,9 +78,9 @@
             </div>
             <hr>
             <div class="col-md-12">
-                <div class="float-right">
-                    <button class="btn btn-info" @click="modalShowExcluded = false"> Cancelar </button>
-                    <button class="btn btn-primary" @click="excludedTime()"> Confirmar </button>
+                <div class="btn-space float-right">
+                    <button class="btn-general green" @click="modalShowExcluded = false"> Cancelar </button>
+                    <button class="btn-general blue" @click="excludedTime()"> Confirmar </button>
                 </div>
             </div>
         </b-modal>
@@ -98,7 +98,7 @@
                             <h4 class="d-inline">{{moment(date).format('DD')}} de {{moment(date).format('MMMM')}} de {{moment(date).format('YYYY')}}</h4>
                         </div>
                         <div class="col-md-6">
-                            <button @click="modalShow = true" class="btn btn-success float-right">Adicionar</button>
+                            <button @click="modalShow = true" class="btn-general green float-right">Adicionar</button>
                         </div>
                     </div> 
                     <div class="table-responsive">
@@ -107,6 +107,7 @@
                                 <tr class="text-center">
                                     <th>Horário</th>
                                     <th>Nome</th>
+                                    <th>Detalhes</th>
                                     <th colspan="2">Ações</th>
                                 </tr>
                             </thead>
@@ -114,11 +115,12 @@
                                 <tr>
                                     <td>{{hour.start}} ás {{hour.finish}}</td>
                                     <td>{{hour.name}}</td>
+                                    <td>{{hour.details}}</td>
                                     <td>
-                                        <button @click="setTime(hour.id, 'edit')" class="btn btn-primary">Editar</button>
+                                        <button @click="setTime(hour, 'edit')" class="btn-general blue">Editar</button>
                                     </td>
                                     <td>
-                                        <button @click="setTime(hour.id, 'excluded')" class="btn btn-danger">Excluir</button>
+                                        <button @click="setTime(hour, 'excluded')" class="btn-general danger">Excluir</button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -151,9 +153,14 @@ export default {
         formSubmit () {     
             this.form.userId = window.localStorage.getItem('user')
             this.form.selectedDate =  this.moment(this.date).format('YYYY-MM-DD')
-
             this.$http.post('http://localhost:8000/api/time-create', this.form).then(response => {
                 console.log(response.body)
+                this.form = {
+                    name: null,
+                    details: null,
+                    start: '00:00',
+                    finish: '00:00'
+                }
                 this.getTimes()
                 this.modalShow =  false
             })
@@ -167,14 +174,15 @@ export default {
                 this.times = response.body
             })
         },
-        setTime (timeId, type) {
-            let self = this            
-            this.times.filter(function (element) {
-                if (element.id === timeId) {
-                    self.time = element
-                }
-            })
-            console.log(this.time)
+        setTime (time, type) {
+            let hour = {
+                id: time.id,
+                name: time.name,
+                details: time.details,
+                start: time.start,
+                finish: time.finish
+            }
+            this.time = hour
             if (type === 'edit') {
                 this.modalShowEdit = true
             } else {

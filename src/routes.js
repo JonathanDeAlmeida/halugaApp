@@ -8,6 +8,7 @@ import CadastroPerfil from './components/CadastroPerfil.vue'
 import Login from './components/Login.vue'
 import PesquisarLocais from './components/PesquisarLocais.vue'
 import Horarios from './components/Horarios.vue'
+import EditarPerfil from './components/EditarPerfil.vue'
 
 Vue.use(VueRouter)
 
@@ -46,6 +47,11 @@ const routes = [
         name: 'Horarios',
         path: '/horarios',
         component: Horarios
+    },
+    {
+        name: 'EditarPerfil',
+        path: '/editar-perfil',
+        component: EditarPerfil
     },
 ]
 

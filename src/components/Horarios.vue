@@ -14,7 +14,7 @@
             <hr>
             <div class="col-md-12">
                 <div class="float-right">
-                    <button class="btn-blue" @click="modalShow = false"> Fechar </button>
+                    <button class="btn-general blue" @click="modalShow = false"> Fechar </button>
                 </div>
             </div>
         </b-modal>
@@ -31,10 +31,10 @@
                                     <h5>Barbearia</h5>
                                     <!-- <p class="place-info"><strong>Rua:</strong> Coronel Silveira da Silva Coronel Silveira da Silva</p>
                                     <p class="place-info"><strong>Número:</strong> 10523</p> -->
-                                    <p class="place-info"><strong>Bairro:</strong> Costa Cavalcanti da Silva Costa Cavalcanti da Silva</p>
+                                    <p class="place-info"><strong>Bairro:</strong> Lorem Ipsum é simplesmente um texto fictício</p>
                                     <p class="place-info"><strong>Cidade:</strong> Itajaí</p>
                                     <div class="place-buttons">
-                                        <button @click="modalShow = true" class="btn-blue">Informações</button>
+                                        <button @click="modalShow = true" class="btn-general blue">Informações</button>
                                     </div>
                                 </div>
                             </div>
@@ -59,7 +59,7 @@
                             <tbody>
                                 <tr>
                                     <td>08:00 ás 12:00</td>
-                                    <td>Alvo Percival Wulfrico Brian Dumbledore</td>
+                                    <td>Lorem Ipsum é simplesmente um texto fictício</td>
                                 </tr>
                             </tbody>
                         </table>

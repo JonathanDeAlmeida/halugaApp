@@ -2,7 +2,18 @@
     <div class="container">
         <div class="row">
             <div class="col-md-4 mb-25">
-                <div style="background-color: black; width: 100%; height: 400px"></div>
+                <VuePictureInput
+                ref="pictureInput"
+                @change="onChanged"
+                @remove="onRemoved"
+                :width="500"
+                :removable="true"
+                removeButtonClass="ui red button"
+                :height="500"
+                accept="image/jpeg, image/png, image/gif"
+                buttonClass="ui button primary"
+                :customStrings="{drag: 'Clique ou Arraste a Imagem Aqui', tap: 'Clique ou Arraste a Imagem Aqui'}">
+                </VuePictureInput>
             </div>
             <div class="col-md-8">
                 <div class="row">
@@ -45,17 +56,21 @@
                         <textarea v-model="form.description" class="form-control" placeholder="Descrição"></textarea>
                     </div>
                 </div>
-                <button @click.prevent="formSubmit()" class="btn-blue float-right">Salvar</button>
+                <button @click.prevent="formSubmit()" class="btn-general blue float-right">Salvar</button>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import VuePictureInput from 'vue-picture-input'
 export default {
     name: 'CriarLocal',
     props: {
         msg: String
+    },
+    components: {
+        VuePictureInput
     },
     data: () => ({
         modalShow: false,
@@ -71,16 +86,51 @@ export default {
             number: null,
             complement: null,
             description: null
-        }
+        },
+        image: null
     }),
     methods: {
         formSubmit () {      
-            this.form.userId = window.localStorage.getItem('user')  
+            // if (this.image) {
+            // console.log(this.image)
+            // let data = new FormData()
+            // data.append('file', this.image)
+            // }
+
+            this.form.userId = window.localStorage.getItem('user')
+            // this.form.image = this.image
             this.$http.post('http://localhost:8000/api/place-create', this.form).then(response => {
                 console.log(response.body)
+                this.$router.push('gerenciar')
             })
-        }
-    },
+        },
+        onChanged() {
+            if (this.$refs.pictureInput.file) {
+                this.image = this.$refs.pictureInput.file
+            } else {
+                console.log("Old browser. No support for Filereader API")
+            }
+        },
+        onRemoved() {
+            this.image = ''
+        },
+        // attemptUpload() {
+        //     console.log(this.image)
+        //     if (this.image) {
+        //     // FormDataPost('http://localhost:8001/user/picture', this.image)
+        //     //     .then(response=>{
+        //     //     if (response.data.success){
+        //     //         this.image = '';
+        //     //         console.log("Image uploaded successfully ✨");
+        //     //     }
+        //     //     })
+        //     //     .catch(err=>{
+        //     //     console.error(err);
+        //     //     });
+        //     // }
+        //     }
+        // }
+    }
 }
 </script>
 

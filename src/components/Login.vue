@@ -8,17 +8,17 @@
         <div class="row">
             <div class="col-md-12 px-0">
                 <div class="col-md-6 mb-25 mx-auto">
-                    <label>Nome</label>
+                    <label>Login</label>
                     <input class="form-control">    
                 </div>
                 <div class="col-md-6 mb-25 mx-auto">
-                    <label>Login</label>
+                    <label>Senha</label>
                     <a class="float-right" href="">Esqueci a senha</a>
                     <input class="form-control">    
                 </div>
             </div>
             <div class="col-md-12 text-center mb-25">
-                <button class="btn-blue">Entrar</button>
+                <button class="btn-general blue">Entrar</button>
             </div>
             <div class="col-md-12 text-center">
                 <router-link to="/cadastro-perfil">Ainda não tenho cadastro</router-link>

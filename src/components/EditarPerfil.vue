@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row text-center">
             <div class="col-md-12 text-center">
-                <p class="title-path">Cadastro</p>
+                <p class="title-path">Edição</p>
             </div>
         </div>
         <div class="row">
@@ -23,18 +23,8 @@
                         <input v-model="form.email" class="form-control">    
                     </div>
                     <div class="col-md-6 mb-25">
-                        <label>Confirmar Email</label>
-                        <input v-model="form.confirmEmail" class="form-control">    
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6 mb-25">
                         <label>Senha</label>
                         <input type="password" v-model="form.password" class="form-control">    
-                    </div>
-                    <div class="col-md-6 mb-25">
-                        <label>Confirmar Senha</label>
-                        <input type="password" v-model="form.confirmPassword" class="form-control">    
                     </div>
                 </div>
                 <router-link class="btn-general green float-left" to="/login">Login</router-link>
@@ -46,7 +36,7 @@
 
 <script>
 export default {
-    name: 'CadastroPerfil',
+    name: 'EditarPerfil',
     props: {
         msg: String
     },
@@ -56,19 +46,32 @@ export default {
             name: null,
             login: null,
             email: null,
-            confirmEmail: null,
-            password: null,
-            confirmPassword: null
+            password: null
         }
     }),
     methods: {
-        formSubmit () {        
-            this.$http.post('http://localhost:8000/api/user-create', this.form).then(response => {
-                window.localStorage.setItem('user', response.body.id)
-                this.$router.push('criar-local')
+        formSubmit () {      
+            this.form.id = window.localStorage.getItem('user')
+            this.$http.post('http://localhost:8000/api/user-edit', this.form).then(() => {
+                this.$router.go()
+            })
+        },
+        getUser () {
+            let userId = window.localStorage.getItem('user')
+            this.$http.post('http://localhost:8000/api/get-user', {user_id: userId}).then(response => {
+                let user = response.body
+                this.form = {
+                    name: user.name,
+                    login: user.login,
+                    email: user.email,
+                    password: user.password
+                }
             })
         }
     },
+    created () {
+        this.getUser()
+    }
 }
 </script>
 

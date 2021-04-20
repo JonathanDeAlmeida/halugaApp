@@ -23,17 +23,27 @@ export default {
 .mb-80 {
   margin-bottom: 80px;
 }
-.btn-blue {
-  background-color: rgb(14, 14, 255);
+
+.btn-general {
   border: none;
   border-radius: 2px;
-  color: white;
+  padding: 1px 6px;
+  display: inline-block;
+  color: white !important;
+  text-decoration: none !important;
 }
-.btn-green {
+.btn-general.blue {
+  background-color: rgb(14, 14, 255);
+}
+.btn-general.green {
   background-color: rgb(26, 163, 79);
-  border: none;
-  border-radius: 2px;
-  color: white;
+}
+.btn-general.danger {
+  background-color: #dc3545;
+}
+
+.btn-space .btn-general {
+  margin-left: 5px;
 }
 .title-path {
   font-size: 50px;
@@ -137,5 +147,12 @@ export default {
 .vdatetime-input {
   font-size: 20px;
   text-align: center;
+}
+
+.navbar-brand {
+  color: white;
+}
+.nav-link {
+  color: white;
 }
 </style>
