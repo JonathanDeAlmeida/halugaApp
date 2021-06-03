@@ -155,4 +155,41 @@ export default {
 .nav-link {
   color: white;
 }
+.alert-general {
+    width: 250px; 
+    height: 90px; 
+    position: fixed; 
+    bottom: 20px; 
+    right: 10px;
+    border-radius: 5px; 
+    border: 1px solid;
+    font-weight: 900;
+    z-index: 1;
+}
+.alert-general.danger {
+    background-color: #ff9c9c; 
+    color: red; 
+    border-color: red; 
+}
+.alert-general.success {
+    background-color: #c1ffc1;
+    color: green;
+    border-color: green; 
+}
+.border-alert {
+    border-bottom: 1px solid;
+}
+.border-alert.danger {
+    border-color: red;
+}
+.border-alert.success {
+    border-color: green;
+}
+.alert-general div {
+    padding: 5px;
+}
+.form-error {
+    color: red;
+    font-size: 13px;
+}
 </style>

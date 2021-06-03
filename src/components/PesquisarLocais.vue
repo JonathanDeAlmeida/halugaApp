@@ -2,14 +2,14 @@
     <section>
         <b-modal v-model="modalShow" hide-header hide-footer> 
             <div class="col-md-12 modal-border">
-                <h4>Barbearia</h4>
+                <h4>Barbearia 1</h4>
             </div>
             <div class="col-md-12">
-                <p class="place-info"><strong>Telefone:</strong> Barbeariasss</p>
-                <p class="place-info"><strong>UF:</strong> Barbearia</p>
-                <p class="place-info"><strong>Complemento:</strong> Barbearia</p>
-                <p class="place-info"><strong>CEP:</strong> Barbearia</p>
-                <p class="place-info"><strong>Descrição:</strong> Barbearia</p>
+                <p class="place-info"><strong>Telefone:</strong> 45 3245-4219</p>
+                <p class="place-info"><strong>UF:</strong> SC </p>
+                <p class="place-info"><strong>Complemento:</strong> Lorem Ipsum é simplesmente um texto fictício</p>
+                <p class="place-info"><strong>CEP:</strong> 8896347</p>
+                <p class="place-info"><strong>Descrição:</strong> Lorem Ipsum é simplesmente um texto fictício</p>
             </div>
             <hr>
             <div class="col-md-12">
@@ -21,7 +21,7 @@
 
         <b-modal v-model="modalFilterShow" hide-header hide-footer> 
             <div class="col-md-12 modal-border">
-                <h4>Filter</h4>
+                <h4>Filtro</h4>
             </div>
             <div class="col-md-12">
                 <div class="row">
@@ -60,7 +60,7 @@
             <hr>
             <div class="col-md-12">
                 <div class="float-right">
-                    <button @click="getPlace()" class="btn-general blue float-right">Salvar</button>
+                    <button @click="getPlace()" class="btn-general blue float-right">Buscar</button>
                 </div>
             </div>
         </b-modal>
@@ -69,21 +69,21 @@
             <div class="row">
                 <div class="col-md-12 px-0">
                     <div class="col-md-6 mb-25 float-right"> 
-                        <button @click="modalFilterShow = true" class="btn-general blue float-right">Buscar</button>
+                        <button @click="modalFilterShow = true" class="btn-general blue float-right">Filtrar</button>
                     </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-6 col-md-12">
+                <div class="col-lg-6 col-md-12" v-if="!hidden">
                     <div class="place-border">
                         <div class="row">
                             <div class="col-md-6">
-                                <img src="https://conteudo.imguol.com.br/c/esporte/83/2018/10/10/alex-bruno-e-dono-da-a4-barbearia-1539214396138_300x300.jpg">
+                                <img src="https://www.portaldasmissoes.com.br/uploads/empreendimentos/0001741_zoom_barbearia-santo-angelo-barbeiro-santo-angelo-barbearia-san-gabriel-barbeiro-san-gabriel-(0ba).jpg">
                             </div>
                             <div class="col-md-6 text-center">
                                 <div class="place-infos search">
-                                    <h5>Barbearia</h5>
-                                    <p class="place-info"><strong>Rua:</strong> Lorem Ipsum é simplesmente um texto fictício</p>
+                                    <h5>Barbearia 2</h5>
+                                    <p class="place-info"><strong>Rua:</strong> Exemplo </p>
                                     <p class="place-info"><strong>Número:</strong> 10523</p>
                                     <p class="place-info"><strong>Bairro:</strong> Lorem Ipsum é simplesmente um texto fictício</p>
                                     <p class="place-info"><strong>Cidade:</strong> Itajaí</p>
@@ -96,16 +96,16 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-12">
+                <div class="col-lg-6 col-md-12" v-if="hidden">
                     <div class="place-border">
                         <div class="row">
                             <div class="col-md-6">
-                                <img src="https://www.portaldasmissoes.com.br/uploads/empreendimentos/0001741_zoom_barbearia-santo-angelo-barbeiro-santo-angelo-barbearia-san-gabriel-barbeiro-san-gabriel-(0ba).jpg">
+                                <img src="https://conteudo.imguol.com.br/c/esporte/83/2018/10/10/alex-bruno-e-dono-da-a4-barbearia-1539214396138_300x300.jpg">
                             </div>
                             <div class="col-md-6 text-center">
                                 <div class="place-infos search">
-                                    <h5>Barbearia</h5>
-                                    <p class="place-info"><strong>Rua:</strong> Lorem Ipsum é simplesmente um texto fictício </p>
+                                    <h5>Barbearia 1</h5>
+                                    <p class="place-info"><strong>Rua:</strong> Lorem Ipsum é simplesmente um texto fictício</p>
                                     <p class="place-info"><strong>Número:</strong> 10523</p>
                                     <p class="place-info"><strong>Bairro:</strong> Lorem Ipsum é simplesmente um texto fictício</p>
                                     <p class="place-info"><strong>Cidade:</strong> Itajaí</p>
@@ -140,7 +140,8 @@ export default {
             state: null,
             number: null,
             complement: null,
-            description: null
+            description: null,
+            hidden: false
         },
     }),
     methods: {
@@ -148,8 +149,11 @@ export default {
             console.log('ola')
         },
         getPlace () {
+            this.modalFilterShow = false
+            this.hidden = true
             this.$http.post('http://localhost:8000/api/get-place', this.form).then(response => {
                 console.log(response)
+                this.modalFilterShow = false
             })
         }
     },

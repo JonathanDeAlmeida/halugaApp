@@ -21,13 +21,13 @@
             <li class="nav-item">
               <router-link class="nav-link" to="/gerenciar">Gerenciar</router-link>
             </li>
+            <li class="nav-item">
+              <router-link class="nav-link float-right" to="/editar-perfil">Editar Perfil</router-link>
+            </li>
             <!-- <li class="nav-item">
               <router-link class="nav-link" to="/cadastro-perfil">Cadastro</router-link>
             </li> -->
           </ul>
-        </div>
-        <div class="float-right">
-          <router-link class="nav-link float-right" to="/editar-perfil">{{name}}</router-link>
         </div>
       </div>
     </nav>

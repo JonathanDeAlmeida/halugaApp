@@ -2,14 +2,14 @@
     <section>
         <b-modal v-model="modalShow" hide-header hide-footer> 
             <div class="col-md-12 modal-border">
-                <h4>Barbearia</h4>
+                <h4>Barbearia 1</h4>
             </div>
             <div class="col-md-12">
-                <p class="place-info"><strong>Telefone:</strong> Barbearia</p>
-                <p class="place-info"><strong>UF:</strong> Barbearia</p>
-                <p class="place-info"><strong>Complemento:</strong> Barbearia</p>
-                <p class="place-info"><strong>CEP:</strong> Barbearia</p>
-                <p class="place-info"><strong>Descrição:</strong> Barbearia</p>
+                <p class="place-info"><strong>Telefone:</strong> 45 3245-4219</p>
+                <p class="place-info"><strong>UF:</strong> SC </p>
+                <p class="place-info"><strong>Complemento:</strong> Lorem Ipsum é simplesmente um texto fictício</p>
+                <p class="place-info"><strong>CEP:</strong> 8896347</p>
+                <p class="place-info"><strong>Descrição:</strong> Lorem Ipsum é simplesmente um texto fictício</p>
             </div>
             <hr>
             <div class="col-md-12">
@@ -18,6 +18,7 @@
                 </div>
             </div>
         </b-modal>
+
         <div class="container">
             <div class="row">
                 <div class="col-lg-5 col-md-12 mb-5">
@@ -28,7 +29,7 @@
                             </div>
                             <div class="col-md-6 text-center">
                                 <div class="place-infos">
-                                    <h5>Barbearia</h5>
+                                    <h5>Barbearia 1</h5>
                                     <!-- <p class="place-info"><strong>Rua:</strong> Coronel Silveira da Silva Coronel Silveira da Silva</p>
                                     <p class="place-info"><strong>Número:</strong> 10523</p> -->
                                     <p class="place-info"><strong>Bairro:</strong> Lorem Ipsum é simplesmente um texto fictício</p>
