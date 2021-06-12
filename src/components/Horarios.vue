@@ -1,47 +1,52 @@
 <template>
     <section>
         <b-modal v-model="modalShow" hide-header hide-footer> 
-            <div class="col-md-12 modal-border">
-                <h4>Barbearia 1</h4>
-            </div>
-            <div class="col-md-12">
-                <p class="place-info"><strong>Telefone:</strong> 45 3245-4219</p>
-                <p class="place-info"><strong>UF:</strong> SC </p>
-                <p class="place-info"><strong>Complemento:</strong> Lorem Ipsum é simplesmente um texto fictício</p>
-                <p class="place-info"><strong>CEP:</strong> 8896347</p>
-                <p class="place-info"><strong>Descrição:</strong> Lorem Ipsum é simplesmente um texto fictício</p>
-            </div>
-            <hr>
-            <div class="col-md-12">
-                <div class="float-right">
-                    <button class="btn-general blue" @click="modalShow = false"> Fechar </button>
+            <template v-if="placeInfo">
+                <div class="col-md-12 modal-border">
+                    <h4>{{placeInfo.name}}</h4>
                 </div>
-            </div>
+                <div class="col-md-12">
+                    <p class="place-info"><strong>Responsável:</strong> {{placeInfo.responsibleName}} </p>
+                    <p class="place-info"><strong>Telefone:</strong> {{placeInfo.phone}} </p>
+                    <p class="place-info"><strong>UF:</strong> {{placeInfo.state}} </p>
+                    <p class="place-info"><strong>Complemento:</strong> {{placeInfo.complement}} </p>
+                    <p class="place-info"><strong>CEP:</strong> {{placeInfo.cep}} </p>
+                    <p class="place-info"><strong>Descrição:</strong> {{placeInfo.description}} </p>
+                </div>
+                <hr>
+                <div class="col-md-12">
+                    <div class="float-right">
+                        <button class="btn-general blue" @click="modalShow = false"> Fechar </button>
+                    </div>
+                </div>
+            </template>
         </b-modal>
 
         <div class="container">
             <div class="row">
                 <div class="col-lg-5 col-md-12 mb-5">
-                    <div class="place-border-schedules">
+                    <div class="place-border-schedules" v-if="place">
                         <div class="row">
                             <div class="col-md-6">
                                 <img src="https://conteudo.imguol.com.br/c/esporte/83/2018/10/10/alex-bruno-e-dono-da-a4-barbearia-1539214396138_300x300.jpg">
                             </div>
                             <div class="col-md-6 text-center">
                                 <div class="place-infos">
-                                    <h5>Barbearia 1</h5>
-                                    <!-- <p class="place-info"><strong>Rua:</strong> Coronel Silveira da Silva Coronel Silveira da Silva</p>
-                                    <p class="place-info"><strong>Número:</strong> 10523</p> -->
-                                    <p class="place-info"><strong>Bairro:</strong> Lorem Ipsum é simplesmente um texto fictício</p>
-                                    <p class="place-info"><strong>Cidade:</strong> Itajaí</p>
+                                    <h5>{{place.name}}</h5>
+                                    <p class="place-info"><strong>Rua:</strong> {{place.street}} </p>
+                                    <p class="place-info"><strong>Número:</strong> {{place.number}} </p>
+                                    <p class="place-info"><strong>Bairro:</strong> {{place.district}} </p>
+                                    <p class="place-info"><strong>Cidade:</strong> {{place.city}} </p>
                                     <div class="place-buttons">
-                                        <button @click="modalShow = true" class="btn-general blue">Informações</button>
+                                        <button @click="getPlaceInfo(place)" class="btn-general blue">Informações</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <v-date-picker class="w-100 h-calendar" v-model="date"/>
+                    <div v-on:click="getPlaceTimes()">
+                        <v-date-picker class="w-100 h-calendar" v-model="date"/>
+                    </div>
                 </div>
                 <div class="col-lg-7 col-md-12">
                     <div class="row mb-4">
@@ -54,13 +59,11 @@
                             <thead class="thead-dark">
                                 <tr class="text-center">
                                     <th>Horário</th>
-                                    <th>Nome</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>08:00 ás 12:00</td>
-                                    <td>Lorem Ipsum é simplesmente um texto fictício</td>
+                            <tbody v-if="times.length > 0">
+                                <tr v-for="(time, index) of  times" :key="index">
+                                    <td>{{time.start}} ás {{time.finish}}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -77,13 +80,43 @@ export default {
     data: () => ({
         selectedDate: null,
         modalShow: false,
-        date: new Date()
+        date: new Date(),
+        placeInfo: null,
+        place: null,
+        times: []
     }),
     methods: {
-        hey () {
-            console.log('ola')
-        }
+        getPlaceTimes () {
+            let form = {
+                place_id: this.$route.params.id,
+                selectedDate: this.moment(this.date).format('YYYY-MM-DD')
+            }
+            this.$http.post('http://localhost:8000/api/get-place-times', form).then(response => {
+                this.times = response.body
+            })
+        },
+        getPlaceInfo (place) {
+            let info = {
+                name: place.name,
+                responsibleName: place.responsible_name,
+                phone: place.phone,
+                state: place.state,
+                complement: place.complement,
+                cep: place.cep,
+                description: place.description
+            }
+            this.placeInfo = info
+            this.modalShow = true
+        },
     },
+    created () {
+        if (this.$route.params.id) {
+            this.$http.post('http://localhost:8000/api/get-place', {place_id: this.$route.params.id}).then(response => {
+                this.place = response.body
+                this.getPlaceTimes()
+            })
+        }
+    }
 }
 </script>
 

@@ -1,22 +1,25 @@
 <template>
     <section>
         <b-modal v-model="modalShow" hide-header hide-footer> 
-            <div class="col-md-12 modal-border">
-                <h4>Barbearia 1</h4>
-            </div>
-            <div class="col-md-12">
-                <p class="place-info"><strong>Telefone:</strong> 45 3245-4219</p>
-                <p class="place-info"><strong>UF:</strong> SC </p>
-                <p class="place-info"><strong>Complemento:</strong> Lorem Ipsum é simplesmente um texto fictício</p>
-                <p class="place-info"><strong>CEP:</strong> 8896347</p>
-                <p class="place-info"><strong>Descrição:</strong> Lorem Ipsum é simplesmente um texto fictício</p>
-            </div>
-            <hr>
-            <div class="col-md-12">
-                <div class="float-right">
-                    <button class="btn-general blue" @click="modalShow = false"> Fechar </button>
+            <template v-if="placeInfo">
+                <div class="col-md-12 modal-border">
+                    <h4> {{placeInfo.name}} </h4>
                 </div>
-            </div>
+                <div class="col-md-12">
+                    <p class="place-info"><strong>Responsável:</strong> {{placeInfo.responsibleName}} </p>
+                    <p class="place-info"><strong>Telefone:</strong> {{placeInfo.phone}} </p>
+                    <p class="place-info"><strong>UF:</strong> {{placeInfo.state}} </p>
+                    <p class="place-info"><strong>Complemento:</strong> {{placeInfo.complement}} </p>
+                    <p class="place-info"><strong>CEP:</strong> {{placeInfo.cep}} </p>
+                    <p class="place-info"><strong>Descrição:</strong> {{placeInfo.description}} </p>
+                </div>
+                <hr>
+                <div class="col-md-12">
+                    <div class="float-right">
+                        <button class="btn-general blue" @click="modalShow = false"> Fechar </button>
+                    </div>
+                </div>
+            </template>
         </b-modal>
 
         <b-modal v-model="modalFilterShow" hide-header hide-footer> 
@@ -25,11 +28,11 @@
             </div>
             <div class="col-md-12">
                 <div class="row">
-                    <div class="col-md-6 mb-25">
+                    <div class="col-md-12 mb-25">
                         <input v-model="form.name" class="form-control" placeholder="Nome">    
                     </div>
-                    <div class="col-md-6 mb-25">
-                        <input v-model="form.phone" class="form-control" placeholder="Telefone">    
+                    <div class="col-md-12 mb-25">
+                        <input v-model="form.responsibleName" class="form-control" placeholder="Responsável">    
                     </div>
                 </div>
                 <div class="row">
@@ -60,7 +63,7 @@
             <hr>
             <div class="col-md-12">
                 <div class="float-right">
-                    <button @click="getPlace()" class="btn-general blue float-right">Buscar</button>
+                    <button @click="getFilterPlace()" class="btn-general blue float-right">Buscar</button>
                 </div>
             </div>
         </b-modal>
@@ -74,7 +77,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-6 col-md-12" v-if="!hidden">
+                <div class="col-lg-6 col-md-12" v-for="(place, index) of places" :key="index">
                     <div class="place-border">
                         <div class="row">
                             <div class="col-md-6">
@@ -82,36 +85,18 @@
                             </div>
                             <div class="col-md-6 text-center">
                                 <div class="place-infos search">
-                                    <h5>Barbearia 2</h5>
-                                    <p class="place-info"><strong>Rua:</strong> Exemplo </p>
-                                    <p class="place-info"><strong>Número:</strong> 10523</p>
-                                    <p class="place-info"><strong>Bairro:</strong> Lorem Ipsum é simplesmente um texto fictício</p>
-                                    <p class="place-info"><strong>Cidade:</strong> Itajaí</p>
+                                    <h5>{{place.name}}</h5>
+                                    <p class="place-info"><strong>Rua:</strong> {{place.street}} </p>
+                                    <p class="place-info"><strong>Número:</strong> {{place.number}} </p>
+                                    <p class="place-info"><strong>Bairro:</strong> {{place.district}} </p>
+                                    <p class="place-info"><strong>Cidade:</strong> {{place.city}} </p>
                                     <div class="place-buttons">
-                                        <button @click="modalShow = true" class="btn-general blue">Informações</button>
-                                        <router-link class="btn-general blue" to="/horarios">Horários</router-link>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-12" v-if="hidden">
-                    <div class="place-border">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <img src="https://conteudo.imguol.com.br/c/esporte/83/2018/10/10/alex-bruno-e-dono-da-a4-barbearia-1539214396138_300x300.jpg">
-                            </div>
-                            <div class="col-md-6 text-center">
-                                <div class="place-infos search">
-                                    <h5>Barbearia 1</h5>
-                                    <p class="place-info"><strong>Rua:</strong> Lorem Ipsum é simplesmente um texto fictício</p>
-                                    <p class="place-info"><strong>Número:</strong> 10523</p>
-                                    <p class="place-info"><strong>Bairro:</strong> Lorem Ipsum é simplesmente um texto fictício</p>
-                                    <p class="place-info"><strong>Cidade:</strong> Itajaí</p>
-                                    <div class="place-buttons">
-                                        <button @click="modalShow = true" class="btn-general blue">Informações</button>
-                                        <router-link class="btn-general blue" to="/horarios">Horários</router-link>
+                                        <button @click="getPlaceInfo(place)" class="btn-general blue">
+                                            Informações
+                                        </button>
+                                        <router-link class="btn-general blue" :to="/horarios/ + place.place_id">
+                                            Horários
+                                        </router-link>
                                     </div>
                                 </div>
                             </div>
@@ -130,36 +115,43 @@ export default {
         modalShow: false,
         modalFilterShow: false,
         date: new Date(),
+        places: [],
+        placeInfo: null,
         form: {
-            name: null,
-            phone: null,
-            cep: null,
-            street: null,
-            district: null,
-            city: null,
-            state: null,
-            number: null,
-            complement: null,
-            description: null,
-            hidden: false
+            name: "",
+            responsibleName: "",
+            cep: "",
+            street: "",
+            district: "",
+            city: "",
+            state: "",
+            number: ""
         },
     }),
     methods: {
-        hey () {
-            console.log('ola')
+        getPlaceInfo (place) {
+            let info = {
+                name: place.name,
+                responsibleName: place.responsible_name,
+                phone: place.phone,
+                state: place.state,
+                complement: place.complement,
+                cep: place.cep,
+                description: place.description
+            }
+            this.placeInfo = info
+            this.modalShow = true
         },
-        getPlace () {
+        getFilterPlace () {
             this.modalFilterShow = false
-            this.hidden = true
-            this.$http.post('http://localhost:8000/api/get-place', this.form).then(response => {
-                console.log(response)
-                this.modalFilterShow = false
+            this.$http.post('http://localhost:8000/api/get-filter-place', this.form).then(response => {
+                this.places = response.body
             })
         }
     },
-  props: {
-    msg: String
-  }
+    created () {
+        this.getFilterPlace()
+    }
 }
 </script>
 

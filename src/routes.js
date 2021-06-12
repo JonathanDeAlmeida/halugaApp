@@ -45,7 +45,7 @@ const routes = [
     },
     {
         name: 'Horarios',
-        path: '/horarios',
+        path: '/horarios/:id',
         component: Horarios
     },
     {
