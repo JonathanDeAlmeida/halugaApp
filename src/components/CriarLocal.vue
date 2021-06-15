@@ -1,20 +1,27 @@
 <template>
     <div class="container">
         <div class="row">
-            <div class="col-md-4 mb-25">
-                <VuePictureInput
-                ref="pictureInput"
-                @change="onChanged"
-                @remove="onRemoved"
-                :width="500"
-                :removable="true"
-                removeButtonClass="ui red button"
-                :height="500"
-                accept="image/jpeg, image/png, image/gif"
-                buttonClass="ui button primary"
-                :customStrings="{drag: 'Clique ou Arraste a Imagem Aqui', tap: 'Clique ou Arraste a Imagem Aqui'}">
-                </VuePictureInput>
-            </div>
+            <template v-if="form.id">
+                <div class="col-md-4 mb-25">
+                    <img :src="'http://localhost:8000' + form.imagePath" width="350" height="350">
+                </div>
+            </template>
+            <template v-else>
+                <div class="col-md-4 mb-25">
+                    <VuePictureInput
+                    ref="pictureInput"
+                    @change="onChanged"
+                    @remove="onRemoved"
+                    :width="500"
+                    :removable="true"
+                    removeButtonClass="ui red button"
+                    :height="500"
+                    accept="image/jpeg, image/png, image/gif"
+                    buttonClass="ui button primary"
+                    :customStrings="{drag: 'Clique ou Arraste a Imagem Aqui', tap: 'Clique ou Arraste a Imagem Aqui'}">
+                    </VuePictureInput>
+                </div>
+            </template>
             <div class="col-md-8">
                 <div class="row">
                     <div class="col-md-6 mb-25">
@@ -66,15 +73,13 @@
 import VuePictureInput from 'vue-picture-input'
 export default {
     name: 'CriarLocal',
-    props: {
-        msg: String
-    },
     components: {
         VuePictureInput
     },
     data: () => ({
         modalShow: false,
         form: {
+            id: null,
             userId: null,
             name: null,
             phone: null,
@@ -85,23 +90,19 @@ export default {
             state: null,
             number: null,
             complement: null,
-            description: null
+            description: null,
+            imagePath: null
         },
-        image: null
     }),
     methods: {
-        formSubmit () {      
-            // if (this.image) {
-            // console.log(this.image)
-            // let data = new FormData()
-            // data.append('file', this.image)
-            // }
-
+        formSubmit () {
             this.form.userId = window.localStorage.getItem('user')
-            // this.form.image = this.image
-            this.$http.post('http://localhost:8000/api/place-create', this.form).then(response => {
+            let data = new FormData()
+            data.append('file', this.image)
+            data.append('form', JSON.stringify(this.form))
+            this.$http.post('http://localhost:8000/api/place-create', data).then(response => {
                 console.log(response.body)
-                this.$router.push('gerenciar')
+                // this.$router.push('gerenciar')
             })
         },
         onChanged() {
@@ -119,18 +120,19 @@ export default {
             this.$http.post('http://localhost:8000/api/get-place', {user_id: userId}).then(response => {
                 let place = response.body
                 this.form = {
+                    id: place.place_id,
                     name: place.name,
-                    phone: place.phone.phone,
-                    cep: place.address.cep,
-                    street: place.address.street,
-                    district: place.address.district,
-                    city: place.address.city,
-                    state: place.address.state,
-                    number: place.address.number,
-                    complement: place.address.complement,
-                    description: place.description
+                    phone: place.phone,
+                    cep: place.cep,
+                    street: place.street,
+                    district: place.district,
+                    city: place.city,
+                    state: place.state,
+                    number: place.number,
+                    complement: place.complement,
+                    description: place.description,
+                    imagePath: place.image_path
                 }
-                console.log(this.form)
             })
         }
         // attemptUpload() {
