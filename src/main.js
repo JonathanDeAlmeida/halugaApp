@@ -8,6 +8,7 @@ import BootstrapVue from  'bootstrap-vue'
 import VueDatetime from 'vue-datetime'
 import 'vue-datetime/dist/vue-datetime.css'
 import VueResource from 'vue-resource'
+import Vuex from 'vuex'
 
 Vue.config.productionTip = false
 
@@ -18,9 +19,27 @@ Vue.use(VCalendar)
 Vue.use(BootstrapVue)
 Vue.use(VueDatetime)
 Vue.use(VueResource)
+Vue.use(Vuex)
 
 
 new Vue({
   render: h => h(App),
   router
 }).$mount('#app')
+
+// const store = new Vuex.Store({
+//   state: {
+//     user: null
+//   },
+//   mutations: {
+//     setUser(state, data) {
+//       state.user = data
+//     }
+//   },
+//   actions: {
+//     getUser(context, params) {
+//       params = '1'
+//       context.commit('setUser', params)    
+//     }
+//   }
+// })

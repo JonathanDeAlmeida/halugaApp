@@ -20,9 +20,9 @@
                 <ValidationObserver v-slot="{ handleSubmit }">
                     <form @submit.prevent="handleSubmit(formSubmit)">
                         <div class="col-md-6 mb-25 mx-auto">
-                            <label>Login</label>
+                            <label>Email</label>
                             <ValidationProvider rules="required" v-slot="{ errors }">
-                                <input v-model="form.login" class="form-control">
+                                <input v-model="form.email" class="form-control">
                                 <span class="form-error">{{ errors[0] }}</span>
                             </ValidationProvider>
                         </div>
@@ -57,7 +57,7 @@ export default {
     data: () => ({
         modalShow: false,
         form: {
-            login: null,
+            email: null,
             password: null
         },
         alert: {
@@ -90,6 +90,9 @@ export default {
                 this.alert.message = ""
             }, 5000)
         }
+    },
+    created () {
+        window.localStorage.removeItem('user')
     }
 }
 

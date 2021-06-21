@@ -28,13 +28,6 @@
                                     <span class="form-error">{{ errors[0] }}</span>
                                 </ValidationProvider> 
                             </div>
-                            <div class="col-md-6 mb-25">
-                                <label>Login</label>
-                                <ValidationProvider rules="required|minmax:5,10" v-slot="{ errors }">
-                                    <input v-model="form.login" class="form-control">
-                                    <span class="form-error">{{ errors[0] }}</span>
-                                </ValidationProvider>  
-                            </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-25">
@@ -68,7 +61,6 @@ export default {
         modalShow: false,
         form: {
             name: null,
-            login: null,
             email: null,
             password: null
         },
@@ -96,7 +88,6 @@ export default {
                 let user = response.body
                 this.form = {
                     name: user.name,
-                    login: user.login,
                     email: user.email
                 }
             })

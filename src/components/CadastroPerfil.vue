@@ -20,46 +20,34 @@
                 <ValidationObserver v-slot="{ handleSubmit }">
                     <form @submit.prevent="handleSubmit(formSubmit)">
                         <div class="row">
-                            <div class="col-md-6 mb-25">
+                            <div class="col-md-6 mb-25 mx-auto">
                                 <label>Nome</label>
                                 <ValidationProvider rules="required" v-slot="{ errors }">
                                     <input v-model="form.name" class="form-control">
                                     <span class="form-error">{{ errors[0] }}</span>
                                 </ValidationProvider>
                             </div>
-                            <div class="col-md-6 mb-25">
-                                <label>Login</label>
-                                <ValidationProvider rules="required|minmax:5,10" v-slot="{ errors }">
-                                    <input v-model="form.login" class="form-control">
-                                    <span class="form-error">{{ errors[0] }}</span>
-                                </ValidationProvider>   
-                            </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6 mb-25">
+                            <div class="col-md-6 mb-25 mx-auto">
                                 <label>Email</label>
-                                <ValidationProvider rules="required|email" v-slot="{ errors }" vid="confirmationEmail">
+                                <ValidationProvider rules="required|email" v-slot="{ errors }">
                                     <input v-model="form.email" class="form-control">
                                     <span class="form-error">{{ errors[0] }}</span>
                                 </ValidationProvider>  
                             </div>
-                            <div class="col-md-6 mb-25">
-                                <label>Confirmar Email</label>
-                                <ValidationProvider rules="required|email|confirmed:confirmationEmail" v-slot="{ errors }">
-                                    <input v-model="form.confirmEmail" class="form-control">
-                                    <span class="form-error">{{ errors[0] }}</span>
-                                </ValidationProvider> 
-                            </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6 mb-25">
+                            <div class="col-md-6 mb-25 mx-auto">
                                 <label>Senha</label>
                                 <ValidationProvider rules="required|minmax:5,10" v-slot="{ errors }" vid="confirmationPassword">
                                     <input type="password" v-model="form.password" class="form-control">
                                     <span class="form-error">{{ errors[0] }}</span>
                                 </ValidationProvider>
                             </div>
-                            <div class="col-md-6 mb-25">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-25 mx-auto">
                                 <label>Confirmar Senha</label>                        
                                 <ValidationProvider rules="required|minmax:5,10|confirmed:confirmationPassword" v-slot="{ errors }">
                                     <input type="password" v-model="form.confirmPassword" class="form-control">
@@ -67,8 +55,12 @@
                                 </ValidationProvider> 
                             </div>
                         </div>
-                        <router-link class="btn-general green float-left" to="/login">Login</router-link>
-                        <button type="submit" class="btn-general blue float-right">Cadastrar</button>
+                        <div class="row">
+                            <div class="col-md-6 mb-25 mx-auto">
+                                <router-link class="btn-general green float-left" to="/login">Login</router-link>
+                                <button type="submit" class="btn-general blue float-right">Cadastrar</button>
+                            </div>
+                        </div>
                     </form>
                 </ValidationObserver>
             </div>
@@ -93,9 +85,7 @@ export default {
         },
         form: {
             name: null,
-            login: null,
             email: null,
-            confirmEmail: null,
             password: null,
             confirmPassword: null
         }

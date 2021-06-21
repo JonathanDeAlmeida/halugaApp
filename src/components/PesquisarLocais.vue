@@ -144,8 +144,10 @@ export default {
         },
         getFilterPlace () {
             this.modalFilterShow = false
+            // let param = page ? page : this.form
+            // let resource = this.$resource('http://localhost:8000/api/get-filter-place{/form}');
             this.$http.post('http://localhost:8000/api/get-filter-place', this.form).then(response => {
-                this.places = response.body
+                this.places = response.body.data
             })
         }
     },

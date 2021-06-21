@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <div class="row">
+        <div class="row" v-if="load">
             <template v-if="form.id">
                 <div class="col-md-4 mb-25">
                     <img :src="'http://localhost:8000' + form.imagePath" width="350" height="350">
@@ -78,6 +78,7 @@ export default {
     },
     data: () => ({
         modalShow: false,
+        load: false,
         form: {
             id: null,
             userId: null,
@@ -118,21 +119,26 @@ export default {
         getPlace () {
             let userId = window.localStorage.getItem('user')
             this.$http.post('http://localhost:8000/api/get-place', {user_id: userId}).then(response => {
-                let place = response.body
-                this.form = {
-                    id: place.place_id,
-                    name: place.name,
-                    phone: place.phone,
-                    cep: place.cep,
-                    street: place.street,
-                    district: place.district,
-                    city: place.city,
-                    state: place.state,
-                    number: place.number,
-                    complement: place.complement,
-                    description: place.description,
-                    imagePath: place.image_path
+                if (response.body.success) {
+                    let place = response.body.place
+                    if (place) {
+                        this.form = {
+                            id: place.place_id,
+                            name: place.name,
+                            phone: place.phone,
+                            cep: place.cep,
+                            street: place.street,
+                            district: place.district,
+                            city: place.city,
+                            state: place.state,
+                            number: place.number,
+                            complement: place.complement,
+                            description: place.description,
+                            imagePath: place.image_path
+                        }
+                    }
                 }
+                this.load = true
             })
         }
         // attemptUpload() {

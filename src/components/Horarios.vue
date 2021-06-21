@@ -112,7 +112,7 @@ export default {
     created () {
         if (this.$route.params.id) {
             this.$http.post('http://localhost:8000/api/get-place', {place_id: this.$route.params.id}).then(response => {
-                this.place = response.body
+                this.place = response.body.place
                 this.getPlaceTimes()
             })
         }

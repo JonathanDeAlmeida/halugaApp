@@ -20,8 +20,8 @@ export default {
 .mb-25 {
   margin-bottom: 25px;
 }
-.mb-80 {
-  margin-bottom: 80px;
+.mb-65 {
+  margin-bottom: 65px;
 }
 
 .btn-general {
@@ -46,7 +46,7 @@ export default {
   margin-left: 5px;
 }
 .title-path {
-  font-size: 50px;
+  font-size: 35px;
 }
 .bg-blue {
   background-color: rgb(1, 1, 87);
