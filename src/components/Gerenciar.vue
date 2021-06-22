@@ -204,6 +204,12 @@ export default {
         }
     },
     created () {
+        let userId = window.localStorage.getItem('user')
+        if (userId) {
+            this.$http.post('http://localhost:8000/api/get-user', {user_id: userId}).then(response => {
+            this.$store.dispatch('getUser', response.body.id)
+            })
+        }
         this.getTimes()
     }
 }

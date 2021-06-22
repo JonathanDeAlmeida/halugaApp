@@ -94,11 +94,8 @@ export default {
         formSubmit () {        
             this.$http.post('http://localhost:8000/api/user-create', this.form).then(response => {
                 if (response.body.user_enabled) {
-                    // window.localStorage.setItem('user', response.body.user.id)
-                    this.setAlert('success', 'Sucesso', 'Usuário Cadastrado Com Sucesso')
-                    setTimeout(() => {
-                         this.$router.push('/login')
-                    }, 3500)
+                    window.localStorage.setItem('user', response.body.user.id)
+                    this.$router.push('/criar-local')
                 } else {
                     this.setAlert('danger', 'Erro', response.body.message)
                 }
@@ -117,6 +114,10 @@ export default {
             }, 5000)
         }
     },
+    created () {
+        window.localStorage.removeItem('user')
+        this.$store.dispatch('getUser', null)
+    }
 }
 
 import { ValidationObserver, ValidationProvider, extend } from 'vee-validate';

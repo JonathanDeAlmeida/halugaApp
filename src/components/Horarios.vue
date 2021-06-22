@@ -28,7 +28,7 @@
                     <div class="place-border-schedules" v-if="place">
                         <div class="row">
                             <div class="col-md-6">
-                                <img src="https://conteudo.imguol.com.br/c/esporte/83/2018/10/10/alex-bruno-e-dono-da-a4-barbearia-1539214396138_300x300.jpg">
+                                <img :src="'http://localhost:8000' + place.image_path">
                             </div>
                             <div class="col-md-6 text-center">
                                 <div class="place-infos">
@@ -58,7 +58,7 @@
                         <table class="table table-bordered">
                             <thead class="thead-dark">
                                 <tr class="text-center">
-                                    <th>Horário</th>
+                                    <th>Horários Indisponíveis</th>
                                 </tr>
                             </thead>
                             <tbody v-if="times.length > 0">
@@ -110,6 +110,8 @@ export default {
         },
     },
     created () {
+        window.localStorage.removeItem('user')
+        this.$store.dispatch('getUser', null)
         if (this.$route.params.id) {
             this.$http.post('http://localhost:8000/api/get-place', {place_id: this.$route.params.id}).then(response => {
                 this.place = response.body.place

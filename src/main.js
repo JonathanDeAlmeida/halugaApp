@@ -21,25 +21,24 @@ Vue.use(VueDatetime)
 Vue.use(VueResource)
 Vue.use(Vuex)
 
+const store = new Vuex.Store({
+  state: {
+    user: null
+  },
+  mutations: {
+    setUser(state, data) {
+      state.user = data
+    }
+  },
+  actions: {
+    getUser(context, params) {
+      context.commit('setUser', params)    
+    }
+  }
+})
 
 new Vue({
   render: h => h(App),
-  router
+  router,
+  store,
 }).$mount('#app')
-
-// const store = new Vuex.Store({
-//   state: {
-//     user: null
-//   },
-//   mutations: {
-//     setUser(state, data) {
-//       state.user = data
-//     }
-//   },
-//   actions: {
-//     getUser(context, params) {
-//       params = '1'
-//       context.commit('setUser', params)    
-//     }
-//   }
-// })

@@ -63,6 +63,7 @@
             <hr>
             <div class="col-md-12">
                 <div class="float-right">
+                    <button v-if="clearFilter" @click="clearFormFilter()" class="btn-general danger mr-2">Limpar Filtro</button>
                     <button @click="getFilterPlace()" class="btn-general blue float-right">Buscar</button>
                 </div>
             </div>
@@ -81,7 +82,7 @@
                     <div class="place-border">
                         <div class="row">
                             <div class="col-md-6">
-                                <img src="https://www.portaldasmissoes.com.br/uploads/empreendimentos/0001741_zoom_barbearia-santo-angelo-barbeiro-santo-angelo-barbearia-san-gabriel-barbeiro-san-gabriel-(0ba).jpg">
+                                <img :src="'http://localhost:8000' + place.image_path">
                             </div>
                             <div class="col-md-6 text-center">
                                 <div class="place-infos search">
@@ -117,6 +118,7 @@ export default {
         date: new Date(),
         places: [],
         placeInfo: null,
+        clearFilter: false,
         form: {
             name: "",
             responsibleName: "",
@@ -142,17 +144,39 @@ export default {
             this.placeInfo = info
             this.modalShow = true
         },
+        clearFormFilter () {
+            this.form = {
+                name: "",
+                responsibleName: "",
+                cep: "",
+                street: "",
+                district: "",
+                city: "",
+                state: "",
+                number: ""
+            },
+            this.clearFilter = false
+            this.getFilterPlace()
+        },
         getFilterPlace () {
             this.modalFilterShow = false
             // let param = page ? page : this.form
             // let resource = this.$resource('http://localhost:8000/api/get-filter-place{/form}');
             this.$http.post('http://localhost:8000/api/get-filter-place', this.form).then(response => {
+                let formKeys = Object.keys(this.form)
+                for (let key of formKeys) {
+                    if (this.form[key] !== "") {
+                        this.clearFilter = true
+                    }
+                }
                 this.places = response.body.data
             })
         }
     },
     created () {
         this.getFilterPlace()
+        window.localStorage.removeItem('user')
+        this.$store.dispatch('getUser', null)
     }
 }
 </script>
