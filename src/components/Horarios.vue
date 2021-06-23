@@ -63,7 +63,7 @@
                             </thead>
                             <tbody v-if="times.length > 0">
                                 <tr v-for="(time, index) of  times" :key="index">
-                                    <td>{{time.start}} ás {{time.finish}}</td>
+                                    <td class="text-center" style="font-size: 25px">{{time.start}} ás {{time.finish}}</td>
                                 </tr>
                             </tbody>
                         </table>

@@ -1,5 +1,15 @@
 <template>
     <div class="container">
+
+        <div v-if="alert.status" :class="'alert-general ' + alert.type">
+            <div :class="'border-alert ' + alert.type">
+                <span>{{alert.title}}</span>
+            </div>
+            <div>
+                <span>{{alert.message}}</span>
+            </div>
+        </div>
+
         <div class="row" v-if="load">
             <template v-if="form.id">
                 <div class="col-md-4 mb-25">
@@ -79,6 +89,12 @@ export default {
     data: () => ({
         modalShow: false,
         load: false,
+        alert: {
+            status: false,
+            title: "",
+            type: "",
+            message: ""
+        },
         form: {
             id: null,
             userId: null,
@@ -103,6 +119,8 @@ export default {
             data.append('form', JSON.stringify(this.form))
             this.$http.post('http://localhost:8000/api/place-create', data).then(response => {
                 console.log(response.body)
+                this.getPlace()
+                this.setAlert('success', 'Sucesso', 'Local Cadastrado com Sucesso')
                 // this.$router.push('gerenciar')
             })
         },
@@ -140,6 +158,18 @@ export default {
                 }
                 this.load = true
             })
+        },
+        setAlert (type, title, message) {
+            this.alert.type = type
+            this.alert.title = title
+            this.alert.message = message
+            this.alert.status = true
+            setTimeout(() => {
+                this.alert.status = false
+                this.alert.type = ""
+                this.alert.title = ""
+                this.alert.message = ""
+            }, 5000)
         }
         // attemptUpload() {
         //     console.log(this.image)
