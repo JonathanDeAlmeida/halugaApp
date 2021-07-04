@@ -18,9 +18,9 @@
             <!-- <li class="nav-item">
               <router-link class="nav-link" to="/mensagens">Mensagens</router-link>
             </li> -->
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <router-link class="nav-link" to="/gerenciar">Gerenciar</router-link>
-            </li>
+            </li> -->
             <li class="nav-item">
               <router-link class="nav-link" to="/editar-perfil">Editar Perfil</router-link>
             </li>
