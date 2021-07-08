@@ -29,6 +29,11 @@ const routes = [
         component: CriarLocal
     },
     {
+        name: 'EditarLocal',
+        path: '/editar-local/:id',
+        component: CriarLocal
+    },
+    {
         name: 'CadastroPerfil',
         path: '/cadastro-perfil',
         component: CadastroPerfil

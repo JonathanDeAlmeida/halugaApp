@@ -9,6 +9,9 @@ import VueDatetime from 'vue-datetime'
 import 'vue-datetime/dist/vue-datetime.css'
 import VueResource from 'vue-resource'
 import Vuex from 'vuex'
+import VueLazyload from 'vue-lazyload'
+import UploadImage from 'vue-upload-image';
+import vue2Dropzone from 'vue2-dropzone'
 
 Vue.config.productionTip = false
 
@@ -20,6 +23,9 @@ Vue.use(BootstrapVue)
 Vue.use(VueDatetime)
 Vue.use(VueResource)
 Vue.use(Vuex)
+Vue.use(VueLazyload)
+Vue.use(UploadImage)
+Vue.use(vue2Dropzone)
 
 const store = new Vuex.Store({
   state: {

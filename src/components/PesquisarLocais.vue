@@ -1,5 +1,6 @@
 <template>
     <section>
+        
         <b-modal v-model="modalShow" hide-header hide-footer> 
             <template v-if="placeInfo">
                 <div class="col-md-12 modal-border">
@@ -22,41 +23,80 @@
             </template>
         </b-modal>
 
-        <b-modal v-model="modalFilterShow" hide-header hide-footer> 
+        <b-modal v-model="modalFilterShow" hide-header hide-footer size="lg"> 
             <div class="col-md-12 modal-border">
                 <h4>Filtro</h4>
             </div>
-            <div class="col-md-12">
+            <div class="container">
                 <div class="row">
-                    <div class="col-md-12 mb-25">
-                        <input v-model="form.name" class="form-control" placeholder="Nome">    
-                    </div>
-                    <div class="col-md-12 mb-25">
-                        <input v-model="form.responsibleName" class="form-control" placeholder="Responsável">    
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12 mb-25">
-                        <input v-model="form.street" class="form-control" placeholder="Rua">    
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-7 mb-25">
-                        <input v-model="form.district" class="form-control" placeholder="Bairro">    
-                    </div>
-                    <div class="col-md-5 mb-25">
-                        <input v-model="form.city" class="form-control" placeholder="Cidade">    
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-3 mb-25">
-                        <input v-model="form.number" class="form-control" placeholder="N">    
-                    </div>
-                    <div class="col-md-6 mb-25">
-                        <input v-model="form.cep" class="form-control" placeholder="Cep">    
-                    </div>
-                    <div class="col-md-3 mb-25">
-                        <input v-model="form.state" class="form-control" placeholder="UF">    
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-12 mb-25">
+                                <input v-model="form.street" class="form-control" placeholder="Rua">    
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-7 mb-25">
+                                <input v-model="form.district" class="form-control" placeholder="Bairro">    
+                            </div>
+                            <div class="col-md-5 mb-25">
+                                <input v-model="form.city" class="form-control" placeholder="Cidade">    
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 mb-25">
+                                <input v-model="form.number" class="form-control" placeholder="N">    
+                            </div>
+                            <div class="col-md-6 mb-25">
+                                <input v-model="form.cep" class="form-control" placeholder="Cep">    
+                            </div>
+                            <div class="col-md-3 mb-25">
+                                <input v-model="form.state" class="form-control" placeholder="UF">    
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4 mb-25">
+                                <select class="form-control" placeholder="Tipo" v-model="form.condition">
+                                    <option value="residencial">Residencial</option>
+                                    <option value="comercial">Comercial</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 mb-25">
+                                <select class="form-control" placeholder="Tipo" v-model="form.type">
+                                    <option v-for="(type, index) of types" :key="index">
+                                        {{type.value}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 mb-25">
+                                <input v-model="form.rooms" class="form-control" placeholder="Quartos">    
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-4 mb-25">
+                                <input v-model="form.areaMin" class="form-control" placeholder="Área útil (Mínima)">   
+                            </div>
+                            <div class="col-md-4 mb-25">
+                                <input v-model="form.areaMax" class="form-control" placeholder="Área útil (Máxima)">  
+                            </div>
+                            <div class="col-md-4 mb-25">
+                                <input v-model="form.bathrooms" class="form-control" placeholder="Banheiros">    
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4 mb-25">
+                                <input v-model="form.rentValueMin" class="form-control" placeholder="Valor Aluguel (Mínimo)">
+                            </div>
+                            <div class="col-md-4 mb-25">
+                                <input v-model="form.rentValueMax" class="form-control" placeholder="Valor Aluguel (Máximo)"> 
+                            </div>
+                            <div class="col-md-4 mb-25">
+                                <input v-model="form.vacancies" class="form-control" placeholder="Vagas">    
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -78,15 +118,41 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-6 col-md-12" v-for="(place, index) of places" :key="index">
+                <div class="col-lg-12 col-md-12" v-for="(place, index) of places" :key="index">
                     <div class="place-border">
                         <div class="row">
                             <div class="col-md-6">
-                                <img :src="'http://localhost:8000' + place.image_path">
+                                <template>
+                                    <div>
+                                        <b-carousel
+                                        id="carousel-1"
+                                        :interval="0"
+                                        controls
+                                        background="#ababab"
+                                        img-width="1024"
+                                        img-height="480"
+                                        style="text-shadow: 1px 1px 2px #333;"
+                                        >
+                                        <!-- Text slides with image -->
+                                        <b-carousel-slide
+                                            img-src="https://picsum.photos/1024/480/?image=52"
+                                        ></b-carousel-slide>
+
+                                        <!-- Slides with custom text -->
+                                        <b-carousel-slide img-src="https://picsum.photos/1024/480/?image=54">
+                                            <h1>Hello world!</h1>
+                                        </b-carousel-slide>
+
+                                        </b-carousel>
+
+                                    </div>
+                                </template>
+                                
                             </div>
                             <div class="col-md-6 text-center">
                                 <div class="place-infos search">
-                                    <h5>{{place.name}}</h5>
+                                    <!-- <h5>{{place.name}}</h5> -->
+                                    <p class="place-info"><strong>Condição:</strong> {{place.condition}} </p>
                                     <p class="place-info"><strong>Rua:</strong> {{place.street}} </p>
                                     <p class="place-info"><strong>Número:</strong> {{place.number}} </p>
                                     <p class="place-info"><strong>Bairro:</strong> {{place.district}} </p>
@@ -105,6 +171,7 @@
                     </div>
                 </div>
             </div>
+            
         </div>
     </section>
 </template>
@@ -120,15 +187,41 @@ export default {
         placeInfo: null,
         clearFilter: false,
         form: {
-            name: "",
-            responsibleName: "",
             cep: "",
             street: "",
             district: "",
             city: "",
             state: "",
-            number: ""
+            number: "",
+            condition: "",
+            type: "",
+            areaMin: "",
+            areaMax: "",
+            rentValueMin: "",
+            rentValueMax: "",
+            rooms: "",
+            bathrooms: "",
+            vacancies: "",
+            walk: ""
         },
+        types: [
+            {value: 'Apartamento'},
+            {value: 'Casa'},
+            {value: 'Casa de condomínio'},
+            {value: 'Casa de Vila'},
+            {value: 'Cobertura'},
+            {value: 'Fazenda/Sítio/Chácara'},
+            {value: 'Flat'},
+            {value: 'Lote/Terreno'},
+            {value: 'Sobrado'},
+            {value: 'Consultório'},
+            {value: 'Galpão/Depósito/Armazém'},
+            {value: 'Garagem'},
+            {value: 'Hotel/Motel/Pousada'},
+            {value: 'Ponto comercial/Loja/Box'},
+            {value: 'Prédio/Edifício inteiro'},
+            {value: 'Sala/Conjunto'},
+        ],
     }),
     methods: {
         getPlaceInfo (place) {
@@ -153,7 +246,17 @@ export default {
                 district: "",
                 city: "",
                 state: "",
-                number: ""
+                number: "",
+                condition: "",
+                type: "",
+                areaMin: "",
+                areaMax: "",
+                rentValueMin: "",
+                rentValueMax: "",
+                rooms: "",
+                bathrooms: "",
+                vacancies: "",
+                walk: ""
             },
             this.clearFilter = false
             this.getFilterPlace()
@@ -169,7 +272,8 @@ export default {
                         this.clearFilter = true
                     }
                 }
-                this.places = response.body.data
+                this.places = response.body
+                console.log(this.places)
             })
         }
     },

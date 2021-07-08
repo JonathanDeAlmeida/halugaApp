@@ -24,12 +24,13 @@
 
         <div class="container">
             <div class="row">
-                <div class="col-lg-5 col-md-12 mb-5">
+                
+                <!-- <div class="col-lg-5 col-md-12 mb-5">
                     <div class="place-border-schedules" v-if="place">
                         <div class="row">
                             <div class="col-md-6">
                                 <img :src="'http://localhost:8000' + place.image_path">
-                            </div>
+                            </div>s
                             <div class="col-md-6 text-center">
                                 <div class="place-infos">
                                     <h5>{{place.name}}</h5>
@@ -68,15 +69,19 @@
                             </tbody>
                         </table>
                     </div>
-                </div>
+                </div> -->
+
             </div>
         </div>
     </section>
 </template>
 
 <script>
+
 export default {
     name: 'Horarios',
+    components: {
+    },
     data: () => ({
         selectedDate: null,
         modalShow: false,

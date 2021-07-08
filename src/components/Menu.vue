@@ -9,12 +9,12 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent" v-if="$store.state.user">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <router-link class="nav-link" to="/criar-local">Local</router-link>
-            </li>
             <!-- <li class="nav-item">
-              <router-link class="nav-link" to="/agendamentos">Agendamentos</router-link>
+              <router-link class="nav-link" to="/criar-local">Local</router-link>
             </li> -->
+            <li class="nav-item">
+              <router-link class="nav-link" to="/agendamentos">Meus Imóveis</router-link>
+            </li>
             <!-- <li class="nav-item">
               <router-link class="nav-link" to="/mensagens">Mensagens</router-link>
             </li> -->

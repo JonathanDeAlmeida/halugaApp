@@ -72,13 +72,14 @@ export default {
             this.$http.post('http://localhost:8000/api/login', this.form).then(response => {
                 if (response.body.user_enabled) {
                     window.localStorage.setItem('user', response.body.user_id)
-                    this.$http.post('http://localhost:8000/api/get-place', {user_id: response.body.user_id}).then(resp => {
-                        if (resp.body.success) {
-                            this.$router.push('/gerenciar')
-                        } else {
-                            this.$router.push('/criar-local')
-                        }
-                    })
+                    this.$router.push('/agendamentos')
+                    // this.$http.post('http://localhost:8000/api/get-place', {user_id: response.body.user_id}).then(resp => {
+                    //     if (resp.body.success) {
+                    //         // this.$router.push('/gerenciar')
+                    //     } else {
+                    //         this.$router.push('/criar-local')
+                    //     }
+                    // })
                 } else {
                     this.setAlert('danger', 'Erro', response.body.message)
                 }
