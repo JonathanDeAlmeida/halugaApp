@@ -1,5 +1,6 @@
 <template>
     <section>
+
         <b-modal v-model="modalShow" hide-header hide-footer> 
             <div class="col-md-12 modal-border">
                 <h4>Barbearia</h4>
@@ -18,6 +19,7 @@
                 </div>
             </div>
         </b-modal>
+
         <div class="container">
             <div class="row float-right" style="margin-bottom: 20px">
                 <router-link class="btn-general green" to="/criar-local">
@@ -34,7 +36,6 @@
                             <div class="col-md-6 text-center">
                                 <div class="place-infos">
                                     <button @click="excluir(place.place_id)" class="btn-general danger">Excluir</button>
-                                    <!-- <button @click="editar(place.place_id)" class="btn-general blue">Editar</button> -->
 
                                     <router-link class="btn-general blue" :to="/editar-local/ + place.place_id">
                                         Editar
@@ -45,19 +46,8 @@
                                     <p class="place-info"><strong>Número:</strong> 10523</p>
                                     <p class="place-info"><strong>Bairro:</strong> Lorem Ipsum é simplesmente um texto fictício</p>
                                     <p class="place-info"><strong>Cidade:</strong> Itajaí</p>
-                                    <!--
-                                    <p class="place-info"><strong>Telefone:</strong> Barbearia</p>
-                                    <p class="place-info"><strong>UF:</strong> Barbearia</p>
-                                    <p class="place-info"><strong>Complemento:</strong> Barbearia</p>
-                                    <p class="place-info"><strong>CEP:</strong> Barbearia</p>
-                                    <p class="place-info"><strong>Descrição:</strong> Barbearia</p>
-                                    -->
                                     <div class="place-buttons">
                                         <button @click="modalShow = true" class="btn-general blue">Informações</button>
-                                    </div>
-                                    <div class="scheduling-date-time">
-                                        <p class="place-info">22 de março de 2021</p>
-                                        <p class="place-info">08:00 ás 12:00</p>
                                     </div>
                                 </div>
                             </div>
@@ -74,7 +64,6 @@ export default {
     name: 'Agendamentos',
     data: () => ({
         modalShow: false,
-        date: new Date(),
         places: []
     }),
     methods: {

@@ -71,7 +71,7 @@
                     </div>
                     <div class="col-md-4 mb-25">
                         <select class="form-control" placeholder="Tipo" v-model="form.type">
-                            <option v-for="(type, index) of types" :key="index">
+                            <option v-for="(type, index) of $store.state.types" :key="index">
                                 {{type.value}}
                             </option>
                         </select>
@@ -85,18 +85,18 @@
                         <input v-model="form.cep" class="form-control" placeholder="Cep" @keyup="searchCep()">    
                     </div>
                     <div class="col-md-6 mb-25">
-                        <input v-model="form.street" class="form-control" placeholder="Rua">    
+                        <input v-model="form.street" class="form-control" placeholder="Rua" disabled>    
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6 mb-25">
-                        <input v-model="form.district" class="form-control" placeholder="Bairro">    
+                        <input v-model="form.district" class="form-control" placeholder="Bairro" disabled>    
                     </div>
                     <div class="col-md-4 mb-25">
-                        <input v-model="form.city" class="form-control" placeholder="Cidade">    
+                        <input v-model="form.city" class="form-control" placeholder="Cidade" disabled>    
                     </div>
                     <div class="col-md-2 mb-25">
-                        <input v-model="form.state" class="form-control" placeholder="UF">    
+                        <input v-model="form.state" class="form-control" placeholder="UF" disabled>    
                     </div>
                 </div>
                 <div class="row">
@@ -149,31 +149,10 @@
                         <textarea v-model="form.description" class="form-control" placeholder="Descrição"></textarea>
                     </div>
                 </div>
-
-                <!-- <template>
-                    <div class="row">
-                        <div v-for="(limi, index) of limit" :key="index" class="col-md-3 mb-25" style="height: 10px">
-                            <VuePictureInput
-                            ref="pictureInput"
-                            :hideChangeButton="true"
-                            @change="onChanged(index)"
-                            @remove="onRemoved(index)"
-                            :width="100"
-                            :removable="true"
-                            removeButtonClass="btn-general danger"
-                            :height="100"
-                            accept="image/jpeg, image/png, image/gif"
-                            buttonClass="btn-general blue"
-                            :customStrings="{drag: 'Clique ou Arraste a Imagem Aqui', tap: 'Clique ou Arraste a Imagem Aqui'}">
-                            </VuePictureInput>
-                        </div>
-                    </div>
-                </template> -->
-
                 
-                <button @click.prevent="formSubmit()" class="btn-general blue float-right">Salvar</button>
+                <!-- <button @click.prevent="formSubmit()" class="btn-general blue float-right">Salvar</button> -->
 
-
+                <div>
                     <vuedropzone
                         v-on:vdropzone-success="addedDropZoneProfileFile"
                         v-on:vdropzone-removed-file="removedDropZoneProfileFile"
@@ -182,68 +161,45 @@
                         id="myVueDropzone"
                         :options="dropzoneOptions">
                     </vuedropzone>
+                </div>
+
             </div>
         </div>
     </div>
 </template>
 
 <script>
-// import VuePictureInput from 'vue-picture-input'
-// import UploadImage from 'vue-upload-image';
 import vue2Dropzone from 'vue2-dropzone'
 import 'vue2-dropzone/dist/vue2Dropzone.min.css'
 
 export default {
     name: 'CriarLocal',
     components: {
-        // VuePictureInput
-        // UploadImage
         'vuedropzone': vue2Dropzone
     },
     data: () => ({
         dropzoneOptions: {
-            maxFiles: 2,
-            url: 'http://localhost:8000/upload-file',
-            maxFilesize: 7,
+            maxFiles: 10,
+            url: 'http://localhost:8000/api/upload-file',
             clickable: true,
-            // headers: getHeaderFile(),
-            headers: {
-                'Access-Control-Allow-Origin': '*',
-                'Content-Type': 'application/json'
+            params: {
+                place_id: null
             },
             addRemoveLinks: true,
             methods: 'post',
             acceptedFiles: '.png, .jpg',
             autoProcessQueue: true,
-            dictDefaultMessage: 'Jogar a imagem (.PNG) aqui ou clique aqui',
-            dictRemoveFile: 'REMOVER IMAGEM'
+            dictDefaultMessage: 'Clique aqui ou Arraste a Imagem',
+            dictRemoveFile: 'Remover',
+            dictMaxFilesExceeded: 'Máximo de 10 imagens'
         },
         modalShow: false,
-        limit: 4,
         alert: {
             status: false,
             title: "",
             type: "",
             message: ""
         },
-        types: [
-            {value: 'Apartamento'},
-            {value: 'Casa'},
-            {value: 'Casa de condomínio'},
-            {value: 'Casa de Vila'},
-            {value: 'Cobertura'},
-            {value: 'Fazenda/Sítio/Chácara'},
-            {value: 'Flat'},
-            {value: 'Lote/Terreno'},
-            {value: 'Sobrado'},
-            {value: 'Consultório'},
-            {value: 'Galpão/Depósito/Armazém'},
-            {value: 'Garagem'},
-            {value: 'Hotel/Motel/Pousada'},
-            {value: 'Ponto comercial/Loja/Box'},
-            {value: 'Prédio/Edifício inteiro'},
-            {value: 'Sala/Conjunto'},
-        ],
         form: {
             id: null,
             userId: null,
@@ -270,7 +226,6 @@ export default {
             description: null
         },
         apiDomain: 'http://localhost:8000',
-        images: []
         // form: {
         //     id: null,
         //     userId: null,
@@ -295,26 +250,14 @@ export default {
             let data = new FormData()
             // data.append('file', this.image)
             data.append('form', JSON.stringify(this.form))
-            this.$http.post('http://localhost:8000/api/place-create', data).then(response => {
-                console.log(response.body)
+            this.$http.post('http://localhost:8000/api/place-create', data).then(() => {
                 this.getPlace()
                 this.setAlert('success', 'Sucesso', 'Local Cadastrado com Sucesso')
                 // this.$router.push('gerenciar')
             })
         },
-        onChanged() {
-            if (this.$refs.pictureInput.file) {
-                this.image = this.$refs.pictureInput.file
-                this.images.push(this.$refs.pictureInput.file)
-            }
-        },
-        onRemoved() {
-            this.image = ''
-        },
         getPlace () {
-            // let userId = window.localStorage.getItem('user')
             if (this.$route.params.id) {
-                console.log(this.$route.params.id)
                 this.$http.post('http://localhost:8000/api/get-place', {place_id: this.$route.params.id}).then(response => {                
                     this.form = response.body
                 })
@@ -333,67 +276,38 @@ export default {
                 this.alert.message = ""
             }, 5000)
         },
-        addedDropZoneProfileFile: function (file) {
-            let params = { fileId: JSON.parse(file.xhr.response).id }
-            this.$store.dispatch('setUserProfileFileId', params).then(() => {
-                this.updateProfile(this.user.user_profile)
-            })
+        addedDropZoneProfileFile: function (file, response) {
+            file.id = response.id
         },
         removedDropZoneProfileFile: function (file) {
-            this.$parent.spinnerShow = true
-            let fileId = file.id ? file.id : JSON.parse(file.xhr.response).id
-            this.$store.dispatch('removeFileUserProfile', { fileId: fileId }).then(() => {
-                this.updateProfile(this.user.user_profile)
-            })
+            this.$http.post('http://localhost:8000/api/remove-file', {file_id: file.id})
         },
-        updateProfile (userProfile) {
-            this.$parent.spinnerShow = true
-            this.$store.dispatch('updateUserProfile', userProfile).then(() => {
-                this.$store.dispatch('getUserForm', this.$route.params.id).then(() => {
-                this.$store.dispatch('getUser', this.$route.params.id).then(() => {
-                    this.$parent.spinnerShow = false
-                })
-                    this.$parent.spinnerShow = false
-                })
-            })
-        },
-        addStorageFile: function (file) {
-            if (file) {
-                this.mockFiles = null
-                this.mockFiles = { name: file.name, size: 12345, id: file.id }
-                if (this.$refs.myVueDropzone) {
-                    this.$refs.myVueDropzone.manuallyAddFile(this.mockFiles, this.apiDomain + file.url)
+        addStorageFile: function (files) {
+            for (let file of files) {
+                if (file) {
+                    this.mockFiles = null
+                    this.mockFiles = { name: file.name, size: 12345, id: file.id }
+                    if (this.$refs.myVueDropzone) {
+                        this.$refs.myVueDropzone.manuallyAddFile(this.mockFiles, this.apiDomain + file.path)
+                    }
                 }
             }
         },
         searchCep () {
-            // let cep = null
-            // cep = this.formAddress[key].cep.replace(/[^0-9]/gi, '')
-            // this.readonly = 'readonly'
             if (this.form.cep.length === 8) {
                 this.$http.get('https://viacep.com.br/ws/' + this.form.cep + '/json/').then(response => {
                     if (response.body.erro === true) {
-                    // this.setFormAddress(null, true, key, {cep: '', address: '', neighbourhood: '', uf: '', city: ''})
                     this.form.cep = ''
                     this.form.street = ''
                     this.form.district = ''
                     this.form.city = ''
                     this.form.state = ''
-                    // this.$store.dispatch('setAlert', {
-                    //     icon: 'fa-warning',
-                    //     message: 'Endereço não encontrado',
-                    //     show: true,
-                    //     title: 'Atenção!',
-                    //     type: 'warning'
-                    // })
                     } else {
-                        // this.setFormAddress(response.data, false, key, null)
                         let address = response.data
                         this.form.street = address.logradouro
                         this.form.district = address.bairro
                         this.form.city = address.localidade
                         this.form.state = address.uf
-                        // document.getElementById('number').focus()
                     }
                 })
             } else {
@@ -405,10 +319,16 @@ export default {
         },
     },
     created () {
+        if (this.$route.params.id) {
+            this.dropzoneOptions.params.place_id = this.$route.params.id
+            this.$http.post('http://localhost:8000/api/get-place-images', {place_id: this.$route.params.id}).then(response => {
+                this.addStorageFile(response.body)
+            })
+        }
         let userId = window.localStorage.getItem('user')
         if (userId) {
             this.$http.post('http://localhost:8000/api/get-user', {user_id: userId}).then(response => {
-            this.$store.dispatch('getUser', response.body.id)
+                this.$store.dispatch('getUser', response.body.id)
             })
         }
         this.getPlace()

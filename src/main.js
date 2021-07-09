@@ -29,7 +29,25 @@ Vue.use(vue2Dropzone)
 
 const store = new Vuex.Store({
   state: {
-    user: null
+    user: null,
+    types: [
+      {value: 'Apartamento'},
+      {value: 'Casa'},
+      {value: 'Casa de condomínio'},
+      {value: 'Casa de Vila'},
+      {value: 'Cobertura'},
+      {value: 'Fazenda/Sítio/Chácara'},
+      {value: 'Flat'},
+      {value: 'Lote/Terreno'},
+      {value: 'Sobrado'},
+      {value: 'Consultório'},
+      {value: 'Galpão/Depósito/Armazém'},
+      {value: 'Garagem'},
+      {value: 'Hotel/Motel/Pousada'},
+      {value: 'Ponto comercial/Loja/Box'},
+      {value: 'Prédio/Edifício inteiro'},
+      {value: 'Sala/Conjunto'},
+    ]
   },
   mutations: {
     setUser(state, data) {

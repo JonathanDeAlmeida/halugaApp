@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import Gerenciar from './components/Gerenciar'
 import Agendamentos from './components/Agendamentos'
 import CriarLocal from './components/CriarLocal.vue'
 import CadastroPerfil from './components/CadastroPerfil.vue'
@@ -13,11 +12,6 @@ import EditarPerfil from './components/EditarPerfil.vue'
 Vue.use(VueRouter)
 
 const routes = [
-    {
-        name: 'Gerenciar',
-        path: '/gerenciar',
-        component: Gerenciar
-    },
     {
         name: 'Agendamentos',
         path: '/agendamentos',
