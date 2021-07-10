@@ -12,6 +12,7 @@ import Vuex from 'vuex'
 import VueLazyload from 'vue-lazyload'
 import UploadImage from 'vue-upload-image';
 import vue2Dropzone from 'vue2-dropzone'
+// import materialize from 'materialize-css'
 
 Vue.config.productionTip = false
 
@@ -26,6 +27,7 @@ Vue.use(Vuex)
 Vue.use(VueLazyload)
 Vue.use(UploadImage)
 Vue.use(vue2Dropzone)
+// Vue.use(materialize)
 
 const store = new Vuex.Store({
   state: {
