@@ -19,18 +19,17 @@
             <div class="col-md-12 px-0">
                 <ValidationObserver v-slot="{ handleSubmit }">
                     <form @submit.prevent="handleSubmit(formSubmit)">
-                        <div class="col-md-6 mb-25 mx-auto">
-                            <label>Email</label>
+                        <div class="col-md-4 mb-25 mx-auto">
+                            <label class="label-line">Email</label>
                             <ValidationProvider rules="required" v-slot="{ errors }">
-                                <input v-model="form.email" class="form-control">
+                                <input v-model="form.email" class="input-line">
                                 <span class="form-error">{{ errors[0] }}</span>
                             </ValidationProvider>
                         </div>
-                        <div class="col-md-6 mb-25 mx-auto">
-                            <label>Senha</label>
-                            <a class="float-right" href="">Esqueci a senha</a>
+                        <div class="col-md-4 mb-25 mx-auto">
+                            <label class="label-line">Senha</label>
                             <ValidationProvider rules="required" v-slot="{ errors }">
-                                <input v-model="form.password" class="form-control" type="password">
+                                <input v-model="form.password" class="input-line" type="password">
                                 <span class="form-error">{{ errors[0] }}</span>
                             </ValidationProvider>
                         </div>
@@ -41,7 +40,8 @@
                 </ValidationObserver>
             </div>
             <div class="col-md-12 text-center">
-                <router-link to="/cadastro-perfil">Ainda não tenho cadastro</router-link>
+                <router-link class="d-block" to="/cadastro-perfil">Ainda não tenho cadastro</router-link>
+                <router-link to="/cadastro-perfil">Esqueci a senha</router-link>
             </div>
         </div>
     </div>

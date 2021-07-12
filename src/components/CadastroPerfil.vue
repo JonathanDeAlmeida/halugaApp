@@ -20,43 +20,43 @@
                 <ValidationObserver v-slot="{ handleSubmit }">
                     <form @submit.prevent="handleSubmit(formSubmit)">
                         <div class="row">
-                            <div class="col-md-6 mb-25 mx-auto">
-                                <label>Nome</label>
+                            <div class="col-md-5 mb-25 mx-auto">
+                                <label class="label-line">Nome</label>
                                 <ValidationProvider rules="required" v-slot="{ errors }">
-                                    <input v-model="form.name" class="form-control">
+                                    <input v-model="form.name" class="input-line">
                                     <span class="form-error">{{ errors[0] }}</span>
                                 </ValidationProvider>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6 mb-25 mx-auto">
-                                <label>Email</label>
+                            <div class="col-md-5 mb-25 mx-auto">
+                                <label class="label-line">Email</label>
                                 <ValidationProvider rules="required|email" v-slot="{ errors }">
-                                    <input v-model="form.email" class="form-control">
+                                    <input v-model="form.email" class="input-line">
                                     <span class="form-error">{{ errors[0] }}</span>
                                 </ValidationProvider>  
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6 mb-25 mx-auto">
-                                <label>Senha</label>
+                            <div class="col-md-5 mb-25 mx-auto">
+                                <label class="label-line">Senha</label>
                                 <ValidationProvider rules="required|minmax:5,10" v-slot="{ errors }" vid="confirmationPassword">
-                                    <input type="password" v-model="form.password" class="form-control">
+                                    <input type="password" v-model="form.password" class="input-line">
                                     <span class="form-error">{{ errors[0] }}</span>
                                 </ValidationProvider>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6 mb-25 mx-auto">
-                                <label>Confirmar Senha</label>                        
+                            <div class="col-md-5 mb-25 mx-auto">
+                                <label class="label-line">Confirmar Senha</label>                        
                                 <ValidationProvider rules="required|minmax:5,10|confirmed:confirmationPassword" v-slot="{ errors }">
-                                    <input type="password" v-model="form.confirmPassword" class="form-control">
+                                    <input type="password" v-model="form.confirmPassword" class="input-line">
                                     <span class="form-error">{{ errors[0] }}</span>
                                 </ValidationProvider> 
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6 mb-25 mx-auto">
+                            <div class="col-md-5 mb-25 mx-auto">
                                 <router-link class="btn-general green float-left" to="/login">Login</router-link>
                                 <button type="submit" class="btn-general blue float-right">Cadastrar</button>
                             </div>

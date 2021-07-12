@@ -22,22 +22,22 @@
                     <form @submit.prevent="handleSubmit(formSubmit)">
                         <div class="row">
                             <div class="col-md-4 mb-25">
-                                <label>Nome</label>
+                                <label class="label-line">Nome</label>
                                 <ValidationProvider rules="required" v-slot="{ errors }">
-                                    <input v-model="form.name" class="form-control">
+                                    <input v-model="form.name" class="input-line">
                                     <span class="form-error">{{ errors[0] }}</span>
                                 </ValidationProvider> 
                             </div>
                             <div class="col-md-4 mb-25">
-                                <label>Email</label>
+                                <label class="label-line">Email</label>
                                 <ValidationProvider rules="required|email" v-slot="{ errors }">
-                                    <input v-model="form.email" class="form-control">
+                                    <input v-model="form.email" class="input-line">
                                     <span class="form-error">{{ errors[0] }}</span>
                                 </ValidationProvider>  
                             </div>
                             <div class="col-md-4 mb-25">
-                                <label>Senha</label>
-                                <input type="password" v-model="form.password" class="form-control">
+                                <label class="label-line">Senha</label>
+                                <input type="password" v-model="form.password" class="input-line">
                                 <small>Se não for preenchido permanecerá com a senha atual</small>
                             </div>
                         </div>
@@ -108,7 +108,7 @@ export default {
         let userId = window.localStorage.getItem('user')
         if (userId) {
             this.$http.post('http://localhost:8000/api/get-user', {user_id: userId}).then(response => {
-            this.$store.dispatch('getUser', response.body.id)
+            this.$store.dispatch('getUser', response.body)
             })
         }
         this.getUser()

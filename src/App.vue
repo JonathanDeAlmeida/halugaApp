@@ -192,4 +192,26 @@ export default {
     color: red;
     font-size: 13px;
 }
+.input-line {
+    border: none;
+    border-bottom: 1px solid #9e9e9e;
+    border-radius: 0;
+    outline: none;
+    width: 100%;
+    font-size: 16px;
+    display: inline;
+}
+.label-line {
+    font-size: 13px;
+    color: #555555;
+}
+.select-line {
+    cursor: pointer;
+    border: none;
+    border-bottom: 1px solid #9e9e9e;
+    outline: none;
+    height: 35px;
+    width: 100%;
+    font-size: 16px;
+}
 </style>

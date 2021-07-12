@@ -103,7 +103,7 @@
                             <div class="col-md-2 mb-25">
                                 <label class="label-line">Valor do Aluguel</label>
                                 <ValidationProvider rules="required|integer" v-slot="{ errors }">
-                                    <input v-model="form.rentValue" class="input-line">
+                                    <input v-model="form.rent_value" class="input-line">
                                     <span class="form-error">{{ errors[0] }}</span>
                                 </ValidationProvider>
                             </div>
@@ -124,7 +124,7 @@
                                     <span class="form-error">{{ errors[0] }}</span>
                                 </ValidationProvider>
                             </div>
-                            <template v-if="form.condition === 'residencial'">
+                            <template>
                                 <div class="col-md-2 mb-25">
                                     <label class="label-line">Quartos (Opcional)</label>
                                     <ValidationProvider rules="integer" v-slot="{ errors }">
@@ -137,11 +137,18 @@
                                     <ValidationProvider rules="integer" v-slot="{ errors }">
                                         <input v-model="form.suites" class="input-line">
                                         <span class="form-error">{{ errors[0] }}</span>
-                                    </ValidationProvider>   
+                                    </ValidationProvider>
                                 </div>
-                                <div class="col-md-6 mb-25">
+                                <div class="col-md-4 mb-25">
                                     <label class="label-line">Condomínio (Opcional)</label>
                                     <input v-model="form.condominium" class="input-line">
+                                </div>
+                                <div class="col-md-2 mb-25">
+                                    <label class="label-line">Valor do Condomínio (Opcional)</label>
+                                    <ValidationProvider rules="integer" v-slot="{ errors }">
+                                        <input v-model="form.condominium_value" class="input-line">
+                                        <span class="form-error">{{ errors[0] }}</span>
+                                    </ValidationProvider> 
                                 </div>
                             </template>
                         </div>
@@ -301,8 +308,9 @@ export default {
             suites: null,
             vacancies: null,
             walk: null,
-            rentValue: null,
+            rent_value: null,
             condominium: null,
+            condominium_value: null,
             iptu: null,
             description: null
         },
@@ -415,7 +423,7 @@ export default {
         let userId = window.localStorage.getItem('user')
         if (userId) {
             this.$http.post('http://localhost:8000/api/get-user', {user_id: userId}).then(response => {
-                this.$store.dispatch('getUser', response.body.id)
+                this.$store.dispatch('getUser', response.body)
             })
         }
     }
@@ -439,30 +447,4 @@ extend('integer', {
 </script>
 
 <style scoped>
-.input-line {
-    border: none;
-    border-bottom: 1px solid #9e9e9e;
-    border-radius: 0;
-    outline: none;
-    width: 100%;
-    font-size: 16px;
-    display: inline;
-}
-
-.label-line {
-    font-size: 13px;
-    color: #555555;
-}
-
-.select-line {
-    cursor: pointer;
-    border: none;
-    border-bottom: 1px solid #9e9e9e;
-    outline: none;
-    height: 35px;
-    width: 100%;
-    font-size: 16px;
-}
-
-
 </style>

@@ -1,18 +1,33 @@
 <template>
     <section>
         
-        <b-modal v-model="modalShow" hide-header hide-footer> 
+        <b-modal v-model="modalShow" hide-header hide-footer size="xl"> 
             <template v-if="placeInfo">
-                <div class="col-md-12 modal-border">
-                    <h4> {{placeInfo.name}} </h4>
-                </div>
-                <div class="col-md-12">
-                    <p class="place-info"><strong>Responsável:</strong> {{placeInfo.responsibleName}} </p>
-                    <p class="place-info"><strong>Telefone:</strong> {{placeInfo.phone}} </p>
-                    <p class="place-info"><strong>UF:</strong> {{placeInfo.state}} </p>
-                    <p class="place-info"><strong>Complemento:</strong> {{placeInfo.complement}} </p>
-                    <p class="place-info"><strong>CEP:</strong> {{placeInfo.cep}} </p>
-                    <p class="place-info"><strong>Descrição:</strong> {{placeInfo.description}} </p>
+                <div class="row">
+                    {{placeInfo}}
+                    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                        
+                        <b-carousel id="carousel-1" :interval="0" controls background="#ababab" img-width="1024" img-height="480"
+                        style="text-shadow: 1px 1px 2px #333;">
+                        
+                            <b-carousel-slide img-src="https://picsum.photos/1024/480/?image=52"></b-carousel-slide>
+
+                            <b-carousel-slide img-src="https://picsum.photos/1024/480/?image=54">
+                                <h1>Hello world!</h1>
+                            </b-carousel-slide>
+
+                        </b-carousel>
+
+                    </div>
+                    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                        <h4> {{placeInfo.name}} </h4>
+                        <p class="place-info"><strong>Responsável:</strong> {{placeInfo.responsibleName}} </p>
+                        <p class="place-info"><strong>Telefone:</strong> {{placeInfo.phone}} </p>
+                        <p class="place-info"><strong>UF:</strong> {{placeInfo.state}} </p>
+                        <p class="place-info"><strong>Complemento:</strong> {{placeInfo.complement}} </p>
+                        <p class="place-info"><strong>CEP:</strong> {{placeInfo.cep}} </p>
+                        <p class="place-info"><strong>Descrição:</strong> {{placeInfo.description}} </p>
+                    </div>
                 </div>
                 <hr>
                 <div class="col-md-12">
@@ -32,69 +47,82 @@
                     <div class="col-md-12">
                         <div class="row">
                             <div class="col-md-12 mb-25">
-                                <input v-model="form.street" class="form-control" placeholder="Rua">    
+                                <label class="label-line">Rua</label>
+                                <input v-model="form.street" class="input-line">    
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-7 mb-25">
-                                <input v-model="form.district" class="form-control" placeholder="Bairro">    
+                                <label class="label-line">Bairro</label>
+                                <input v-model="form.district" class="input-line">    
                             </div>
                             <div class="col-md-5 mb-25">
-                                <input v-model="form.city" class="form-control" placeholder="Cidade">    
+                                <label class="label-line">Cidade</label>
+                                <input v-model="form.city" class="input-line">    
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-3 mb-25">
-                                <input v-model="form.number" class="form-control" placeholder="N">    
+                                <label class="label-line">Número</label>
+                                <input v-model="form.number" class="input-line">    
                             </div>
                             <div class="col-md-6 mb-25">
-                                <input v-model="form.cep" class="form-control" placeholder="Cep">    
+                                <label class="label-line">Cep</label>
+                                <input v-model="form.cep" class="input-line">    
                             </div>
                             <div class="col-md-3 mb-25">
-                                <input v-model="form.state" class="form-control" placeholder="UF">    
+                                <label class="label-line">UF</label>
+                                <input v-model="form.state" class="input-line">    
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-md-4 mb-25">
-                                <select class="form-control" placeholder="Tipo" v-model="form.condition">
+                                <select class="select-line" v-model="form.condition">
                                     <option value="residencial">Residencial</option>
                                     <option value="comercial">Comercial</option>
                                 </select>
                             </div>
                             <div class="col-md-4 mb-25">
-                                <select class="form-control" placeholder="Tipo" v-model="form.type">
+                                <select class="select-line" v-model="form.type">
                                     <option v-for="(type, index) of types" :key="index">
                                         {{type.value}}
                                     </option>
                                 </select>
                             </div>
                             <div class="col-md-4 mb-25">
-                                <input v-model="form.rooms" class="form-control" placeholder="Quartos">    
+                                <label class="label-line">Quartos</label>
+                                <input v-model="form.rooms" class="input-line">    
                             </div>
                         </div>
                         
                         <div class="row">
                             <div class="col-md-4 mb-25">
-                                <input v-model="form.areaMin" class="form-control" placeholder="Área útil (Mínima)">   
+                                <label class="label-line">Área útil (Mínima)</label>
+                                <input v-model="form.areaMin" class="input-line">   
                             </div>
                             <div class="col-md-4 mb-25">
-                                <input v-model="form.areaMax" class="form-control" placeholder="Área útil (Máxima)">  
+                                <label class="label-line">Área útil (Máxima)</label>
+                                <input v-model="form.areaMax" class="input-line">  
                             </div>
                             <div class="col-md-4 mb-25">
-                                <input v-model="form.bathrooms" class="form-control" placeholder="Banheiros">    
+                                <label class="label-line">Banheiros</label>
+                                <input v-model="form.bathrooms" class="input-line">    
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-md-4 mb-25">
-                                <input v-model="form.rentValueMin" class="form-control" placeholder="Valor Aluguel (Mínimo)">
+                                <label class="label-line">Valor Aluguel (Mínimo)</label>
+                                <input v-model="form.rentValueMin" class="input-line">
                             </div>
                             <div class="col-md-4 mb-25">
-                                <input v-model="form.rentValueMax" class="form-control" placeholder="Valor Aluguel (Máximo)"> 
+                                <label class="label-line">Valor Aluguel (Máximo)</label>
+                                <input v-model="form.rentValueMax" class="input-line"> 
                             </div>
                             <div class="col-md-4 mb-25">
-                                <input v-model="form.vacancies" class="form-control" placeholder="Vagas">    
+                                <label class="label-line">Vagas</label>
+                                <input v-model="form.vacancies" class="input-line">    
                             </div>
                         </div>
                     </div>
@@ -124,24 +152,16 @@
                             <div class="col-md-6">
                                 <template>
                                     <div>
-                                        <b-carousel
-                                        id="carousel-1"
-                                        :interval="0"
-                                        controls
-                                        background="#ababab"
-                                        img-width="1024"
+                                        
+                                        <b-carousel id="carousel-1" :interval="0" controls background="#ababab" img-width="1024"
                                         img-height="480"
-                                        style="text-shadow: 1px 1px 2px #333;"
-                                        >
-                                        <!-- Text slides with image -->
-                                        <b-carousel-slide
-                                            img-src="https://picsum.photos/1024/480/?image=52"
-                                        ></b-carousel-slide>
-
-                                        <!-- Slides with custom text -->
-                                        <b-carousel-slide img-src="https://picsum.photos/1024/480/?image=54">
-                                            <h1>Hello world!</h1>
-                                        </b-carousel-slide>
+                                        style="text-shadow: 1px 1px 2px #333;">
+                                        
+                                            <b-carousel-slide img-src="https://picsum.photos/1024/480/?image=52"></b-carousel-slide>
+                                            
+                                            <b-carousel-slide img-src="https://picsum.photos/1024/480/?image=54">
+                                                <h1>Hello world!</h1>
+                                            </b-carousel-slide>
 
                                         </b-carousel>
 
@@ -182,7 +202,6 @@ export default {
     data: () => ({
         modalShow: false,
         modalFilterShow: false,
-        date: new Date(),
         places: [],
         placeInfo: null,
         clearFilter: false,
@@ -225,16 +244,16 @@ export default {
     }),
     methods: {
         getPlaceInfo (place) {
-            let info = {
-                name: place.name,
-                responsibleName: place.responsible_name,
-                phone: place.phone,
-                state: place.state,
-                complement: place.complement,
-                cep: place.cep,
-                description: place.description
-            }
-            this.placeInfo = info
+            // let info = {
+            //     name: place.name,
+            //     responsibleName: place.responsible_name,
+            //     phone: place.phone,
+            //     state: place.state,
+            //     complement: place.complement,
+            //     cep: place.cep,
+            //     description: place.description
+            // }
+            this.placeInfo = place
             this.modalShow = true
         },
         clearFormFilter () {
