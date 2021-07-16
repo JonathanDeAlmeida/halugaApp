@@ -1,42 +1,5 @@
 <template>
-    <section>
-        
-        <b-modal v-model="modalShow" hide-header hide-footer size="xl"> 
-            <template v-if="placeInfo">
-                <div class="row">
-                    {{placeInfo}}
-                    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-                        
-                        <b-carousel id="carousel-1" :interval="0" controls background="#ababab" img-width="1024" img-height="480"
-                        style="text-shadow: 1px 1px 2px #333;">
-                        
-                            <b-carousel-slide img-src="https://picsum.photos/1024/480/?image=52"></b-carousel-slide>
-
-                            <b-carousel-slide img-src="https://picsum.photos/1024/480/?image=54">
-                                <h1>Hello world!</h1>
-                            </b-carousel-slide>
-
-                        </b-carousel>
-
-                    </div>
-                    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-                        <h4> {{placeInfo.name}} </h4>
-                        <p class="place-info"><strong>Responsável:</strong> {{placeInfo.responsibleName}} </p>
-                        <p class="place-info"><strong>Telefone:</strong> {{placeInfo.phone}} </p>
-                        <p class="place-info"><strong>UF:</strong> {{placeInfo.state}} </p>
-                        <p class="place-info"><strong>Complemento:</strong> {{placeInfo.complement}} </p>
-                        <p class="place-info"><strong>CEP:</strong> {{placeInfo.cep}} </p>
-                        <p class="place-info"><strong>Descrição:</strong> {{placeInfo.description}} </p>
-                    </div>
-                </div>
-                <hr>
-                <div class="col-md-12">
-                    <div class="float-right">
-                        <button class="btn-general blue" @click="modalShow = false"> Fechar </button>
-                    </div>
-                </div>
-            </template>
-        </b-modal>
+    <section class="mt-65">
 
         <b-modal v-model="modalFilterShow" hide-header hide-footer size="lg"> 
             <div class="col-md-12 modal-border">
@@ -85,7 +48,7 @@
                             </div>
                             <div class="col-md-4 mb-25">
                                 <select class="select-line" v-model="form.type">
-                                    <option v-for="(type, index) of types" :key="index">
+                                    <option v-for="(type, index) of $store.state.types" :key="index">
                                         {{type.value}}
                                     </option>
                                 </select>
@@ -146,52 +109,66 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-12 col-md-12" v-for="(place, index) of places" :key="index">
+                <div class="col-lg-10 mx-auto" v-for="(place, index) of places" :key="index">
                     <div class="place-border">
                         <div class="row">
-                            <div class="col-md-6">
-                                <template>
-                                    <div>
-                                        
-                                        <b-carousel id="carousel-1" :interval="0" controls background="#ababab" img-width="1024"
-                                        img-height="480"
-                                        style="text-shadow: 1px 1px 2px #333;">
-                                        
-                                            <b-carousel-slide img-src="https://picsum.photos/1024/480/?image=52"></b-carousel-slide>
-                                            
-                                            <b-carousel-slide img-src="https://picsum.photos/1024/480/?image=54">
-                                                <h1>Hello world!</h1>
-                                            </b-carousel-slide>
-
-                                        </b-carousel>
-
-                                    </div>
-                                </template>
-                                
+                            <div class="col-lg-5 col-md-12 col-sm-12">
+                                <b-carousel :interval="0" controls>
+                                    <b-carousel-slide v-for="(image, index) of place.images" :img-src="'http://localhost:8000' + image.path" :key="index">
+                                    </b-carousel-slide>
+                                </b-carousel>                                
                             </div>
-                            <div class="col-md-6 text-center">
-                                <div class="place-infos search">
-                                    <!-- <h5>{{place.name}}</h5> -->
-                                    <p class="place-info"><strong>Condição:</strong> {{place.condition}} </p>
-                                    <p class="place-info"><strong>Rua:</strong> {{place.street}} </p>
-                                    <p class="place-info"><strong>Número:</strong> {{place.number}} </p>
-                                    <p class="place-info"><strong>Bairro:</strong> {{place.district}} </p>
-                                    <p class="place-info"><strong>Cidade:</strong> {{place.city}} </p>
-                                    <div class="place-buttons">
-                                        <button @click="getPlaceInfo(place)" class="btn-general blue">
-                                            Informações
-                                        </button>
-                                        <router-link class="btn-general blue" :to="/horarios/ + place.place_id">
-                                            Horários
-                                        </router-link>
+                            <div class="col-lg-7 col-md-12 col-sm-12">
+                                <div class="place-details">
+                                    <div style="padding-left: 5px">
+                                        <p class="place-rent-value">R$ {{ formatValue(place.rent_value) }} 
+                                            <span class="fs-15">/ mês</span>
+                                        </p>
+                                        <p class="d-inline place-secondary-value">Condomínio R$ {{ formatValue(place.condominium_value) }}</p>
+                                        - 
+                                        <p class="d-inline place-secondary-value">IPTU R$ {{ formatValue(place.iptu) }}</p>
+                                        
+                                        <p class="place-description-search">{{place.description}}</p>
+                                        
+                                        <p class="place-address">{{place.street}}, Bairro {{place.district}}, {{place.city}}</p>
                                     </div>
-                                </div>
+                                    <div class="container">
+                                        <div class="row text-center">
+                                            <div class="width-place-space">
+                                                <span class="place-number">{{place.area}}</span>
+                                                <span class="place-space">Área (m²)</span>
+                                            </div>
+                                            <div class="width-place-space">
+                                                <span class="place-number">{{place.rooms}}</span>
+                                                <span class="place-space">Quartos</span>
+                                            </div>
+                                            <div class="width-place-space">
+                                                <span class="place-number">{{place.suites}}</span>
+                                                <span class="place-space">Suítes</span>
+                                            </div>
+                                            <div class="width-place-space">
+                                                <span class="place-number">{{place.bathrooms}}</span>
+                                                <span class="place-space">Banh.</span>
+                                            </div>
+                                            <div class="width-place-space">
+                                                <span class="place-number">{{place.vacancies}}</span>
+                                                <span class="place-space">Vagas</span>
+                                            </div>
+                                            <div class="width-place-button">
+                                                <div>
+                                                    <router-link class="btn btn-primary mt-3" :to="/horarios/ + place.place_id" target="_blank">
+                                                        Saber Mais
+                                                    </router-link>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> 
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            
         </div>
     </section>
 </template>
@@ -200,10 +177,8 @@
 export default {
   name: 'PesquisarLocais',
     data: () => ({
-        modalShow: false,
         modalFilterShow: false,
         places: [],
-        placeInfo: null,
         clearFilter: false,
         form: {
             cep: "",
@@ -222,40 +197,9 @@ export default {
             bathrooms: "",
             vacancies: "",
             walk: ""
-        },
-        types: [
-            {value: 'Apartamento'},
-            {value: 'Casa'},
-            {value: 'Casa de condomínio'},
-            {value: 'Casa de Vila'},
-            {value: 'Cobertura'},
-            {value: 'Fazenda/Sítio/Chácara'},
-            {value: 'Flat'},
-            {value: 'Lote/Terreno'},
-            {value: 'Sobrado'},
-            {value: 'Consultório'},
-            {value: 'Galpão/Depósito/Armazém'},
-            {value: 'Garagem'},
-            {value: 'Hotel/Motel/Pousada'},
-            {value: 'Ponto comercial/Loja/Box'},
-            {value: 'Prédio/Edifício inteiro'},
-            {value: 'Sala/Conjunto'},
-        ],
+        }
     }),
     methods: {
-        getPlaceInfo (place) {
-            // let info = {
-            //     name: place.name,
-            //     responsibleName: place.responsible_name,
-            //     phone: place.phone,
-            //     state: place.state,
-            //     complement: place.complement,
-            //     cep: place.cep,
-            //     description: place.description
-            // }
-            this.placeInfo = place
-            this.modalShow = true
-        },
         clearFormFilter () {
             this.form = {
                 name: "",
@@ -280,6 +224,9 @@ export default {
             this.clearFilter = false
             this.getFilterPlace()
         },
+        formatValue (value) {
+            return value.toLocaleString('pt-br', {minimumFractionDigits: 2})
+        },
         getFilterPlace () {
             this.modalFilterShow = false
             // let param = page ? page : this.form
@@ -292,7 +239,6 @@ export default {
                     }
                 }
                 this.places = response.body
-                console.log(this.places)
             })
         }
     },

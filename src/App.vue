@@ -20,8 +20,8 @@ export default {
 .mb-25 {
   margin-bottom: 25px;
 }
-.mb-65 {
-  margin-bottom: 65px;
+.mt-65 {
+  margin-top: 65px;
 }
 
 .btn-general {
@@ -213,5 +213,145 @@ export default {
     height: 35px;
     width: 100%;
     font-size: 16px;
+}
+.width-place-space {
+  width: 11%;
+}
+.width-place-button {
+  width: 45%;
+}
+@media (max-width: 991px)
+{
+  .width-place-space {
+    width: 20%;
+  }
+  .width-place-button {
+    width: 100%;
+  }
+}
+.place-details {
+  text-align: left;
+}
+@media (max-width: 991px)
+{
+  .place-details {
+    text-align: center;
+  }
+}
+
+.place-rent-value {
+  font-size: 30px;
+  font-weight: bold; 
+}
+.place-secondary-value {
+  font-size: 16px;
+}
+.place-description {
+  font-size: 16px;
+  margin-top: 15px;
+}
+.place-address {
+  font-size: 16px;
+}
+.place-number {
+  display: block;
+  padding-top: 10px;
+  font-size: 15px;
+}
+.place-space {
+  display: block;
+  font-size: 13px;
+}
+.fs-15 {
+  font-size: 15px;
+}
+.carousel-item {
+    height: 255px;
+}
+.place-rent-value-detail {
+  font-size: 30px;
+  font-weight: bold; 
+}
+.width-place-space-detail {
+  width: 14%;
+}
+@media (max-width: 767px)
+{
+  .width-place-space-detail {
+    width: 19%;
+  }
+}
+.responsible-place {
+  border: 1px solid black;
+  margin-top: 50px;
+  padding: 10px;
+}
+.responsible-name {
+  display: block;
+  font-size: 18px;
+  padding: 10px;
+}
+.responsible-phone {
+  display: block;
+  font-size: 18px;
+  padding: 10px;
+}
+.place-description-search {
+  font-size: 16px;
+  margin-top: 15px;
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+  white-space: nowrap;
+}
+.place-images-desktop {
+  display: block;
+}
+.place-images-mobile {
+  display: none;
+}
+@media (max-width: 800px)
+{
+  .place-images-desktop {
+    display: none;
+  }
+  .place-images-mobile {
+    display: block;
+  }
+}
+.place-image-item-desktop {
+  width: 25%; 
+  height: 320px;
+  padding: 0 1px;
+}
+.place-image-item-mobile {
+  width :50%;
+  height: 320px;
+  padding: 0 1px;
+}
+
+.btn-all-photos-desktop {
+  display: block;
+}
+.btn-all-photos-mobile {
+  display: none;
+}
+@media (max-width: 767px)
+{
+  .btn-all-photos-desktop {
+    display: none;
+  }
+  .btn-all-photos-mobile {
+    display: block;
+  }
+}
+.btn-place-actions {
+  float: right;
+}
+@media (max-width: 991px)
+{
+  .btn-place-actions {
+    float: none !important;
+    margin-bottom: 15px;
+  }
 }
 </style>

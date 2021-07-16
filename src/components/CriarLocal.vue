@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container mt-65">
 
         <div v-if="alert.status" :class="'alert-general ' + alert.type">
             <div :class="'border-alert ' + alert.type">
@@ -10,56 +10,6 @@
             </div>
         </div>
 
-        <!-- <div class="row"> -->
-            <!-- <template v-if="form.id">
-                <div class="col-md-4 mb-25">
-                    <img :src="'http://localhost:8000' + form.imagePath" width="350" height="350">
-                </div>
-            </template>
-            -->
-            <!-- <div class="col-md-8">
-                <div class="row">
-                    <div class="col-md-6 mb-25">
-                        <input v-model="form.name" class="form-control" placeholder="Nome">    
-                    </div>
-                    <div class="col-md-6 mb-25">
-                        <input v-model="form.phone" class="form-control" placeholder="Telefone">    
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6 mb-25">
-                        <input v-model="form.cep" class="form-control" placeholder="Cep">    
-                    </div>
-                    <div class="col-md-6 mb-25">
-                        <input v-model="form.street" class="form-control" placeholder="Rua">    
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6 mb-25">
-                        <input v-model="form.district" class="form-control" placeholder="Bairro">    
-                    </div>
-                    <div class="col-md-4 mb-25">
-                        <input v-model="form.city" class="form-control" placeholder="Cidade">    
-                    </div>
-                    <div class="col-md-2 mb-25">
-                        <input v-model="form.state" class="form-control" placeholder="UF">    
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-3 mb-25">
-                        <input v-model="form.number" class="form-control" placeholder="N">    
-                    </div>
-                    <div class="col-md-9 mb-25">
-                        <input v-model="form.complement" class="form-control" placeholder="Complemento">    
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12 mb-25">
-                        <textarea v-model="form.description" class="form-control" placeholder="Descrição"></textarea>
-                    </div>
-                </div>
-                <button @click.prevent="formSubmit()" class="btn-general blue float-right">Salvar</button>
-            </div> -->
         <div class="row">
             <div class="col-md-12">
                 
@@ -255,7 +205,6 @@
 
 <script>
 import vue2Dropzone from 'vue2-dropzone'
-// import materialize from 'materialize-css'
 import 'vue2-dropzone/dist/vue2Dropzone.min.css'
 
 export default {
@@ -281,7 +230,6 @@ export default {
             dictRemoveFile: 'Remover',
             dictMaxFilesExceeded: 'Máximo de 10 imagens'
         },
-        modalShow: false,
         alert: {
             status: false,
             title: "",
@@ -314,31 +262,11 @@ export default {
             iptu: null,
             description: null
         },
-        apiDomain: 'http://localhost:8000',
-        // form: {
-        //     id: null,
-        //     userId: null,
-        //     name: null,
-        //     phone: null,
-        //     cep: null,
-        //     street: null,
-        //     district: null,
-        //     city: null,
-        //     state: null,
-        //     number: null,
-        //     complement: null,
-        //     description: null,
-        //     imagePath: null,
-        //     condition: 'residencial',
-        //     type: 'Apartamento'
-        // },
+        apiDomain: 'http://localhost:8000'
     }),
     methods: {
         formSubmit () {
             this.form.userId = window.localStorage.getItem('user')
-            // let data = new FormData()
-            // data.append('file', this.image)
-            // data.append('form', JSON.stringify(this.form))
             let action = this.$route.params.id ? 'place-edit' : 'place-create'
             this.$http.post('http://localhost:8000/api/' + action, this.form).then(response => {
                 if (!this.$route.params.id) {

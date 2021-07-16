@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container mt-65">
 
         <div v-if="alert.status" :class="'alert-general ' + alert.type">
             <div :class="'border-alert ' + alert.type">
@@ -76,7 +76,6 @@ export default {
         ValidationProvider
     },
     data: () => ({
-        modalShow: false,
         alert: {
             status: false,
             title: "",

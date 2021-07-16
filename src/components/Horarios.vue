@@ -1,76 +1,92 @@
 <template>
     <section>
-        <b-modal v-model="modalShow" hide-header hide-footer> 
-            <template v-if="placeInfo">
+
+        <b-modal v-model="showModalAllPhotos" hide-header hide-footer> 
+            <template v-if="place">
                 <div class="col-md-12 modal-border">
-                    <h4>{{placeInfo.name}}</h4>
+                    <h4>Fotos</h4>
                 </div>
-                <div class="col-md-12">
-                    <p class="place-info"><strong>Responsável:</strong> {{placeInfo.responsibleName}} </p>
-                    <p class="place-info"><strong>Telefone:</strong> {{placeInfo.phone}} </p>
-                    <p class="place-info"><strong>UF:</strong> {{placeInfo.state}} </p>
-                    <p class="place-info"><strong>Complemento:</strong> {{placeInfo.complement}} </p>
-                    <p class="place-info"><strong>CEP:</strong> {{placeInfo.cep}} </p>
-                    <p class="place-info"><strong>Descrição:</strong> {{placeInfo.description}} </p>
+                <div class="col-md-12" style="overflow:auto; height: 400px">
+                    <div v-for="(image, index) of place.images" :key="index">
+                       <img width="100%" height="auto" :src="'http://localhost:8000' + image.path">
+                    </div>
                 </div>
                 <hr>
                 <div class="col-md-12">
                     <div class="float-right">
-                        <button class="btn-general blue" @click="modalShow = false"> Fechar </button>
+                        <button class="btn-general blue" @click="showModalAllPhotos = false"> Fechar </button>
                     </div>
                 </div>
             </template>
         </b-modal>
 
+        <template v-if="place">
+            <div class="w-100 mb-5">
+                <div class="place-images-desktop">
+                    <template v-for="(image, index) of place.images">
+                        <img v-if="index < 4" class="place-image-item-desktop" :src="'http://localhost:8000' + image.path" :key="index">
+                    </template>
+                </div>
+                <div class="place-images-mobile">
+                    <template v-for="(image, index) of place.images">
+                        <img v-if="index < 3" class="place-image-item-mobile" :src="'http://localhost:8000' + image.path" :key="index">
+                    </template>
+                </div>
+            </div>
+        </template>
+        
         <div class="container">
-            <div class="row">
-                
-                <!-- <div class="col-lg-5 col-md-12 mb-5">
-                    <div class="place-border-schedules" v-if="place">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <img :src="'http://localhost:8000' + place.image_path">
-                            </div>s
-                            <div class="col-md-6 text-center">
-                                <div class="place-infos">
-                                    <h5>{{place.name}}</h5>
-                                    <p class="place-info"><strong>Rua:</strong> {{place.street}} </p>
-                                    <p class="place-info"><strong>Número:</strong> {{place.number}} </p>
-                                    <p class="place-info"><strong>Bairro:</strong> {{place.district}} </p>
-                                    <p class="place-info"><strong>Cidade:</strong> {{place.city}} </p>
-                                    <div class="place-buttons">
-                                        <button @click="getPlaceInfo(place)" class="btn-general blue">Informações</button>
-                                    </div>
-                                </div>
+            <div class="row" v-if="place">
+                <div class="col-md-6">
+                    <div class="btn-all-photos-mobile text-center mb-4">
+                        <button class="btn btn-info" @click="showModalAllPhotos = true">Ver Todas As Fotos</button>
+                    </div>
+                    <p class="place-rent-value-detail">R$ {{ formatValue(place.rent_value) }} 
+                        <span class="fs-15">/ mês</span>
+                    </p>
+                    <p class="d-inline place-secondary-value">Condomínio R$ {{ formatValue(place.condominium_value) }}</p>
+                    - 
+                    <p class="d-inline place-secondary-value">IPTU R$ {{ formatValue(place.iptu) }}</p>
+                    <div class="container">
+                        <div class="row text-center">
+                            <div class="width-place-space-detail">
+                                <span class="place-number">{{place.area}}</span>
+                                <span class="place-space">Área (m²)</span>
+                            </div>
+                            <div class="width-place-space-detail">
+                                <!-- <span class="material-icons-two-tone">airline_seat_individual_suite</span> -->
+                                <span class="place-number">{{place.rooms}}</span>
+                                <span class="place-space">Quartos</span>
+                            </div>
+                            <div class="width-place-space-detail">
+                                <span class="place-number">{{place.suites}}</span>
+                                <span class="place-space">Suítes</span>
+                            </div>
+                            <div class="width-place-space-detail">
+                                <span class="place-number">{{place.bathrooms}}</span>
+                                <span class="place-space">Banh.</span>
+                            </div>
+                            <div class="width-place-space-detail">
+                                <span class="place-number">{{place.vacancies}}</span>
+                                <span class="place-space">Vagas</span>
                             </div>
                         </div>
                     </div>
-                    <div v-on:click="getPlaceTimes()">
-                        <v-date-picker class="w-100 h-calendar" v-model="date"/>
+                    <p class="place-address mt-4">{{place.street}}, Bairro {{place.district}}, {{place.city}}, {{place.complement}}</p>
+                </div>
+                <div class="col-md-4 mx-auto text-center">
+                    <div class="btn-all-photos-desktop">
+                        <button class="btn btn-info" @click="showModalAllPhotos = true">Ver Todas As Fotos</button>
+                    </div>
+                    <div class="responsible-place">
+                        <span class="responsible-name"><strong>Anunciante</strong> {{place.responsible_name}}</span>
+                        <span class="responsible-phone"><strong>Contato</strong>  {{place.phone}}</span>
+
                     </div>
                 </div>
-                <div class="col-lg-7 col-md-12">
-                    <div class="row mb-4">
-                        <div class="col-md-12 mb-3">
-                            <h4 class="d-inline">{{moment(date).format('DD')}} de {{moment(date).format('MMMM')}} de {{moment(date).format('YYYY')}}</h4>
-                        </div>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table table-bordered">
-                            <thead class="thead-dark">
-                                <tr class="text-center">
-                                    <th>Horários Indisponíveis</th>
-                                </tr>
-                            </thead>
-                            <tbody v-if="times.length > 0">
-                                <tr v-for="(time, index) of  times" :key="index">
-                                    <td class="text-center" style="font-size: 25px">{{time.start}} ás {{time.finish}}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div> -->
-
+                <div class="col-md-12">
+                    <p class="place-description text-justify mt-5">{{place.description}}</p>
+                </div>
             </div>
         </div>
     </section>
@@ -80,47 +96,21 @@
 
 export default {
     name: 'Horarios',
-    components: {
-    },
     data: () => ({
-        selectedDate: null,
-        modalShow: false,
-        date: new Date(),
-        placeInfo: null,
-        place: null,
-        times: []
+        showModalAllPhotos: false,
+        place: null
     }),
     methods: {
-        getPlaceTimes () {
-            let form = {
-                place_id: this.$route.params.id,
-                selectedDate: this.moment(this.date).format('YYYY-MM-DD')
-            }
-            this.$http.post('http://localhost:8000/api/get-place-times', form).then(response => {
-                this.times = response.body
-            })
-        },
-        getPlaceInfo (place) {
-            let info = {
-                name: place.name,
-                responsibleName: place.responsible_name,
-                phone: place.phone,
-                state: place.state,
-                complement: place.complement,
-                cep: place.cep,
-                description: place.description
-            }
-            this.placeInfo = info
-            this.modalShow = true
-        },
+        formatValue (value) {
+            return value.toLocaleString('pt-br', {minimumFractionDigits: 2})
+        }
     },
     created () {
         window.localStorage.removeItem('user')
         this.$store.dispatch('getUser', null)
         if (this.$route.params.id) {
             this.$http.post('http://localhost:8000/api/get-place', {place_id: this.$route.params.id}).then(response => {
-                this.place = response.body.place
-                this.getPlaceTimes()
+                this.place = response.body
             })
         }
     }
