@@ -58,6 +58,12 @@
 
                         <div class="row">
                             <div class="col-md-4 mb-25">
+                                <select class="select-line" v-model="form.intent">
+                                    <option value="rent">Alugar</option>
+                                    <option value="sell">Comprar</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 mb-25">
                                 <select class="select-line" v-model="form.condition">
                                     <option value="residencial">Residencial</option>
                                     <option value="comercial">Comercial</option>
@@ -105,6 +111,18 @@
                                 <input v-model="form.vacancies" class="input-line">    
                             </div>
                         </div>
+
+                        <div class="row">
+                            <div class="col-md-4 mb-25">
+                                <label class="label-line">Valor da Venda (Mínimo)</label>
+                                <input v-model="form.saleValueMin" class="input-line">
+                            </div>
+                            <div class="col-md-4 mb-25">
+                                <label class="label-line">Valor da Venda (Máximo)</label>
+                                <input v-model="form.saleValueMax" class="input-line"> 
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -138,37 +156,48 @@
                             <div class="col-lg-7 col-md-12 col-sm-12">
                                 <div class="place-details">
                                     <div style="padding-left: 5px">
-                                        <p class="place-rent-value">R$ {{ formatValue(place.rent_value) }} 
-                                            <span class="fs-15">/ mês</span>
-                                        </p>
-                                        <p class="d-inline place-secondary-value">Condomínio R$ {{ formatValue(place.condominium_value) }}</p>
-                                        - 
-                                        <p class="d-inline place-secondary-value">IPTU R$ {{ formatValue(place.iptu) }}</p>
-                                        <br>
-                                        <p class="place-description-search" v-html="limitText(place.description, 42)"></p>
-                                        <a class="d-inline" href="" @click.prevent="showDescription(place.description)">Ver Mais</a>
+                                        <template v-if="place.rent_value">
+                                            <p class="place-rent-value">R$ {{ formatValue(place.rent_value) }} 
+                                                <span class="fs-15">/ mês</span>
+                                            </p>
+                                        </template>
+                                        <template v-else>
+                                            <p class="place-rent-value">R$ {{ formatValue(place.sale_value) }} </p>
+                                        </template>
+
+                                        <template v-if="place.condominium_value">
+                                            <p class="d-inline place-secondary-value">Condomínio R$ {{ formatValue(place.condominium_value) }}</p>
+                                            - 
+                                        </template> 
+                                        <p v-if="place.iptu" class="d-inline place-secondary-value">IPTU R$ {{ formatValue(place.iptu) }}</p>
                                         
-                                        <p class="place-address">{{place.street}}, Bairro {{place.district}}, {{place.city}}</p>
+                                        <br>
+                                        <template v-if="place.description">
+                                            <p class="place-description-search" v-html="limitText(place.description, 42)"></p>...
+                                            <a class="d-inline" href="" @click.prevent="showDescription(place.description)">Ver Mais</a>
+                                        </template>
+                                        
+                                        <p class="place-address" :class="place.description ? '' : 'mt-5'">{{place.street}}, Bairro {{place.district}}, {{place.city}}</p>
                                     </div>
                                     <div class="container">
                                         <div class="row text-center">
-                                            <div class="width-place-space">
+                                            <div class="width-place-space" v-if="place.area">
                                                 <span class="place-number">{{place.area}}</span>
                                                 <span class="place-space">Área (m²)</span>
                                             </div>
-                                            <div class="width-place-space">
+                                            <div class="width-place-space" v-if="place.rooms">
                                                 <span class="place-number">{{place.rooms}}</span>
                                                 <span class="place-space">Quarto</span>
                                             </div>
-                                            <div class="width-place-space">
+                                            <div class="width-place-space" v-if="place.suites">
                                                 <span class="place-number">{{place.suites}}</span>
                                                 <span class="place-space">Suíte</span>
                                             </div>
-                                            <div class="width-place-space">
+                                            <div class="width-place-space" v-if="place.bathrooms">
                                                 <span class="place-number">{{place.bathrooms}}</span>
                                                 <span class="place-space">Banh.</span>
                                             </div>
-                                            <div class="width-place-space">
+                                            <div class="width-place-space" v-if="place.vacancies">
                                                 <span class="place-number">{{place.vacancies}}</span>
                                                 <span class="place-space">Vaga</span>
                                             </div>
@@ -205,16 +234,18 @@ export default {
             city: "",
             state: "",
             number: "",
+            intent: "",
             condition: "",
             type: "",
             areaMin: "",
             areaMax: "",
             rentValueMin: "",
             rentValueMax: "",
+            saleValueMin: "",
+            saleValueMax: "",
             rooms: "",
             bathrooms: "",
-            vacancies: "",
-            walk: ""
+            vacancies: ""
         },
         description: "",
         showModalDescription: false
@@ -222,7 +253,7 @@ export default {
     methods: {   
         limitText (value, limit) {
             if (value) {
-                return (value.length > limit ? value.substr(0, limit) + '... ' : value)
+                return (value.length > limit ? value.substr(0, limit) : value)
             }
         },
         showDescription (description) {
@@ -239,16 +270,18 @@ export default {
                 city: "",
                 state: "",
                 number: "",
+                intent: "",
                 condition: "",
                 type: "",
                 areaMin: "",
                 areaMax: "",
                 rentValueMin: "",
                 rentValueMax: "",
+                saleValueMin: "",
+                saleValueMax: "",
                 rooms: "",
                 bathrooms: "",
-                vacancies: "",
-                walk: ""
+                vacancies: ""
             },
             this.clearFilter = false
             this.getFilterPlace()

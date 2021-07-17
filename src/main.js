@@ -32,6 +32,12 @@ Vue.use(slick)
 const store = new Vuex.Store({
   state: {
     user: null,
+    alert: {
+      status: false,
+      title: "",
+      type: "",
+      message: ""
+    },
     types: [
       {value: 'Apartamento'},
       {value: 'Casa'},
@@ -54,11 +60,41 @@ const store = new Vuex.Store({
   mutations: {
     setUser(state, data) {
       state.user = data
+    },
+    setAlertDanger(state, message) {
+      state.alert.type = 'danger'
+      state.alert.title = 'Erro'
+      state.alert.message = message
+      state.alert.status = true
+      setTimeout(() => {
+        state.alert.status = false
+        state.alert.type = ""
+        state.alert.title = ""
+        state.alert.message = ""
+      }, 5000)
+    },
+    setAlertSuccess(state, message) {
+      state.alert.type = 'success'
+      state.alert.title = 'Sucesso'
+      state.alert.message = message
+      state.alert.status = true
+      setTimeout(() => {
+        state.alert.status = false
+        state.alert.type = ""
+        state.alert.title = ""
+        state.alert.message = ""
+      }, 5000)
     }
   },
   actions: {
     getUser(context, params) {
       context.commit('setUser', params)    
+    },
+    getAlertDanger(context, message) {
+      context.commit('setAlertDanger', message)    
+    },
+    getAlertSuccess(context, message) {
+      context.commit('setAlertSuccess', message)    
     }
   }
 })

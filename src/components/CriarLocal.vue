@@ -56,32 +56,36 @@
                                     <span class="form-error">{{ errors[0] }}</span>
                                 </ValidationProvider>
                             </div>
-                            <div class="col-md-2 mb-25">
-                                <label class="label-line">Valor do Aluguel</label>
-                                <ValidationProvider rules="integer" v-slot="{ errors }">
-                                    <input v-model="form.rent_value" class="input-line">
-                                    <span class="form-error">{{ errors[0] }}</span>
-                                </ValidationProvider>
-                            </div>
-                            <div class="col-md-2 mb-25">
-                                <label class="label-line">Valor de Venda</label>
-                                <ValidationProvider rules="integer" v-slot="{ errors }">
-                                    <input v-model="form.sale_value" class="input-line">
-                                    <span class="form-error">{{ errors[0] }}</span>
-                                </ValidationProvider>
-                            </div>
+                            <template v-if="form.intent === 'rent'">
+                                <div class="col-md-2 mb-25">
+                                    <label class="label-line">Valor do Aluguel</label>
+                                    <ValidationProvider rules="integer" v-slot="{ errors }">
+                                        <input v-model="form.rent_value" class="input-line">
+                                        <span class="form-error">{{ errors[0] }}</span>
+                                    </ValidationProvider>
+                                </div>
+                            </template>
+                            <template v-else>
+                                <div class="col-md-2 mb-25">
+                                    <label class="label-line">Valor de Venda</label>
+                                    <ValidationProvider rules="integer" v-slot="{ errors }">
+                                        <input v-model="form.sale_value" class="input-line">
+                                        <span class="form-error">{{ errors[0] }}</span>
+                                    </ValidationProvider>
+                                </div>
+                            </template>
                         </div>
                     
                         <div class="row">
                             <div class="col-md-2 mb-25">         
-                                <label class="label-line">Área útil (m²)</label>                               
+                                <label class="label-line">Área útil (m²) (Opcional)</label>                               
                                 <ValidationProvider rules="required|integer" v-slot="{ errors }">
                                     <input v-model="form.area" class="input-line">
                                     <span class="form-error">{{ errors[0] }}</span>
                                 </ValidationProvider>  
                             </div>
                             <div class="col-md-2 mb-25">
-                                <label class="label-line">Banheiros</label>
+                                <label class="label-line">Banheiros (Opcional)</label>
                                 <ValidationProvider rules="required|integer" v-slot="{ errors }">
                                     <input v-model="form.bathrooms" class="input-line">
                                     <span class="form-error">{{ errors[0] }}</span>
@@ -113,13 +117,6 @@
                         </div>
                             
                         <div class="row">
-                            <div class="col-md-2 mb-25">
-                                <label class="label-line">Andar (Opcional)</label>
-                                <ValidationProvider rules="integer" v-slot="{ errors }">
-                                    <input v-model="form.walk" class="input-line">
-                                    <span class="form-error">{{ errors[0] }}</span>
-                                </ValidationProvider>
-                            </div>
                             <div class="col-md-2 mb-25">
                                 <label class="label-line">IPTU (Opcional)</label>
                                 <ValidationProvider rules="integer" v-slot="{ errors }">
@@ -265,7 +262,6 @@ export default {
             bathrooms: null,
             suites: null,
             vacancies: null,
-            walk: null,
             rent_value: null,
             sale_value: null,
             condominium_value: null,
@@ -326,7 +322,7 @@ export default {
             }
         },
         searchCep () {
-            if (this.form.cep.length === 8) {
+            if (this.form.cep && this.form.cep.length === 8) {
                 this.$http.get('https://viacep.com.br/ws/' + this.form.cep + '/json/').then(response => {
                     if (response.body.erro === true) {
                     this.form.cep = ''

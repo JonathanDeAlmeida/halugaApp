@@ -61,9 +61,14 @@
                                     <div style="padding-left: 5px">
                                         <div class="row">
                                             <div class="col-lg-7 col-md-12">
-                                                <p class="place-rent-value">R$ {{ formatValue(place.rent_value) }} 
+                                                <template v-if="place.rent_value">
+                                                    <p class="place-rent-value">R$ {{ formatValue(place.rent_value) }} 
                                                     <span class="fs-15">/ mês</span>
-                                                </p>
+                                                    </p>
+                                                </template>
+                                                <template v-else>
+                                                    <p class="place-rent-value">R$ {{ formatValue(place.sale_value) }} </p>
+                                                </template>
                                             </div>
                                             <div class="col-lg-5 col-md-12">
                                                 <div class="btn-place-actions">
@@ -75,35 +80,39 @@
                                             </div>
                                         </div>
 
-                                        <p class="d-inline place-secondary-value">Condomínio R$ {{ formatValue(place.condominium_value) }}</p>
-                                        - 
-                                        <p class="d-inline place-secondary-value">IPTU R$ {{ formatValue(place.iptu) }}</p>
+                                        <template v-if="place.condominium_value">
+                                            <p class="d-inline place-secondary-value">Condomínio R$ {{ formatValue(place.condominium_value) }}</p>
+                                            - 
+                                        </template> 
+                                        <p v-if="place.iptu" class="d-inline place-secondary-value">IPTU R$ {{ formatValue(place.iptu) }}</p>
                                         
                                         <br>
-                                        <p class="place-description-search" v-html="limitText(place.description, 42)"></p>...
-                                        <a class="d-inline" href="" @click.prevent="showDescription(place.description)">Ver Mais</a>
+                                        <template v-if="place.description">
+                                            <p class="place-description-search" v-html="limitText(place.description, 42)"></p>...
+                                            <a class="d-inline" href="" @click.prevent="showDescription(place.description)">Ver Mais</a>
+                                        </template>
                                         
-                                        <p class="place-address">{{place.street}}, Bairro {{place.district}}, {{place.city}}</p>
+                                        <p class="place-address" :class="place.description ? '' : 'mt-5'">{{place.street}}, Bairro {{place.district}}, {{place.city}}</p>
                                     </div>
                                     <div class="container">
                                         <div class="row text-center">
-                                            <div class="width-place-space">
+                                            <div class="width-place-space" v-if="place.area">
                                                 <span class="place-number">{{place.area}}</span>
                                                 <span class="place-space">Área (m²)</span>
                                             </div>
-                                            <div class="width-place-space">
+                                            <div class="width-place-space" v-if="place.rooms">
                                                 <span class="place-number">{{place.rooms}}</span>
                                                 <span class="place-space">Quarto</span>
                                             </div>
-                                            <div class="width-place-space">
+                                            <div class="width-place-space" v-if="place.suites">
                                                 <span class="place-number">{{place.suites}}</span>
                                                 <span class="place-space">Suíte</span>
                                             </div>
-                                            <div class="width-place-space">
+                                            <div class="width-place-space" v-if="place.bathrooms">
                                                 <span class="place-number">{{place.bathrooms}}</span>
                                                 <span class="place-space">Banh.</span>
                                             </div>
-                                            <div class="width-place-space">
+                                            <div class="width-place-space" v-if="place.vacancies">
                                                 <span class="place-number">{{place.vacancies}}</span>
                                                 <span class="place-space">Vaga</span>
                                             </div>

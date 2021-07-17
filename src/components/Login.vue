@@ -1,12 +1,12 @@
 <template>
     <div class="container mt-65">
 
-        <div v-if="alert.status" :class="'alert-general ' + alert.type">
-            <div :class="'border-alert ' + alert.type">
-                <span>{{alert.title}}</span>
+        <div v-if="$store.state.alert.status" :class="'alert-general ' + $store.state.alert.type">
+            <div :class="'border-alert ' + $store.state.alert.type">
+                <span>{{$store.state.alert.title}}</span>
             </div>
             <div>
-                <span>{{alert.message}}</span>
+                <span>{{$store.state.alert.message}}</span>
             </div>
         </div>
 
@@ -59,12 +59,6 @@ export default {
             email: null,
             password: null
         },
-        alert: {
-            status: false,
-            title: "",
-            type: "",
-            message: ""
-        },
     }),
     methods: {
         formSubmit () {        
@@ -73,21 +67,9 @@ export default {
                     window.localStorage.setItem('user', response.body.user_id)
                     this.$router.push('/agendamentos')
                 } else {
-                    this.setAlert('danger', 'Erro', response.body.message)
+                    this.$store.dispatch('getAlertDanger', response.body.message)
                 }
             })
-        },
-        setAlert (type, title, message) {
-            this.alert.type = type
-            this.alert.title = title
-            this.alert.message = message
-            this.alert.status = true
-            setTimeout(() => {
-                this.alert.status = false
-                this.alert.type = ""
-                this.alert.title = ""
-                this.alert.message = ""
-            }, 5000)
         }
     },
     created () {
