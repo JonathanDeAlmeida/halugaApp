@@ -61,9 +61,12 @@ export default {
   margin-bottom: 35px;
 }
 .place-border {
-  border: 1px solid black;
-  padding: 5px;
-  margin-bottom: 35px;
+    border: 1px solid #86868654;
+    padding: 5px;
+    margin-bottom: 35px;
+    border-radius: 5px;
+    /* box-shadow: 5px 5px 5px 5px rgb(0 0 0 / 8%); */
+    box-shadow: 3px 3px 3px 3px#cccccc54;
 }
 .scheduling-date-time {
   margin-top: 20px;
@@ -299,9 +302,7 @@ export default {
 .place-description-search {
   font-size: 16px;
   margin-top: 15px;
-  overflow: hidden; 
-  text-overflow: ellipsis; 
-  white-space: nowrap;
+  display: inline-block;
 }
 .place-images-desktop {
   display: block;

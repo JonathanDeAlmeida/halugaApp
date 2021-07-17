@@ -30,13 +30,19 @@
                     <form @submit.prevent="handleSubmit(formSubmit)">
                         
                         <div class="row">
-                            <div class="col-md-3 mb-25">
+                            <div class="col-md-2 mb-25">
+                                <select class="select-line" v-model="form.intent">
+                                    <option value="rent">Alugar</option>
+                                    <option value="sell">Vender</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2 mb-25">
                                 <select class="select-line" v-model="form.condition">
                                     <option value="residencial">Residencial</option>
                                     <option value="comercial">Comercial</option>
                                 </select>
                             </div>
-                            <div class="col-md-3 mb-25">
+                            <div class="col-md-2 mb-25">
                                 <select class="select-line" v-model="form.type">
                                     <option v-for="(type, index) of $store.state.types" :key="index">
                                         {{type.value}}
@@ -52,11 +58,21 @@
                             </div>
                             <div class="col-md-2 mb-25">
                                 <label class="label-line">Valor do Aluguel</label>
-                                <ValidationProvider rules="required|integer" v-slot="{ errors }">
+                                <ValidationProvider rules="integer" v-slot="{ errors }">
                                     <input v-model="form.rent_value" class="input-line">
                                     <span class="form-error">{{ errors[0] }}</span>
                                 </ValidationProvider>
                             </div>
+                            <div class="col-md-2 mb-25">
+                                <label class="label-line">Valor de Venda</label>
+                                <ValidationProvider rules="integer" v-slot="{ errors }">
+                                    <input v-model="form.sale_value" class="input-line">
+                                    <span class="form-error">{{ errors[0] }}</span>
+                                </ValidationProvider>
+                            </div>
+                        </div>
+                    
+                        <div class="row">
                             <div class="col-md-2 mb-25">         
                                 <label class="label-line">Área útil (m²)</label>                               
                                 <ValidationProvider rules="required|integer" v-slot="{ errors }">
@@ -64,9 +80,6 @@
                                     <span class="form-error">{{ errors[0] }}</span>
                                 </ValidationProvider>  
                             </div>
-                        </div>
-                    
-                        <div class="row">
                             <div class="col-md-2 mb-25">
                                 <label class="label-line">Banheiros</label>
                                 <ValidationProvider rules="required|integer" v-slot="{ errors }">
@@ -89,11 +102,7 @@
                                         <span class="form-error">{{ errors[0] }}</span>
                                     </ValidationProvider>
                                 </div>
-                                <div class="col-md-4 mb-25">
-                                    <label class="label-line">Condomínio (Opcional)</label>
-                                    <input v-model="form.condominium" class="input-line">
-                                </div>
-                                <div class="col-md-2 mb-25">
+                                <div class="col-md-3 mb-25">
                                     <label class="label-line">Valor do Condomínio (Opcional)</label>
                                     <ValidationProvider rules="integer" v-slot="{ errors }">
                                         <input v-model="form.condominium_value" class="input-line">
@@ -187,7 +196,7 @@
                         <div class="row">
                             <div class="col-md-12 mb-25">
                                 <label class="label-line">Descrição</label>
-                                <textarea style="border: 1px solid #9e9e9e" v-model="form.description" class="form-control"></textarea>
+                                <textarea rows="10" style="border: 1px solid #9e9e9e" v-model="form.description" class="form-control"></textarea>
                             </div>
                         </div>
 
@@ -240,6 +249,7 @@ export default {
             id: null,
             userId: null,
             imagePath: null,
+            intent: 'rent',
             condition: 'residencial',
             type: 'Apartamento',
             phone: null,
@@ -257,7 +267,7 @@ export default {
             vacancies: null,
             walk: null,
             rent_value: null,
-            condominium: null,
+            sale_value: null,
             condominium_value: null,
             iptu: null,
             description: null

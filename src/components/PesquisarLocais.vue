@@ -1,6 +1,23 @@
 <template>
     <section class="mt-65">
 
+        <b-modal v-model="showModalDescription" hide-header hide-footer size="lg"> 
+            <template>
+                <div class="col-md-12 modal-border">
+                    <h4>Descrição</h4>
+                </div>
+                <div class="col-md-12 text-justify">
+                    {{description}}
+                </div>
+                <hr>
+                <div class="col-md-12">
+                    <div class="float-right">
+                        <button class="btn-general blue" @click="showModalDescription = false"> Fechar </button>
+                    </div>
+                </div>
+            </template>
+        </b-modal>
+
         <b-modal v-model="modalFilterShow" hide-header hide-footer size="lg"> 
             <div class="col-md-12 modal-border">
                 <h4>Filtro</h4>
@@ -127,8 +144,9 @@
                                         <p class="d-inline place-secondary-value">Condomínio R$ {{ formatValue(place.condominium_value) }}</p>
                                         - 
                                         <p class="d-inline place-secondary-value">IPTU R$ {{ formatValue(place.iptu) }}</p>
-                                        
-                                        <p class="place-description-search">{{place.description}}</p>
+                                        <br>
+                                        <p class="place-description-search" v-html="limitText(place.description, 42)"></p>
+                                        <a class="d-inline" href="" @click.prevent="showDescription(place.description)">Ver Mais</a>
                                         
                                         <p class="place-address">{{place.street}}, Bairro {{place.district}}, {{place.city}}</p>
                                     </div>
@@ -140,11 +158,11 @@
                                             </div>
                                             <div class="width-place-space">
                                                 <span class="place-number">{{place.rooms}}</span>
-                                                <span class="place-space">Quartos</span>
+                                                <span class="place-space">Quarto</span>
                                             </div>
                                             <div class="width-place-space">
                                                 <span class="place-number">{{place.suites}}</span>
-                                                <span class="place-space">Suítes</span>
+                                                <span class="place-space">Suíte</span>
                                             </div>
                                             <div class="width-place-space">
                                                 <span class="place-number">{{place.bathrooms}}</span>
@@ -152,7 +170,7 @@
                                             </div>
                                             <div class="width-place-space">
                                                 <span class="place-number">{{place.vacancies}}</span>
-                                                <span class="place-space">Vagas</span>
+                                                <span class="place-space">Vaga</span>
                                             </div>
                                             <div class="width-place-button">
                                                 <div>
@@ -197,9 +215,20 @@ export default {
             bathrooms: "",
             vacancies: "",
             walk: ""
-        }
+        },
+        description: "",
+        showModalDescription: false
     }),
-    methods: {
+    methods: {   
+        limitText (value, limit) {
+            if (value) {
+                return (value.length > limit ? value.substr(0, limit) + '... ' : value)
+            }
+        },
+        showDescription (description) {
+            this.description = description
+            this.showModalDescription = true
+        },
         clearFormFilter () {
             this.form = {
                 name: "",

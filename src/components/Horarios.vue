@@ -26,7 +26,12 @@
                     <template v-for="(image, index) of place.images">
                         <img v-if="index < 4" class="place-image-item-desktop" :src="'http://localhost:8000' + image.path" :key="index">
                     </template>
+
+                    <!-- <div style="width: 25%; height: 320px; float:left" :key="index" v-if="index < 4">
+                        <img class="place-image-item-desktop" :src="'http://localhost:8000' + image.path" :key="index">
+                    </div> -->
                 </div>
+                <div style="clear:both"></div>
                 <div class="place-images-mobile">
                     <template v-for="(image, index) of place.images">
                         <img v-if="index < 3" class="place-image-item-mobile" :src="'http://localhost:8000' + image.path" :key="index">
@@ -56,11 +61,11 @@
                             <div class="width-place-space-detail">
                                 <!-- <span class="material-icons-two-tone">airline_seat_individual_suite</span> -->
                                 <span class="place-number">{{place.rooms}}</span>
-                                <span class="place-space">Quartos</span>
+                                <span class="place-space">Quarto</span>
                             </div>
                             <div class="width-place-space-detail">
                                 <span class="place-number">{{place.suites}}</span>
-                                <span class="place-space">Suítes</span>
+                                <span class="place-space">Suíte</span>
                             </div>
                             <div class="width-place-space-detail">
                                 <span class="place-number">{{place.bathrooms}}</span>
@@ -68,7 +73,7 @@
                             </div>
                             <div class="width-place-space-detail">
                                 <span class="place-number">{{place.vacancies}}</span>
-                                <span class="place-space">Vagas</span>
+                                <span class="place-space">Vaga</span>
                             </div>
                         </div>
                     </div>

@@ -1,5 +1,41 @@
 <template>
     <section class="mt-65">
+
+        <b-modal v-model="showModalDescription" hide-header hide-footer size="lg"> 
+            <template>
+                <div class="col-md-12 modal-border">
+                    <h4>Descrição</h4>
+                </div>
+                <div class="col-md-12 text-justify">
+                    {{description}}
+                </div>
+                <hr>
+                <div class="col-md-12">
+                    <div class="float-right">
+                        <button class="btn-general blue" @click="showModalDescription = false"> Fechar </button>
+                    </div>
+                </div>
+            </template>
+        </b-modal>
+
+        <b-modal v-model="showModalPlaceDelete" hide-header hide-footer> 
+            <template>
+                <div class="col-md-12 modal-border">
+                    <h4>Excluir</h4>
+                </div>
+                <div class="col-md-12 text-justify">
+                    Tem certeza que deseja excluir permanentemente ?
+                </div>
+                <hr>
+                <div class="col-md-12">
+                    <div class="float-right">
+                        <button class="btn-general blue mr-2" @click="showModalPlaceDelete = false"> Fechar </button>
+                        <button @click="excluir(placeDeleteId)" class="btn-general green">Confirmar</button>
+                    </div>
+                </div>
+            </template>
+        </b-modal>
+
         <div class="container">
             <div class="row">
                 <div class="col-md-12 px-0">
@@ -31,7 +67,7 @@
                                             </div>
                                             <div class="col-lg-5 col-md-12">
                                                 <div class="btn-place-actions">
-                                                    <button @click="excluir(place.place_id)" class="btn btn-danger mr-2">Excluir</button>
+                                                    <button @click.prevent="openModalPlaceDelete(place.place_id)" class="btn btn-danger mr-2">Excluir</button>
                                                     <router-link class="btn btn-primary" :to="/editar-local/ + place.place_id">
                                                         Editar
                                                     </router-link>
@@ -43,7 +79,9 @@
                                         - 
                                         <p class="d-inline place-secondary-value">IPTU R$ {{ formatValue(place.iptu) }}</p>
                                         
-                                        <p class="place-description-search">{{place.description}}</p>
+                                        <br>
+                                        <p class="place-description-search" v-html="limitText(place.description, 42)"></p>...
+                                        <a class="d-inline" href="" @click.prevent="showDescription(place.description)">Ver Mais</a>
                                         
                                         <p class="place-address">{{place.street}}, Bairro {{place.district}}, {{place.city}}</p>
                                     </div>
@@ -55,11 +93,11 @@
                                             </div>
                                             <div class="width-place-space">
                                                 <span class="place-number">{{place.rooms}}</span>
-                                                <span class="place-space">Quartos</span>
+                                                <span class="place-space">Quarto</span>
                                             </div>
                                             <div class="width-place-space">
                                                 <span class="place-number">{{place.suites}}</span>
-                                                <span class="place-space">Suítes</span>
+                                                <span class="place-space">Suíte</span>
                                             </div>
                                             <div class="width-place-space">
                                                 <span class="place-number">{{place.bathrooms}}</span>
@@ -67,7 +105,7 @@
                                             </div>
                                             <div class="width-place-space">
                                                 <span class="place-number">{{place.vacancies}}</span>
-                                                <span class="place-space">Vagas</span>
+                                                <span class="place-space">Vaga</span>
                                             </div>
                                             <div class="width-place-button">
                                                 <div>
@@ -92,14 +130,32 @@
 export default {
     name: 'Agendamentos',
     data: () => ({
-        places: []
+        places: [],
+        description: "",
+        showModalDescription: false,
+        showModalPlaceDelete: false,
+        placeDeleteId: null
     }),
     methods: {
+        openModalPlaceDelete (placeId) {
+            this.placeDeleteId = placeId
+            this.showModalPlaceDelete = true
+        },
+        limitText (value, limit) {
+            if (value) {
+                return (value.length > limit ? value.substr(0, limit) : value)
+            }
+        },
+        showDescription (description) {
+            this.description = description
+            this.showModalDescription = true
+        },
         excluir (id) {
             this.$http.post('http://localhost:8000/api/delete-place', {place_id: id}).then(() => {
+                this.placeDeleteId = null
                 this.getPlaces()
             })
-        },
+        }, 
         formatValue (value) {
             return value.toLocaleString('pt-br', {minimumFractionDigits: 2})
         },
