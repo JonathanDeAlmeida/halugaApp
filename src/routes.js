@@ -8,6 +8,8 @@ import Login from './components/Login.vue'
 import PesquisarLocais from './components/PesquisarLocais.vue'
 import Horarios from './components/Horarios.vue'
 import EditarPerfil from './components/EditarPerfil.vue'
+import RecuperarSenha from './components/RecuperarSenha.vue'
+
 
 Vue.use(VueRouter)
 
@@ -16,6 +18,11 @@ const routes = [
         name: 'Agendamentos',
         path: '/agendamentos',
         component: Agendamentos
+    },
+    {
+        name: 'RecuperarSenha',
+        path: '/recuperar-senha',
+        component: RecuperarSenha
     },
     {
         name: 'CriarLocal',

@@ -1,14 +1,14 @@
 <template>
     <section>
 
-        <b-modal v-model="showModalAllPhotos" hide-header hide-footer> 
+        <b-modal v-model="showModalAllPhotos" hide-header hide-footer size="lg"> 
             <template v-if="place">
                 <div class="col-md-12 modal-border">
                     <h4>Fotos</h4>
                 </div>
                 <div class="col-md-12" style="overflow:auto; height: 400px">
                     <div v-for="(image, index) of place.images" :key="index">
-                       <img width="100%" height="auto" :src="'http://localhost:8000' + image.path">
+                       <img class="mb-5" width="100%" height="auto" :src="'http://localhost:8000' + image.path">
                     </div>
                 </div>
                 <hr>

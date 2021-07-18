@@ -52,7 +52,7 @@ export default {
     exit () {
       window.localStorage.removeItem('user')
       this.$store.dispatch('getUser', null)
-      this.$router.push('/login')
+      this.$router.push('/')
     }
   }
 }
