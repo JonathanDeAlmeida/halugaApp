@@ -1,14 +1,6 @@
 <template>
     <div class="container mt-65">
 
-        <div v-if="alert.status" :class="'alert-general ' + alert.type">
-            <div :class="'border-alert ' + alert.type">
-                <span>{{alert.title}}</span>
-            </div>
-            <div>
-                <span>{{alert.message}}</span>
-            </div>
-        </div>
         <div class="row text-center">
             <div class="col-md-12 text-center">
                 <p class="title-path">Cadastro</p>
@@ -69,6 +61,7 @@
 </template>
 
 <script>
+import { getHeader } from './config'
 export default {
     name: 'CadastroPerfil',
     components: {
@@ -76,12 +69,6 @@ export default {
         ValidationProvider
     },
     data: () => ({
-        alert: {
-            status: false,
-            title: "",
-            type: "",
-            message: ""
-        },
         form: {
             name: null,
             email: null,
@@ -93,29 +80,30 @@ export default {
         formSubmit () {        
             this.$http.post('http://localhost:8000/api/user-create', this.form).then(response => {
                 if (response.body.user_enabled) {
-                    window.localStorage.setItem('user', response.body.user.id)
+                    window.localStorage.setItem('userId', response.body.userId)
+                    window.localStorage.setItem('authUser', response.body.authUser)
                     this.$router.push('/criar-local')
                 } else {
-                    this.setAlert('danger', 'Erro', response.body.message)
+                    this.$store.dispatch('getAlertDanger', response.body.message)
                 }
             })
         },
-        setAlert (type, title, message) {
-            this.alert.type = type
-            this.alert.title = title
-            this.alert.message = message
-            this.alert.status = true
-            setTimeout(() => {
-                this.alert.status = false
-                this.alert.type = ""
-                this.alert.title = ""
-                this.alert.message = ""
-            }, 5000)
+        getUser () {
+            let userId = window.localStorage.getItem('userId')
+            if (userId) {
+                this.$http.post('http://localhost:8000/api/get-user', {user_id: userId}, {headers: getHeader()}).then(response => {
+                    this.$store.dispatch('getUser', response.body)
+                    this.$router.push('/')
+                }, error => {
+                    console.log(error)
+                    this.$store.dispatch('getUser', null)
+                    window.localStorage.clear();
+                })
+            }
         }
     },
     created () {
-        window.localStorage.removeItem('user')
-        this.$store.dispatch('getUser', null)
+        this.getUser()
     }
 }
 

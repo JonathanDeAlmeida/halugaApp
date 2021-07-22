@@ -1,15 +1,6 @@
 <template>
     <div class="container mt-65">
 
-        <div v-if="$store.state.alert.status" :class="'alert-general ' + $store.state.alert.type">
-            <div :class="'border-alert ' + $store.state.alert.type">
-                <span>{{$store.state.alert.title}}</span>
-            </div>
-            <div>
-                <span>{{$store.state.alert.message}}</span>
-            </div>
-        </div>
-
         <div class="row text-center">
             <div class="col-md-12 text-center">
                 <p class="title-path">Recuperar Senha</p>
@@ -67,33 +58,6 @@ export default {
     created () {
         window.localStorage.removeItem('user')
         this.$store.dispatch('getUser', null)
-
-        // 'from' => [
-        //     'address' => env('MAIL_FROM_ADDRESS', 'haluga.imoveis@gmail.com'),
-        //     'name' => env('MAIL_FROM_NAME', 'Haluga Imoveis'),
-        // ],
-
-        // 'transport' => 'smtp',
-        // 'host' => env('MAIL_HOST', 'smtp.gmail.com'),
-        // 'port' => env('MAIL_PORT', 587),
-        // 'encryption' => env('MAIL_ENCRYPTION', 'tls'),
-        // 'username' => env('haluga.imoveis@gmail.com'),
-        // 'password' => env('ilso88994004'),
-        // 'timeout' => null,
-        // 'auth_mode' => null,
-
-        // MAIL_MAILER=smtp
-        // MAIL_HOST=smtp.gmail.com
-        // MAIL_PORT=587
-        // MAIL_USERNAME=haluga.imoveis@gmail.com
-        // MAIL_PASSWORD=ilso88994004
-        // MAIL_ENCRYPTION=tls
-        // MAIL_FROM_ADDRESS=haluga.imoveis@gmail.com
-        // MAIL_FROM_NAME="${APP_NAME}"
-
-        // MAIL_DRIVER=mailgun
-        // MAILGUN_DOMAIN=sandboxbe2edb4761a447f69cef255278eee73a
-        // MAILGUN_SECRET=98a1bd99011cca34a8491b97c7332291-e31dc3cc-f742b779
     }
 }
 

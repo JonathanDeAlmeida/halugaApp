@@ -19,15 +19,6 @@
             </template>
         </b-modal>
 
-        <div v-if="alert.status" :class="'alert-general ' + alert.type">
-            <div :class="'border-alert ' + alert.type">
-                <span>{{alert.title}}</span>
-            </div>
-            <div>
-                <span>{{alert.message}}</span>
-            </div>
-        </div>
-
         <div class="row text-center">
             <div class="col-md-12 text-center">
                 <p class="title-path">Edição</p>
@@ -71,6 +62,8 @@
 </template>
 
 <script>
+import { logout, getHeader } from './config'
+
 export default {
     name: 'EditarPerfil',
     components: {
@@ -84,28 +77,27 @@ export default {
             name: null,
             email: null,
             password: null
-        },
-        alert: {
-            status: false,
-            title: "",
-            type: "",
-            message: ""
-        },
+        }
     }),
     methods: {
         formSubmit () {      
-            this.form.id = window.localStorage.getItem('user')
-            this.$http.post('http://localhost:8000/api/user-edit', this.form).then(response => {
+            this.form.id = window.localStorage.getItem('userId')
+            this.$http.post('http://localhost:8000/api/user-edit', this.form, {headers: getHeader()}).then(response => {
                 if (response.body.user_enabled) {
-                    this.setAlert('success', 'Sucesso', 'Usuário Editado Com Sucesso')
+                    this.$store.dispatch('getAlertSuccess', 'Usuário Editado Com Sucesso')
+                    this.getUser()
                 } else {
-                    this.setAlert('danger', 'Erro', response.body.message)
+                    this.$store.dispatch('getAlertSuccess', response.body.message)
                 }
+            }, error => {
+                console.log(error)
+                this.$store.dispatch('getUser', null)
+                logout()
             })
         },
-        getUser () {
-            let userId = window.localStorage.getItem('user')
-            this.$http.post('http://localhost:8000/api/get-user', {user_id: userId}).then(response => {
+        getUserEdit () {
+            let userId = window.localStorage.getItem('userId')
+            this.$http.post('http://localhost:8000/api/get-user', {user_id: userId}, {headers: getHeader()}).then(response => {
                 let user = response.body
                 this.form = {
                     name: user.name,
@@ -114,32 +106,35 @@ export default {
             })
         },
         excluir () {
-            let userId = window.localStorage.getItem('user')
-            this.$http.post('http://localhost:8000/api/delete-user', {user_id: userId}).then(() => {
-                this.$router.push('/')
+            let userId = window.localStorage.getItem('userId')
+            this.$http.post('http://localhost:8000/api/delete-user', {user_id: userId}, {headers: getHeader()}).then(() => {
+                this.$store.dispatch('getUser', null)
+                logout()
+            }, error => {
+                console.log(error)
+                this.$store.dispatch('getUser', null)
+                logout()
             })
-        }, 
-        setAlert (type, title, message) {
-            this.alert.type = type
-            this.alert.title = title
-            this.alert.message = message
-            this.alert.status = true
-            setTimeout(() => {
-                this.alert.status = false
-                this.alert.type = ""
-                this.alert.title = ""
-                this.alert.message = ""
-            }, 5000)
+        },
+        getUser () {
+            let userId = window.localStorage.getItem('userId')
+            if (userId) {
+                this.$http.post('http://localhost:8000/api/get-user', {user_id: userId}, {headers: getHeader()}).then(response => {
+                    this.$store.dispatch('getUser', response.body)
+                }, error => {
+                    console.log(error)
+                    this.$store.dispatch('getUser', null)
+                    logout()
+                })
+            } else {
+                this.$store.dispatch('getUser', null)
+                logout()
+            }
         }
     },
     created () {
-        let userId = window.localStorage.getItem('user')
-        if (userId) {
-            this.$http.post('http://localhost:8000/api/get-user', {user_id: userId}).then(response => {
-            this.$store.dispatch('getUser', response.body)
-            })
-        }
         this.getUser()
+        this.getUserEdit()
     }
 }
 
@@ -154,14 +149,6 @@ extend('required', {
 extend('email', {
     ...email,
     message: 'O campo deve ser preenchido com um email válido'
-});
-
-extend('minmax', {
-  validate(value, { min, max }) {
-    return value.length >= min && value.length <= max;
-  },
-  params: ['min', 'max'],
-  message: 'O campo deve ter no mínimo 5 caracteres e no máximo 10 caracteres'
 });
 
 </script>

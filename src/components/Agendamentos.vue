@@ -38,38 +38,48 @@
 
         <div class="container">
             <div class="row">
-                <div class="col-md-12 px-0">
-                    <div class="col-md-6 mb-25 float-right"> 
+                <div class="col-lg-10 mx-auto">
+                    <div class="mb-25 float-right"> 
                         <router-link class="btn-general green float-right" to="/criar-local">
                             Cadastrar Imóvel
                         </router-link>
                     </div>
                 </div>
             </div>
+
             <div class="row">
                 <template v-if="places.length > 0">
                     <div class="col-lg-10 mx-auto" v-for="(place, index) of places" :key="index">
                         <div class="place-border">
                             <div class="row">
-                                <div class="col-lg-5 col-md-12 col-sm-12">
-                                    <b-carousel :interval="0" controls>
-                                        <b-carousel-slide v-for="(image, index) of place.images" :img-src="'http://localhost:8000' + image.path" :key="index">
-                                        </b-carousel-slide>
-                                    </b-carousel>                                
-                                </div>
+                                <template v-if="place.images.length > 0">
+                                    <div class="col-lg-5 col-md-12 col-sm-12">
+                                        <b-carousel :interval="0" controls>
+                                            <b-carousel-slide v-for="(image, index) of place.images" :img-src="'http://localhost:8000' + image.path" :key="index">
+                                            </b-carousel-slide>
+                                        </b-carousel>                                
+                                    </div>
+                                </template>
+                                <template v-else>
+                                    <div class="col-lg-5 col-md-12 col-sm-12 mb-2">
+                                        <div style="height: 255px; margin: 0" class="text-center place-border">
+                                            <p class="mt-5"> Sem Imagem</p>
+                                        </div>
+                                    </div>
+                                </template>
                                 <div class="col-lg-7 col-md-12 col-sm-12">
                                     <div class="place-details">
                                         <div style="padding-left: 5px">
                                             <div class="row">
                                                 <div class="col-lg-7 col-md-12">
-                                                    <template v-if="place.rent_value">
-                                                        <p class="place-rent-value">R$ {{ formatValue(place.rent_value) }} 
-                                                        <span class="fs-15">/ mês</span>
-                                                        </p>
-                                                    </template>
-                                                    <template v-else>
-                                                        <p class="place-rent-value">R$ {{ formatValue(place.sale_value) }} </p>
-                                                    </template>
+                                                <template v-if="place.intent === 'rent'">
+                                                    <p class="place-rent-value">R$ {{ formatValue(place.rent_value) }} 
+                                                    <span class="fs-15">/ mês</span>
+                                                    </p>
+                                                </template>
+                                                <template v-else>
+                                                    <p class="place-rent-value">R$ {{ formatValue(place.sale_value) }} </p>
+                                                </template>
                                                 </div>
                                                 <div class="col-lg-5 col-md-12">
                                                     <div class="btn-place-actions">
@@ -118,10 +128,23 @@
                                                     <span class="place-space">Vaga</span>
                                                 </div>
                                                 <div class="width-place-button">
-                                                    <div>
+                                                    <div v-if="place.active">
                                                         <router-link class="btn btn-info mt-3" :to="/horarios/ + place.place_id" target="_blank">
                                                             Ver Detalhes
                                                         </router-link>
+                                                    </div>
+                                                    <div v-else>
+                                                        <button disabled class="btn btn-secondary mt-3 cursor-pointer" title="Ver detalhes só estará disponível, quando o anúncio estiver ativo, quando tiver no mínimo 5 fotos">
+                                                            Ver Detalhes
+                                                        </button>
+                                                    </div>
+                                                </div>  
+                                                <div class="col-md-12 mt-2" style="padding: 0">
+                                                    <div class="float-left">
+                                                        <span v-if="place.active" style="color: white; cursor: pointer" class="badge bg-success">Anúncio Ativo</span>
+                                                        <span v-else style="color: white; cursor: pointer" class="badge bg-danger" title="Para o anúncio estar ativo, deve ter no mínimo 5 fotos">
+                                                            Anúncio Inativo
+                                                        </span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -130,6 +153,9 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="col-lg-3 mx-auto">
+                        <pagination :source="pagination" @navigate="navigate"></pagination>
                     </div>
                 </template>
                 <template v-else>
@@ -145,9 +171,16 @@
 </template>
 
 <script>
+import Pagination from './Pagination'
+import { getHeader, logout } from './config'
+
 export default {
     name: 'Agendamentos',
+    components: {
+        Pagination
+    },
     data: () => ({
+        pagination: {},
         places: [],
         description: "",
         showModalDescription: false,
@@ -168,31 +201,55 @@ export default {
             this.description = description
             this.showModalDescription = true
         },
-        excluir (id) {
-            this.$http.post('http://localhost:8000/api/delete-place', {place_id: id}).then(() => {
-                this.placeDeleteId = null
-                this.showModalPlaceDelete = false
-                this.getPlaces()
-            })
-        }, 
         formatValue (value) {
             return value.toLocaleString('pt-br', {minimumFractionDigits: 2})
         },
-        getPlaces () {
-            let userId = window.localStorage.getItem('user')
-            this.$http.post('http://localhost:8000/api/get-places', {user_id: userId}).then(response => {
-                this.places = response.body
+        excluir (id) {
+            this.$http.post('http://localhost:8000/api/delete-place', {place_id: id}, {headers: getHeader()}).then(() => {
+                this.placeDeleteId = null
+                this.showModalPlaceDelete = false
+                this.navigate()
+            }, error => {
+                console.log(error)
+                this.$store.dispatch('getUser', null)
+                logout()
             })
+        },
+        navigate (page = 1) {
+            let userId = window.localStorage.getItem('userId')
+            let params = {
+                user_id: userId,
+                page: page
+            }
+            this.$http.get('http://localhost:8000/api/get-places', {params, headers: getHeader()}).then(response => {
+                this.places = response.body.data
+                this.pagination = response.body
+            }, error => {
+                console.log(error)
+                this.$store.dispatch('getUser', null)
+                logout()
+            })
+        },
+        getUser () {
+            let userId = window.localStorage.getItem('userId')
+            if (userId) {
+                this.$http.post('http://localhost:8000/api/get-user', {user_id: userId}, {headers: getHeader()}).then(response => {
+                    this.$store.dispatch('getUser', response.body)
+                    this.navigate()
+                }, error => {
+                    console.log(error)
+                    this.$store.dispatch('getUser', null)
+                    logout()
+                })
+            } else {
+                this.$store.dispatch('getUser', null)
+                logout()
+            }
         }
     },
     created () {
-        let userId = window.localStorage.getItem('user')
-        if (userId) {
-            this.$http.post('http://localhost:8000/api/get-user', {user_id: userId}).then(response => {
-                this.$store.dispatch('getUser', response.body)
-            })
-        }
-        this.getPlaces()
+        this.getUser()
+        this.navigate()
     }
 }
 </script>

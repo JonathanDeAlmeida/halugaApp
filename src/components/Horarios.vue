@@ -34,7 +34,7 @@
                 <div style="clear:both"></div>
                 <div class="place-images-mobile">
                     <template v-for="(image, index) of place.images">
-                        <img v-if="index < 3" class="place-image-item-mobile" :src="'http://localhost:8000' + image.path" :key="index">
+                        <img v-if="index < 3" class="place-image-item-mobile" :src="apiDomain + image.path" :key="index">
                     </template>
                 </div>
             </div>
@@ -46,7 +46,7 @@
                     <div class="btn-all-photos-mobile text-center mb-4">
                         <button class="btn btn-info" @click="showModalAllPhotos = true">Ver Todas As Fotos</button>
                     </div>
-                    <template v-if="place.rent_value">
+                    <template v-if="place.intent === 'rent'">
                         <p class="place-rent-value">R$ {{ formatValue(place.rent_value) }} 
                         <span class="fs-15">/ mês</span>
                         </p>
@@ -107,21 +107,33 @@
 </template>
 
 <script>
-
+import { logout, getHeader, apiDomain } from './config'
 export default {
     name: 'Horarios',
     data: () => ({
         showModalAllPhotos: false,
-        place: null
+        place: null,
+        apiDomain: apiDomain
     }),
     methods: {
         formatValue (value) {
             return value.toLocaleString('pt-br', {minimumFractionDigits: 2})
+        },
+        getUser () {
+            let userId = window.localStorage.getItem('userId')
+            if (userId) {
+                this.$http.post('http://localhost:8000/api/get-user', {user_id: userId}, {headers: getHeader()}).then(response => {
+                    this.$store.dispatch('getUser', response.body)
+                }, error => {
+                    console.log(error)
+                    this.$store.dispatch('getUser', null)
+                    logout()
+                })
+            }
         }
     },
     created () {
-        window.localStorage.removeItem('user')
-        this.$store.dispatch('getUser', null)
+        this.getUser()
         if (this.$route.params.id) {
             this.$http.post('http://localhost:8000/api/get-place', {place_id: this.$route.params.id}).then(response => {
                 this.place = response.body

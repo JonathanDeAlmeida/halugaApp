@@ -1,5 +1,13 @@
 <template>
   <section>
+      <div v-if="$store.state.alert.status" :class="'alert-general ' + $store.state.alert.type">
+          <div :class="'border-alert ' + $store.state.alert.type">
+              <span>{{$store.state.alert.title}}</span>
+          </div>
+          <div>
+              <span>{{$store.state.alert.message}}</span>
+          </div>
+      </div>
       <Menu/>
       <router-view></router-view>
   </section>
@@ -269,7 +277,7 @@ export default {
   font-size: 15px;
 }
 .carousel-item {
-    height: 255px;
+    height: 265px;
 }
 .place-rent-value-detail {
   font-size: 30px;
@@ -285,9 +293,11 @@ export default {
   }
 }
 .responsible-place {
-  border: 1px solid black;
   margin-top: 50px;
   padding: 10px;
+  border: 1px solid #86868654;
+  border-radius: 5px;
+  box-shadow: 3px 3px 3px 3px#cccccc54;
 }
 .responsible-name {
   display: block;
@@ -298,6 +308,9 @@ export default {
   display: block;
   font-size: 18px;
   padding: 10px;
+}
+.cursor-pointer {
+  cursor: pointer;
 }
 .place-description-search {
   font-size: 16px;

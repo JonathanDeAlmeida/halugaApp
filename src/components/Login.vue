@@ -1,15 +1,6 @@
 <template>
     <div class="container mt-65">
 
-        <div v-if="$store.state.alert.status" :class="'alert-general ' + $store.state.alert.type">
-            <div :class="'border-alert ' + $store.state.alert.type">
-                <span>{{$store.state.alert.title}}</span>
-            </div>
-            <div>
-                <span>{{$store.state.alert.message}}</span>
-            </div>
-        </div>
-
         <div class="row text-center">
             <div class="col-md-12 text-center">
                 <p class="title-path">Login</p>
@@ -48,6 +39,7 @@
 </template>
 
 <script>
+import { getHeader } from './config'
 export default {
     name: 'Login',
     components: {
@@ -61,20 +53,33 @@ export default {
         },
     }),
     methods: {
-        formSubmit () {        
+        formSubmit () {
             this.$http.post('http://localhost:8000/api/login', this.form).then(response => {
                 if (response.body.user_enabled) {
-                    window.localStorage.setItem('user', response.body.user_id)
+                    window.localStorage.setItem('userId', response.body.userId)
+                    window.localStorage.setItem('authUser', response.body.authUser)
                     this.$router.push('/agendamentos')
                 } else {
                     this.$store.dispatch('getAlertDanger', response.body.message)
                 }
             })
+        },
+        getUser () {
+            let userId = window.localStorage.getItem('userId')
+            if (userId) {
+                this.$http.post('http://localhost:8000/api/get-user', {user_id: userId}, {headers: getHeader()}).then(response => {
+                    this.$store.dispatch('getUser', response.body)
+                    this.$router.push('/')
+                }, error => {
+                    console.log(error)
+                    this.$store.dispatch('getUser', null)
+                    window.localStorage.clear();
+                })
+            }
         }
     },
     created () {
-        window.localStorage.removeItem('user')
-        this.$store.dispatch('getUser', null)
+        this.getUser()
     }
 }
 

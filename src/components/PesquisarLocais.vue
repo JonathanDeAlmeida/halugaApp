@@ -48,7 +48,7 @@
                                     </option>
                                 </select>
                             </div>
-                            <div class="col-md-1 mb-25 mt-2">
+                        <div class="col-md-1 mb-25 mt-2">
                                 <label class="label-line">UF</label>
                                 <input v-model="form.state" class="input-line">    
                             </div>
@@ -118,15 +118,15 @@
             <div class="col-md-12">
                 <div class="float-right">
                     <button v-if="clearFilter" @click="clearFormFilter()" class="btn-general danger mr-2">Limpar Filtro</button>
-                    <button @click="getFilterPlace()" class="btn-general blue float-right">Buscar</button>
+                    <button @click="navigate()" class="btn-general blue float-right">Buscar</button>
                 </div>
             </div>
         </b-modal>
 
         <div class="container">
             <div class="row">
-                <div class="col-md-12 px-0">
-                    <div class="col-md-6 mb-25 float-right"> 
+                <div class="col-lg-10 mx-auto">
+                    <div class="mb-25 float-right"> 
                         <button @click="modalFilterShow = true" class="btn-general blue float-right">Filtrar</button>
                     </div>
                 </div>
@@ -138,14 +138,14 @@
                             <div class="row">
                                 <div class="col-lg-5 col-md-12 col-sm-12">
                                     <b-carousel :interval="0" controls>
-                                        <b-carousel-slide v-for="(image, index) of place.images" :img-src="'http://localhost:8000' + image.path" :key="index">
+                                        <b-carousel-slide v-for="(image, index) of place.images" :img-src="apiDomain + image.path" :key="index">
                                         </b-carousel-slide>
                                     </b-carousel>                                
                                 </div>
                                 <div class="col-lg-7 col-md-12 col-sm-12">
                                     <div class="place-details">
                                         <div style="padding-left: 5px">
-                                            <template v-if="place.rent_value">
+                                            <template v-if="place.intent === 'rent'">
                                                 <p class="place-rent-value">R$ {{ formatValue(place.rent_value) }} 
                                                     <span class="fs-15">/ mês</span>
                                                 </p>
@@ -212,18 +212,28 @@
                         </div>
                     </div>
                 </template>
+                <div class="col-lg-3 mx-auto">
+                    <pagination :source="pagination" @navigate="navigate"></pagination>
+                </div>
             </div>
         </div>
     </section>
 </template>
 
 <script>
+import Pagination from './Pagination'
+import { logout, getHeader, apiDomain } from './config'
+
 export default {
   name: 'PesquisarLocais',
+    components: {
+        Pagination
+    },
     data: () => ({
         modalFilterShow: false,
         places: [],
         clearFilter: false,
+        apiDomain: apiDomain,
         form: {
             district: "",
             city: "",
@@ -243,9 +253,25 @@ export default {
             suites: ""
         },
         description: "",
-        showModalDescription: false
+        showModalDescription: false,
+        pagination: {}
     }),
-    methods: {   
+    methods: {
+        navigate (page = 1) {
+            this.modalFilterShow = false
+            let params = this.form
+            params.page = page
+            this.$http.get('http://localhost:8000/api/get-filter-place', {params}).then(response => {
+                    let formKeys = Object.keys(this.form)
+                    for (let key of formKeys) {
+                        if (this.form[key] !== "" && key !== 'page') {
+                            this.clearFilter = true
+                        }
+                    }
+                    this.places = response.body.data
+                    this.pagination = response.body
+            })
+        },
         limitText (value, limit) {
             if (value) {
                 return (value.length > limit ? value.substr(0, limit) : value)
@@ -275,30 +301,27 @@ export default {
                 suites: ""
             },
             this.clearFilter = false
-            this.getFilterPlace()
+            this.navigate()
         },
         formatValue (value) {
             return value.toLocaleString('pt-br', {minimumFractionDigits: 2})
         },
-        getFilterPlace () {
-            this.modalFilterShow = false
-            // let param = page ? page : this.form
-            // let resource = this.$resource('http://localhost:8000/api/get-filter-place{/form}');
-            this.$http.post('http://localhost:8000/api/get-filter-place', this.form).then(response => {
-                let formKeys = Object.keys(this.form)
-                for (let key of formKeys) {
-                    if (this.form[key] !== "") {
-                        this.clearFilter = true
-                    }
-                }
-                this.places = response.body
-            })
+        getUser () {
+            let userId = window.localStorage.getItem('userId')
+            if (userId) {
+                this.$http.post('http://localhost:8000/api/get-user', {user_id: userId}, {headers: getHeader()}).then(response => {
+                    this.$store.dispatch('getUser', response.body)
+                }, error => {
+                    console.log(error)
+                    this.$store.dispatch('getUser', null)
+                    logout()
+                })
+            }
         }
     },
     created () {
-        this.getFilterPlace()
-        window.localStorage.removeItem('user')
-        this.$store.dispatch('getUser', null)
+        this.getUser()
+        this.navigate()
     }
 }
 </script>
