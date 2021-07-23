@@ -16,6 +16,7 @@ import vue2Dropzone from 'vue2-dropzone'
 import slick from 'slick-carousel'
 // import jquery from 'jquery'
 import VueSlickCarousel from 'vue-slick-carousel'
+import VueStrap from 'vue-strap'
 
 Vue.config.productionTip = false
 
@@ -25,6 +26,7 @@ moment.locale('pt-BR')
 Vue.use(BootstrapVue)
 Vue.use(VueResource)
 Vue.use(Vuex)
+Vue.use(VueStrap)
 Vue.use(vue2Dropzone)
 Vue.use(VueSlickCarousel)
 Vue.use(slick)

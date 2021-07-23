@@ -1,6 +1,8 @@
 <template>
     <section class="mt-65">
 
+        <!-- <spinner v-model="spinnerShow" size="lg"></spinner> -->
+        
         <b-modal v-model="showModalDescription" hide-header hide-footer size="lg"> 
             <template>
                 <div class="col-md-12 modal-border">
@@ -173,11 +175,13 @@
 <script>
 import Pagination from './Pagination'
 import { getHeader, logout } from './config'
+// import spinner from 'vue-strap/src/Spinner'
 
 export default {
     name: 'Agendamentos',
     components: {
-        Pagination
+        Pagination,
+        // spinner
     },
     data: () => ({
         pagination: {},
@@ -185,7 +189,8 @@ export default {
         description: "",
         showModalDescription: false,
         showModalPlaceDelete: false,
-        placeDeleteId: null
+        placeDeleteId: null,
+        // spinnerShow: true
     }),
     methods: {
         openModalPlaceDelete (placeId) {

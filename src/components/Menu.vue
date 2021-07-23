@@ -1,16 +1,20 @@
 <template>
   <section>
-    <b-navbar toggleable="lg" type="dark" variant="dark">
+    <b-navbar toggleable="lg" variant="dark" style="background-color: #e63946 !important">
       <div class="container">
       
-        <b-navbar-brand v-if="$store.state.user">
-          <router-link to="/" class="mr-3">Haluga</router-link>
-          <router-link to="/agendamentos">Meus Imóveis</router-link>
+        <b-navbar-brand>
+          <router-link to="/" class="mr-3">
+            <img height="40" src="..\assets\logo-white.svg">
+          </router-link>
         </b-navbar-brand>
-        <b-navbar-brand v-else>
-          <router-link to="/">Haluga</router-link>
-        </b-navbar-brand>
-      
+
+        <template v-if="$store.state.user">
+          <router-link to="/agendamentos" class="link-menu">
+            <span>Meus Imóveis</span>
+          </router-link>
+        </template>
+
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       
         <b-collapse id="nav-collapse" is-nav>
@@ -18,10 +22,10 @@
             <b-navbar-nav class="ml-auto">
               <b-nav-item-dropdown right>
                 <template #button-content>
-                  <em>{{$store.state.user.name}}</em>
+                  <em class="color-white">{{$store.state.user.name}}</em>
                 </template>
                 <b-dropdown-item>              
-                  <router-link to="/editar-perfil">Editar Perfil</router-link>
+                  <router-link style="color: black; text-decoration: none" to="/editar-perfil">Editar Perfil</router-link>
                 </b-dropdown-item>
                 <b-dropdown-item>
                   <span @click.prevent="exit">Sair</span>
@@ -32,7 +36,7 @@
           <template v-else>
           <b-navbar-nav class="ml-auto">
             <b-nav-item right v-if="$route.path !== '/login' && $route.path !== '/cadastro-perfil'">
-              <router-link to="/login" v-if="!$store.state.user">Anúnciar Imóvel</router-link>
+              <router-link class="link-menu" to="/login" v-if="!$store.state.user">Anúnciar Imóvel</router-link>
             </b-nav-item>
           </b-navbar-nav>
           </template>

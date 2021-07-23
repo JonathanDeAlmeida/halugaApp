@@ -95,19 +95,19 @@
                         <div class="row">
                             <div class="col-md-3 mb-25">
                                 <label class="label-line">Valor Aluguel (Mínimo)</label>
-                                <input v-model="form.rentValueMin" class="input-line">
+                                <money id="rentValueMin" name="rentValueMin" v-model="form.rentValueMin" class="input-line" maxlength="14" v-bind="money"></money>
                             </div>
                             <div class="col-md-3 mb-25">
                                 <label class="label-line">Valor Aluguel (Máximo)</label>
-                                <input v-model="form.rentValueMax" class="input-line"> 
+                                <money id="rentValueMax" name="rentValueMax" v-model="form.rentValueMax" class="input-line" maxlength="14" v-bind="money"></money>
                             </div>
                             <div class="col-md-3 mb-25">
                                 <label class="label-line">Valor da Venda (Mínimo)</label>
-                                <input v-model="form.saleValueMin" class="input-line">
+                                <money id="saleValueMin" name="saleValueMin" v-model="form.saleValueMin" class="input-line" maxlength="14" v-bind="money"></money>
                             </div>
                             <div class="col-md-3 mb-25">
                                 <label class="label-line">Valor da Venda (Máximo)</label>
-                                <input v-model="form.saleValueMax" class="input-line"> 
+                                <money id="saleValueMax" name="saleValueMax" v-model="form.saleValueMax" class="input-line" maxlength="14" v-bind="money"></money>
                             </div>
                         </div>
 
@@ -223,11 +223,13 @@
 <script>
 import Pagination from './Pagination'
 import { logout, getHeader, apiDomain } from './config'
+import {Money} from 'v-money'
 
 export default {
   name: 'PesquisarLocais',
     components: {
-        Pagination
+        Pagination,
+        money: Money
     },
     data: () => ({
         modalFilterShow: false,
@@ -252,6 +254,14 @@ export default {
             vacancies: "",
             suites: ""
         },
+        money: {
+          decimal: ',',
+          thousands: '.',
+          prefix: '',
+          suffix: '',
+          precision: 2,
+          masked: false
+        },
         description: "",
         showModalDescription: false,
         pagination: {}
@@ -264,7 +274,7 @@ export default {
             this.$http.get('http://localhost:8000/api/get-filter-place', {params}).then(response => {
                     let formKeys = Object.keys(this.form)
                     for (let key of formKeys) {
-                        if (this.form[key] !== "" && key !== 'page') {
+                        if (this.form[key] !== "" && key !== 'page' && this.form[key] !== 0) {
                             this.clearFilter = true
                         }
                     }
@@ -282,24 +292,11 @@ export default {
             this.showModalDescription = true
         },
         clearFormFilter () {
-            this.form = {
-                district: "",
-                city: "",
-                state: "",
-                intent: "",
-                condition: "",
-                type: "",
-                areaMin: "",
-                areaMax: "",
-                rentValueMin: "",
-                rentValueMax: "",
-                saleValueMin: "",
-                saleValueMax: "",
-                rooms: "",
-                bathrooms: "",
-                vacancies: "",
-                suites: ""
-            },
+            let formKeys = Object.keys(this.form)
+            for (let key of formKeys) {
+                this.form[key] = ""
+            }
+            console.log(this.form)
             this.clearFilter = false
             this.navigate()
         },

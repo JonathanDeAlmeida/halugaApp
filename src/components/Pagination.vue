@@ -5,7 +5,7 @@
                 <a @click.prevent="nextPrev(source.current_page - 1)" class="page-link" href="">Voltar</a>
             </li>
             <li v-for="page in pages" :key="page" :class="source.current_page === page ? 'active' : ''" class="page-item">
-                <a @click.prevent="navigate(page)" class="page-link" href="">{{page}}</a>
+                <a v-if="page > source.current_page - 2 && page < source.current_page + 2" @click.prevent="navigate(page)" class="page-link" href="">{{page}}</a>
             </li>
             <li class="page-item">
                 <a @click.prevent="nextPrev(source.current_page + 1)" class="page-link" href="">Avançar</a>

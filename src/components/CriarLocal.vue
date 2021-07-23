@@ -1,5 +1,5 @@
 <template>
-    <div class="container mt-65">
+    <div class="container" :class="$route.params.id ? 'mt-65' : 'mt-5'">
 
         <div class="row">
             <div class="col-md-12">
@@ -51,7 +51,7 @@
                             </div>
                             <div class="col-lg-2 mb-25 mt-2">
                                 <label class="label-line">Contato</label>
-                                <ValidationProvider rules="required" v-slot="{ errors }">
+                                <ValidationProvider rules="required|integer" v-slot="{ errors }">
                                     <input v-model="form.phone" class="input-line">
                                     <span class="form-error">{{ errors[0] }}</span>
                                 </ValidationProvider>
@@ -63,10 +63,7 @@
                                 <template v-else>
                                     <label class="label-line">Valor de Venda</label>
                                 </template>
-                                <ValidationProvider rules="required|integer" v-slot="{ errors }">
-                                    <input v-model="form.value" class="input-line">
-                                    <span class="form-error">{{ errors[0] }}</span>
-                                </ValidationProvider>
+                                <money id="value" name="value" v-model="form.value" class="input-line" maxlength="14" v-bind="money"></money>
                             </div>
                             <div class="col-lg-2 mb-25 mt-2">         
                                 <label class="label-line">Área útil (m²)</label>                               
@@ -101,14 +98,14 @@
                                 </div>
                                 <div class="col-lg-2 mb-25">
                                     <label class="label-line">Valor do Condomínio (Opcional)</label>
-                                    <ValidationProvider rules="integer" v-slot="{ errors }">
+                                    <ValidationProvider rules="" v-slot="{ errors }">
                                         <input v-model="form.condominium_value" class="input-line">
                                         <span class="form-error">{{ errors[0] }}</span>
                                     </ValidationProvider> 
                                 </div>
                                 <div class="col-lg-2 mb-25">
                                     <label class="label-line">IPTU (Opcional)</label>
-                                    <ValidationProvider rules="integer" v-slot="{ errors }">
+                                    <ValidationProvider rules="" v-slot="{ errors }">
                                         <input v-model="form.iptu" class="input-line">
                                         <span class="form-error">{{ errors[0] }}</span>
                                     </ValidationProvider>
@@ -203,13 +200,15 @@
 import vue2Dropzone from 'vue2-dropzone'
 import 'vue2-dropzone/dist/vue2Dropzone.min.css'
 import { getHeaderFile, logout, getHeader, apiDomain } from './config'
+import {Money} from 'v-money'
 
 export default {
     name: 'CriarLocal',
     components: {
         'vuedropzone': vue2Dropzone,
         ValidationObserver,
-        ValidationProvider
+        ValidationProvider,
+        money: Money
     },
     data: () => ({
         dropzoneOptions: {
@@ -227,6 +226,14 @@ export default {
             dictDefaultMessage: 'Clique aqui ou Arraste para Adicionar as Imagens',
             dictRemoveFile: 'Remover',
             dictMaxFilesExceeded: 'Máximo de 10 imagens'
+        },
+        money: {
+          decimal: ',',
+          thousands: '.',
+          prefix: '',
+          suffix: '',
+          precision: 2,
+          masked: false
         },
         form: {
             id: null,
@@ -248,7 +255,7 @@ export default {
             bathrooms: null,
             suites: null,
             vacancies: null,
-            value: null,
+            value: 0,
             rent_value: null,
             sale_value: null,
             condominium_value: null,
@@ -299,6 +306,11 @@ export default {
             file.id = response.id
         },
         formSubmit () {
+            if (this.form.value === 0) {
+                let message = this.form.intent === 'rent' ? 'Deve ser inserido o valor do aluguel' : 'Deve ser inserido o valor de venda'
+                this.$store.dispatch('getAlertDanger', message)
+                return false
+            }
             if (this.form.intent === 'rent') {
                 this.form.rent_value = this.form.value
             } else {
