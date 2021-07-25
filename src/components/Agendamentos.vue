@@ -1,5 +1,5 @@
 <template>
-    <section class="mt-65">
+    <section class="mt-container mb-container">
 
         <!-- <spinner v-model="spinnerShow" size="lg"></spinner> -->
         
@@ -39,15 +39,6 @@
         </b-modal>
 
         <div class="container">
-            <div class="row">
-                <div class="col-lg-10 mx-auto">
-                    <div class="mb-25 float-right"> 
-                        <router-link class="btn-general green float-right" to="/criar-local">
-                            Cadastrar Imóvel
-                        </router-link>
-                    </div>
-                </div>
-            </div>
 
             <div class="row">
                 <template v-if="places.length > 0">
@@ -63,8 +54,8 @@
                                     </div>
                                 </template>
                                 <template v-else>
-                                    <div class="col-lg-5 col-md-12 col-sm-12 mb-2">
-                                        <div style="height: 255px; margin: 0" class="text-center place-border">
+                                    <div class="col-lg-5 col-md-12 col-sm-12">
+                                        <div class="text-center place-border no-image">
                                             <p class="mt-5"> Sem Imagem</p>
                                         </div>
                                     </div>
@@ -75,15 +66,15 @@
                                             <div class="row">
                                                 <div class="col-lg-7 col-md-12">
                                                 <template v-if="place.intent === 'rent'">
-                                                    <p class="place-rent-value">R$ {{ formatValue(place.rent_value) }} 
+                                                    <p class="place-rent-value mt-mobile">R$ {{ formatValue(place.rent_value) }} 
                                                     <span class="fs-15">/ mês</span>
                                                     </p>
                                                 </template>
                                                 <template v-else>
-                                                    <p class="place-rent-value">R$ {{ formatValue(place.sale_value) }} </p>
+                                                    <p class="place-rent-value mt-mobile">R$ {{ formatValue(place.sale_value) }} </p>
                                                 </template>
                                                 </div>
-                                                <div class="col-lg-5 col-md-12">
+                                                <div class="col-lg-5 col-md-12 mt-mobile">
                                                     <div class="btn-place-actions">
                                                         <button @click.prevent="openModalPlaceDelete(place.place_id)" class="btn btn-danger mr-2">Excluir</button>
                                                         <router-link class="btn btn-primary" :to="/editar-local/ + place.place_id">
@@ -105,7 +96,7 @@
                                                 <a class="d-inline" href="" @click.prevent="showDescription(place.description)">Ver Mais</a>
                                             </template>
                                             
-                                            <p class="place-address" :class="place.description ? '' : 'mt-5'">{{place.street}}, Bairro {{place.district}}, {{place.city}}</p>
+                                            <p class="place-address-responsible" :class="place.description ? '' : 'mt-5'">{{place.street}}, Bairro {{place.district}}, {{place.city}}</p>
                                         </div>
                                         <div class="container">
                                             <div class="row text-center">
@@ -131,7 +122,7 @@
                                                 </div>
                                                 <div class="width-place-button">
                                                     <div v-if="place.active">
-                                                        <router-link class="btn btn-info mt-3" :to="/horarios/ + place.place_id" target="_blank">
+                                                        <router-link class="btn btn-info mt-3" :to="/horarios/ + place.place_id">
                                                             Ver Detalhes
                                                         </router-link>
                                                     </div>
@@ -156,9 +147,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3 mx-auto">
-                        <pagination :source="pagination" @navigate="navigate"></pagination>
-                    </div>
+                    <pagination :source="pagination" @navigate="navigate"></pagination>
                 </template>
                 <template v-else>
                     <div class="col-lg-10 mx-auto">
@@ -206,18 +195,21 @@ export default {
             this.description = description
             this.showModalDescription = true
         },
-        formatValue (value) {
+        formatValue (valueNumber) {
+            let value = parseFloat(valueNumber)
             return value.toLocaleString('pt-br', {minimumFractionDigits: 2})
         },
         excluir (id) {
+            this.$store.dispatch('getSpinner', true)
             this.$http.post('http://localhost:8000/api/delete-place', {place_id: id}, {headers: getHeader()}).then(() => {
                 this.placeDeleteId = null
                 this.showModalPlaceDelete = false
                 this.navigate()
             }, error => {
-                console.log(error)
-                this.$store.dispatch('getUser', null)
-                logout()
+                if (error.status === 401) {
+                    this.$store.dispatch('getUser', null)
+                    logout()
+                }
             })
         },
         navigate (page = 1) {
@@ -229,10 +221,13 @@ export default {
             this.$http.get('http://localhost:8000/api/get-places', {params, headers: getHeader()}).then(response => {
                 this.places = response.body.data
                 this.pagination = response.body
+                window.scrollTo(0, 0)
+                this.$store.dispatch('getSpinner', false)
             }, error => {
-                console.log(error)
-                this.$store.dispatch('getUser', null)
-                logout()
+                if (error.status === 401) {
+                    this.$store.dispatch('getUser', null)
+                    logout()
+                }
             })
         },
         getUser () {
@@ -242,9 +237,10 @@ export default {
                     this.$store.dispatch('getUser', response.body)
                     this.navigate()
                 }, error => {
-                    console.log(error)
-                    this.$store.dispatch('getUser', null)
-                    logout()
+                    if (error.status === 401) {
+                        this.$store.dispatch('getUser', null)
+                        logout()
+                    }
                 })
             } else {
                 this.$store.dispatch('getUser', null)
@@ -253,8 +249,8 @@ export default {
         }
     },
     created () {
+        this.$store.dispatch('getSpinner', true)
         this.getUser()
-        this.navigate()
     }
 }
 </script>

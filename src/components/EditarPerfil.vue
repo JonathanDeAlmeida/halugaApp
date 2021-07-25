@@ -1,5 +1,5 @@
 <template>
-    <div class="container mt-65">
+    <div class="container mt-container mb-container">
 
         <b-modal v-model="showModalUserDelete" hide-header hide-footer> 
             <template>
@@ -81,6 +81,7 @@ export default {
     }),
     methods: {
         formSubmit () {      
+            this.$store.dispatch('getSpinner', true)
             this.form.id = window.localStorage.getItem('userId')
             this.$http.post('http://localhost:8000/api/user-edit', this.form, {headers: getHeader()}).then(response => {
                 if (response.body.user_enabled) {
@@ -89,10 +90,12 @@ export default {
                 } else {
                     this.$store.dispatch('getAlertSuccess', response.body.message)
                 }
+                this.$store.dispatch('getSpinner', false)
             }, error => {
-                console.log(error)
-                this.$store.dispatch('getUser', null)
-                logout()
+                if (error.status === 401) {
+                    this.$store.dispatch('getUser', null)
+                    logout()
+                }
             })
         },
         getUserEdit () {
@@ -103,17 +106,22 @@ export default {
                     name: user.name,
                     email: user.email
                 }
+                this.$store.dispatch('getSpinner', false)
             })
         },
         excluir () {
+            this.$store.dispatch('getSpinner', true)
+            this.showModalUserDelete = false
             let userId = window.localStorage.getItem('userId')
             this.$http.post('http://localhost:8000/api/delete-user', {user_id: userId}, {headers: getHeader()}).then(() => {
+                this.$store.dispatch('getSpinner', false)
                 this.$store.dispatch('getUser', null)
                 logout()
             }, error => {
-                console.log(error)
-                this.$store.dispatch('getUser', null)
-                logout()
+                if (error.status === 401) {
+                    this.$store.dispatch('getUser', null)
+                    logout()
+                }
             })
         },
         getUser () {
@@ -121,10 +129,12 @@ export default {
             if (userId) {
                 this.$http.post('http://localhost:8000/api/get-user', {user_id: userId}, {headers: getHeader()}).then(response => {
                     this.$store.dispatch('getUser', response.body)
+                    this.getUserEdit()
                 }, error => {
-                    console.log(error)
-                    this.$store.dispatch('getUser', null)
-                    logout()
+                    if (error.status === 401) {
+                        this.$store.dispatch('getUser', null)
+                        logout()
+                    }
                 })
             } else {
                 this.$store.dispatch('getUser', null)
@@ -133,8 +143,8 @@ export default {
         }
     },
     created () {
+        this.$store.dispatch('getSpinner', true)
         this.getUser()
-        this.getUserEdit()
     }
 }
 

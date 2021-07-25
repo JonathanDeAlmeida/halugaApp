@@ -1,5 +1,5 @@
 <template>
-    <section>
+    <section class="mb-container">
 
         <b-modal v-model="showModalAllPhotos" hide-header hide-footer size="lg"> 
             <template v-if="place">
@@ -22,19 +22,27 @@
 
         <template v-if="place">
             <div class="w-100 mb-5">
-                <div class="place-images-desktop">
+                <div class="place-images-one">
                     <template v-for="(image, index) of place.images">
-                        <img v-if="index < 4" class="place-image-item-desktop" :src="'http://localhost:8000' + image.path" :key="index">
+                        <img v-if="index < 4" class="place-image-item-one" :src="'http://localhost:8000' + image.path" :key="index">
                     </template>
-
-                    <!-- <div style="width: 25%; height: 320px; float:left" :key="index" v-if="index < 4">
-                        <img class="place-image-item-desktop" :src="'http://localhost:8000' + image.path" :key="index">
-                    </div> -->
                 </div>
                 <div style="clear:both"></div>
-                <div class="place-images-mobile">
+                    <div class="place-images-two">
+                        <template v-for="(image, index) of place.images">
+                            <img v-if="index < 3" class="place-image-item-two" :src="apiDomain + image.path" :key="index">
+                        </template>
+                    </div>
+                <div style="clear:both"></div>
+                    <div class="place-images-three">
+                        <template v-for="(image, index) of place.images">
+                            <img v-if="index < 2" class="place-image-item-three" :src="apiDomain + image.path" :key="index">
+                        </template>
+                    </div>
+                <div style="clear:both"></div>
+                <div class="place-images-four">
                     <template v-for="(image, index) of place.images">
-                        <img v-if="index < 3" class="place-image-item-mobile" :src="apiDomain + image.path" :key="index">
+                        <img v-if="index < 1" class="place-image-item-four" :src="apiDomain + image.path" :key="index">
                     </template>
                 </div>
             </div>
@@ -47,12 +55,12 @@
                         <button class="btn btn-info" @click="showModalAllPhotos = true">Ver Todas As Fotos</button>
                     </div>
                     <template v-if="place.intent === 'rent'">
-                        <p class="place-rent-value">R$ {{ formatValue(place.rent_value) }} 
+                        <p class="place-rent-value text-center-mobile">R$ {{ formatValue(place.rent_value) }} 
                         <span class="fs-15">/ mês</span>
                         </p>
                     </template>
                     <template v-else>
-                        <p class="place-rent-value">R$ {{ formatValue(place.sale_value) }} </p>
+                        <p class="place-rent-value text-center-mobile">R$ {{ formatValue(place.sale_value) }} </p>
                     </template>
 
                     <template v-if="place.condominium_value">
@@ -86,7 +94,9 @@
                             <!-- <span class="material-icons-two-tone">airline_seat_individual_suite</span> -->
                         </div>
                     </div>
-                    <p class="place-address mt-4">{{place.street}}, Bairro {{place.district}}, {{place.city}}, {{place.complement}}</p>
+                    <p class="place-address mt-4 text-center-mobile">{{place.street}}, Bairro {{place.district}}, {{place.city}}
+                        <span v-if="place.complement"> , {{place.complement}} </span>
+                    </p>
                 </div>
                 <div class="col-md-4 mx-auto text-center">
                     <div class="btn-all-photos-desktop">
@@ -116,7 +126,8 @@ export default {
         apiDomain: apiDomain
     }),
     methods: {
-        formatValue (value) {
+        formatValue (valueNumber) {
+            let value = parseFloat(valueNumber)
             return value.toLocaleString('pt-br', {minimumFractionDigits: 2})
         },
         getUser () {
@@ -124,21 +135,31 @@ export default {
             if (userId) {
                 this.$http.post('http://localhost:8000/api/get-user', {user_id: userId}, {headers: getHeader()}).then(response => {
                     this.$store.dispatch('getUser', response.body)
+                    this.getPlace()
                 }, error => {
-                    console.log(error)
-                    this.$store.dispatch('getUser', null)
-                    logout()
+                    if (error.status === 401) {
+                        this.$store.dispatch('getUser', null)
+                        logout()
+                    }
                 })
+            } else {
+                this.getPlace()
+            }
+        },
+        getPlace () {
+            if (this.$route.params.id) {
+                this.$http.post('http://localhost:8000/api/get-place', {place_id: this.$route.params.id}).then(response => {
+                    this.place = response.body
+                    this.$store.dispatch('getSpinner', false)
+                })
+            } else {
+                this.$router.push('/')
             }
         }
     },
     created () {
+        this.$store.dispatch('getSpinner', true)
         this.getUser()
-        if (this.$route.params.id) {
-            this.$http.post('http://localhost:8000/api/get-place', {place_id: this.$route.params.id}).then(response => {
-                this.place = response.body
-            })
-        }
     }
 }
 </script>

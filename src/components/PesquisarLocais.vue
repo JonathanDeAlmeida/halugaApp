@@ -1,5 +1,5 @@
 <template>
-    <section class="mt-65">
+    <section class="mt-container mb-container">
 
         <b-modal v-model="showModalDescription" hide-header hide-footer size="lg"> 
             <template>
@@ -146,12 +146,12 @@
                                     <div class="place-details">
                                         <div style="padding-left: 5px">
                                             <template v-if="place.intent === 'rent'">
-                                                <p class="place-rent-value">R$ {{ formatValue(place.rent_value) }} 
+                                                <p class="place-rent-value mt-mobile">R$ {{ formatValue(place.rent_value) }} 
                                                     <span class="fs-15">/ mês</span>
                                                 </p>
                                             </template>
                                             <template v-else>
-                                                <p class="place-rent-value">R$ {{ formatValue(place.sale_value) }} </p>
+                                                <p class="place-rent-value mt-mobile">R$ {{ formatValue(place.sale_value) }} </p>
                                             </template>
 
                                             <template v-if="place.condominium_value">
@@ -211,10 +211,8 @@
                             <h3>Nenhum imóvel encontrado</h3>
                         </div>
                     </div>
-                </template>
-                <div class="col-lg-3 mx-auto">
-                    <pagination :source="pagination" @navigate="navigate"></pagination>
-                </div>
+                </template>       
+                <pagination :source="pagination" @navigate="navigate"></pagination>
             </div>
         </div>
     </section>
@@ -268,6 +266,7 @@ export default {
     }),
     methods: {
         navigate (page = 1) {
+            this.$store.dispatch('getSpinner', true)
             this.modalFilterShow = false
             let params = this.form
             params.page = page
@@ -280,6 +279,8 @@ export default {
                     }
                     this.places = response.body.data
                     this.pagination = response.body
+                    window.scrollTo(0, 0)
+                    this.$store.dispatch('getSpinner', false)
             })
         },
         limitText (value, limit) {
@@ -300,7 +301,8 @@ export default {
             this.clearFilter = false
             this.navigate()
         },
-        formatValue (value) {
+        formatValue (valueNumber) {
+            let value = parseFloat(valueNumber)
             return value.toLocaleString('pt-br', {minimumFractionDigits: 2})
         },
         getUser () {
@@ -309,14 +311,16 @@ export default {
                 this.$http.post('http://localhost:8000/api/get-user', {user_id: userId}, {headers: getHeader()}).then(response => {
                     this.$store.dispatch('getUser', response.body)
                 }, error => {
-                    console.log(error)
-                    this.$store.dispatch('getUser', null)
-                    logout()
+                    if (error.status === 401) {
+                        this.$store.dispatch('getUser', null)
+                        logout()
+                    }
                 })
             }
         }
     },
     created () {
+        this.$store.dispatch('getSpinner', true)
         this.getUser()
         this.navigate()
     }

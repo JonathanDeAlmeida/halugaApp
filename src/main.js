@@ -34,6 +34,7 @@ Vue.use(slick)
 const store = new Vuex.Store({
   state: {
     user: null,
+    spinner: false,
     alert: {
       status: false,
       title: "",
@@ -62,6 +63,9 @@ const store = new Vuex.Store({
   mutations: {
     setUser(state, data) {
       state.user = data
+    },
+    setSpinner(state, data) {
+      state.spinner = data
     },
     setAlertDanger(state, message) {
       state.alert.type = 'danger'
@@ -97,6 +101,9 @@ const store = new Vuex.Store({
     },
     getAlertSuccess(context, message) {
       context.commit('setAlertSuccess', message)    
+    },
+    getSpinner(context, data) {
+      context.commit('setSpinner', data)    
     }
   }
 })

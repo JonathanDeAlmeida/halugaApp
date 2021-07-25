@@ -1,5 +1,5 @@
 <template>
-    <div class="container" :class="$route.params.id ? 'mt-65' : 'mt-5'">
+    <div class="container mt-container mb-container" :class="$route.params.id ? 'mt-65' : 'mt-5'">
 
         <div class="row">
             <div class="col-md-12">
@@ -98,17 +98,19 @@
                                 </div>
                                 <div class="col-lg-2 mb-25">
                                     <label class="label-line">Valor do Condomínio (Opcional)</label>
-                                    <ValidationProvider rules="" v-slot="{ errors }">
+                                    <money id="condominium_value" name="condominium_value" v-model="form.condominium_value" class="input-line" maxlength="14" v-bind="money"></money>
+                                    <!-- <ValidationProvider rules="" v-slot="{ errors }">
                                         <input v-model="form.condominium_value" class="input-line">
                                         <span class="form-error">{{ errors[0] }}</span>
-                                    </ValidationProvider> 
+                                    </ValidationProvider>  -->
                                 </div>
                                 <div class="col-lg-2 mb-25">
                                     <label class="label-line">IPTU (Opcional)</label>
-                                    <ValidationProvider rules="" v-slot="{ errors }">
+                                    <money id="iptu" name="iptu" v-model="form.iptu" class="input-line" maxlength="14" v-bind="money"></money>
+                                    <!-- <ValidationProvider rules="" v-slot="{ errors }">
                                         <input v-model="form.iptu" class="input-line">
                                         <span class="form-error">{{ errors[0] }}</span>
-                                    </ValidationProvider>
+                                    </ValidationProvider> -->
                                 </div>
                                 <div class="col-lg-2 mb-25">
                                     <label class="label-line">Vagas (Opcional)</label>
@@ -258,8 +260,8 @@ export default {
             value: 0,
             rent_value: null,
             sale_value: null,
-            condominium_value: null,
-            iptu: null,
+            condominium_value: 0,
+            iptu: 0,
             description: null
         }
     }),
@@ -305,7 +307,7 @@ export default {
         addedDropZoneProfileFile: function (file, response) {
             file.id = response.id
         },
-        formSubmit () {
+        validateForm () {
             if (this.form.value === 0) {
                 let message = this.form.intent === 'rent' ? 'Deve ser inserido o valor do aluguel' : 'Deve ser inserido o valor de venda'
                 this.$store.dispatch('getAlertDanger', message)
@@ -316,8 +318,17 @@ export default {
             } else {
                 this.form.sale_value = this.form.value
             }
+            this.form.iptu = this.form.iptu === 0 ? null : this.form.iptu
+            this.form.condominium_value = this.form.condominium_value === 0 ? null : this.form.condominium_value
+            return true
+        },
+        formSubmit () {
+            if (!this.validateForm()) {
+                return false
+            }
             this.form.userId = window.localStorage.getItem('userId')
             let action = this.$route.params.id ? 'place-edit' : 'place-create'
+            this.$store.dispatch('getSpinner', true)
             this.$http.post('http://localhost:8000/api/' + action, this.form, {headers: getHeader()}).then(response => {
                 if (!this.$route.params.id) {
                     this.dropzoneOptions.params.place_id = response.body.id
@@ -330,9 +341,10 @@ export default {
                     this.getPlace(response.body.id)
                 }
             }, error => {
-                console.log(error)
-                this.$store.dispatch('getUser', null)
-                logout()
+                if (error.status === 401) {
+                    this.$store.dispatch('getUser', null)
+                    logout()
+                }
             })
         },
         getPlace (placeId) {
@@ -340,6 +352,7 @@ export default {
                 this.form = response.body
                 this.form.id = response.body.place_id
                 this.form.value = response.body.intent === 'rent' ? response.body.rent_value : response.body.sale_value
+                this.$store.dispatch('getSpinner', false)
             })
         },
         removedDropZoneProfileFile: function (file) {
@@ -350,31 +363,39 @@ export default {
             if (userId) {
                 this.$http.post('http://localhost:8000/api/get-user', {user_id: userId}, {headers: getHeader()}).then(response => {
                     this.$store.dispatch('getUser', response.body)
+                    if (this.$route.params.id) {
+                        this.getPlaceId()
+                    } else {
+                        this.$store.dispatch('getSpinner', false)
+                    }
                 }, error => {
-                    console.log(error)
-                    this.$store.dispatch('getUser', null)
-                    logout()
+                    if (error.status === 401) {
+                        this.$store.dispatch('getUser', null)
+                        logout()
+                    }
                 })
             } else {
                 this.$store.dispatch('getUser', null)
                 logout()
             }
-        }
-    },
-    created () {
-        this.getUser()
-        if (this.$route.params.id) {
+        },
+        getPlaceId () {
             this.dropzoneOptions.params.place_id = this.$route.params.id
             this.$http.post('http://localhost:8000/api/get-place-images', {place_id: this.$route.params.id}, {headers: getHeader()})
             .then(response => {
                 this.addStorageFile(response.body)
+                this.getPlace(this.$route.params.id)
             }, error => {
-                console.log(error)
-                this.$store.dispatch('getUser', null)
-                logout()
+                if (error.status === 401) {
+                    this.$store.dispatch('getUser', null)
+                    logout()
+                }
             })
-            this.getPlace(this.$route.params.id)
         }
+    },
+    created () {
+        this.$store.dispatch('getSpinner', true)
+        this.getUser()
     }
 }
 
