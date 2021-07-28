@@ -220,7 +220,7 @@
 
 <script>
 import Pagination from './Pagination'
-import { logout, getHeader, apiDomain } from './config'
+import { logout, getHeader, apiDomain, apiUrl } from './config'
 import {Money} from 'v-money'
 
 export default {
@@ -270,7 +270,7 @@ export default {
             this.modalFilterShow = false
             let params = this.form
             params.page = page
-            this.$http.get('http://localhost:8000/api/get-filter-place', {params}).then(response => {
+            this.$http.get(apiUrl + 'get-filter-place', {params}).then(response => {
                     let formKeys = Object.keys(this.form)
                     for (let key of formKeys) {
                         if (this.form[key] !== "" && key !== 'page' && this.form[key] !== 0) {
@@ -308,7 +308,7 @@ export default {
         getUser () {
             let userId = window.localStorage.getItem('userId')
             if (userId) {
-                this.$http.post('http://localhost:8000/api/get-user', {user_id: userId}, {headers: getHeader()}).then(response => {
+                this.$http.post(apiUrl + 'get-user', {user_id: userId}, {headers: getHeader()}).then(response => {
                     this.$store.dispatch('getUser', response.body)
                 }, error => {
                     if (error.status === 401) {

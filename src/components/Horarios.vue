@@ -117,7 +117,7 @@
 </template>
 
 <script>
-import { logout, getHeader, apiDomain } from './config'
+import { logout, getHeader, apiDomain, apiUrl } from './config'
 export default {
     name: 'Horarios',
     data: () => ({
@@ -133,7 +133,7 @@ export default {
         getUser () {
             let userId = window.localStorage.getItem('userId')
             if (userId) {
-                this.$http.post('http://localhost:8000/api/get-user', {user_id: userId}, {headers: getHeader()}).then(response => {
+                this.$http.post(apiUrl + 'get-user', {user_id: userId}, {headers: getHeader()}).then(response => {
                     this.$store.dispatch('getUser', response.body)
                     this.getPlace()
                 }, error => {
@@ -148,7 +148,7 @@ export default {
         },
         getPlace () {
             if (this.$route.params.id) {
-                this.$http.post('http://localhost:8000/api/get-place', {place_id: this.$route.params.id}).then(response => {
+                this.$http.post(apiUrl + 'get-place', {place_id: this.$route.params.id}).then(response => {
                     this.place = response.body
                     this.$store.dispatch('getSpinner', false)
                 })

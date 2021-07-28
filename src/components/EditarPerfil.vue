@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import { logout, getHeader } from './config'
+import { logout, getHeader, apiUrl } from './config'
 
 export default {
     name: 'EditarPerfil',
@@ -83,7 +83,7 @@ export default {
         formSubmit () {      
             this.$store.dispatch('getSpinner', true)
             this.form.id = window.localStorage.getItem('userId')
-            this.$http.post('http://localhost:8000/api/user-edit', this.form, {headers: getHeader()}).then(response => {
+            this.$http.post(apiUrl + 'user-edit', this.form, {headers: getHeader()}).then(response => {
                 if (response.body.user_enabled) {
                     this.$store.dispatch('getAlertSuccess', 'Usuário Editado Com Sucesso')
                     this.getUser()
@@ -100,7 +100,7 @@ export default {
         },
         getUserEdit () {
             let userId = window.localStorage.getItem('userId')
-            this.$http.post('http://localhost:8000/api/get-user', {user_id: userId}, {headers: getHeader()}).then(response => {
+            this.$http.post(apiUrl + 'get-user', {user_id: userId}, {headers: getHeader()}).then(response => {
                 let user = response.body
                 this.form = {
                     name: user.name,
@@ -113,7 +113,7 @@ export default {
             this.$store.dispatch('getSpinner', true)
             this.showModalUserDelete = false
             let userId = window.localStorage.getItem('userId')
-            this.$http.post('http://localhost:8000/api/delete-user', {user_id: userId}, {headers: getHeader()}).then(() => {
+            this.$http.post(apiUrl + 'delete-user', {user_id: userId}, {headers: getHeader()}).then(() => {
                 this.$store.dispatch('getSpinner', false)
                 this.$store.dispatch('getUser', null)
                 logout()
@@ -127,7 +127,7 @@ export default {
         getUser () {
             let userId = window.localStorage.getItem('userId')
             if (userId) {
-                this.$http.post('http://localhost:8000/api/get-user', {user_id: userId}, {headers: getHeader()}).then(response => {
+                this.$http.post(apiUrl + 'get-user', {user_id: userId}, {headers: getHeader()}).then(response => {
                     this.$store.dispatch('getUser', response.body)
                     this.getUserEdit()
                 }, error => {

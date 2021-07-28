@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import { getHeader } from './config'
+import { getHeader, apiUrl } from './config'
 export default {
     name: 'CadastroPerfil',
     components: {
@@ -79,7 +79,7 @@ export default {
     methods: {
         formSubmit () {        
             this.$store.dispatch('getSpinner', true)
-            this.$http.post('http://localhost:8000/api/user-create', this.form).then(response => {
+            this.$http.post(apiUrl + 'user-create', this.form).then(response => {
                 if (response.body.user_enabled) {
                     window.localStorage.setItem('userId', response.body.userId)
                     window.localStorage.setItem('authUser', response.body.authUser)
@@ -93,7 +93,7 @@ export default {
         getUser () {
             let userId = window.localStorage.getItem('userId')
             if (userId) {
-                this.$http.post('http://localhost:8000/api/get-user', {user_id: userId}, {headers: getHeader()}).then(response => {
+                this.$http.post(apiUrl + 'get-user', {user_id: userId}, {headers: getHeader()}).then(response => {
                     this.$store.dispatch('getUser', response.body)
                     this.$router.push('/')
                     this.$store.dispatch('getSpinner', false)
