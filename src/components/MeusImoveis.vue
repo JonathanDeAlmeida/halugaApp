@@ -77,9 +77,9 @@
                                                 <div class="col-lg-5 col-md-12 mt-mobile" style="padding-left: 0">
                                                     <div class="btn-place-actions">
                                                         <button @click.prevent="openModalPlaceDelete(place.place_id)" class="btn-general danger mr-2">Excluir</button>
-                                                        <router-link class="btn-general blue" :to="/editar-imovel/ + place.place_id">
+                                                        <button class="btn-general blue" @click.prevent="goTo('/editar-imovel/' + place.place_id)">
                                                             Editar
-                                                        </router-link>
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
