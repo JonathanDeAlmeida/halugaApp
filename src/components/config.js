@@ -1,5 +1,5 @@
-export const apiDomain = 'http://api.haluga.com/public'
-export const apiUrl = 'http://api.haluga.com/public/api/'
+export const apiDomain = 'https://api.haluga.com/public'
+export const apiUrl = 'https://api.haluga.com/public/api/'
 
 export const getHeader = function () {
   return {
