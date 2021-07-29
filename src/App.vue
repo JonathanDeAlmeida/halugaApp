@@ -57,7 +57,7 @@
       <Menu/>
       <router-view></router-view>
       <div v-if="$store.state.spinner" class="load">
-        <img height="200" src="./assets/spinner-roxo.gif">
+        <!-- <img height="200" src="./assets/spinner-roxo.gif"> -->
       </div>
       <template v-if="$route.name === 'CriarLocal' || $route.name === 'EditarLocal'">
         <div class="container mb-2">
