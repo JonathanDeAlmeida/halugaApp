@@ -201,7 +201,7 @@
 <script>
 import vue2Dropzone from 'vue2-dropzone'
 import 'vue2-dropzone/dist/vue2Dropzone.min.css'
-import { getHeaderFile, logout, getHeader, apiDomain } from './config'
+import { getHeaderFile, logout, getHeader, apiDomain, apiUrl } from './config'
 import {Money} from 'v-money'
 
 export default {
@@ -329,7 +329,7 @@ export default {
             this.form.userId = window.localStorage.getItem('userId')
             let action = this.$route.params.id ? 'place-edit' : 'place-create'
             this.$store.dispatch('getSpinner', true)
-            this.$http.post('http://localhost:8000/api/' + action, this.form, {headers: getHeader()}).then(response => {
+            this.$http.post(apiUrl + action, this.form, {headers: getHeader()}).then(response => {
                 if (!this.$route.params.id) {
                     this.dropzoneOptions.params.place_id = response.body.id
                     this.$router.push('editar-local/' + response.body.id)
@@ -348,7 +348,7 @@ export default {
             })
         },
         getPlace (placeId) {
-            this.$http.post('http://localhost:8000/api/get-place', {place_id: placeId}).then(response => {                
+            this.$http.post(apiUrl + 'get-place', {place_id: placeId}).then(response => {                
                 this.form = response.body
                 this.form.id = response.body.place_id
                 this.form.value = response.body.intent === 'rent' ? response.body.rent_value : response.body.sale_value
@@ -356,12 +356,12 @@ export default {
             })
         },
         removedDropZoneProfileFile: function (file) {
-            this.$http.post('http://localhost:8000/api/remove-file', {file_id: file.id}, {headers: getHeaderFile()})
+            this.$http.post(apiUrl + 'remove-file', {file_id: file.id}, {headers: getHeaderFile()})
         },
         getUser () {
             let userId = window.localStorage.getItem('userId')
             if (userId) {
-                this.$http.post('http://localhost:8000/api/get-user', {user_id: userId}, {headers: getHeader()}).then(response => {
+                this.$http.post(apiUrl + 'get-user', {user_id: userId}, {headers: getHeader()}).then(response => {
                     this.$store.dispatch('getUser', response.body)
                     if (this.$route.params.id) {
                         this.getPlaceId()
@@ -381,7 +381,7 @@ export default {
         },
         getPlaceId () {
             this.dropzoneOptions.params.place_id = this.$route.params.id
-            this.$http.post('http://localhost:8000/api/get-place-images', {place_id: this.$route.params.id}, {headers: getHeader()})
+            this.$http.post(apiUrl + 'get-place-images', {place_id: this.$route.params.id}, {headers: getHeader()})
             .then(response => {
                 this.addStorageFile(response.body)
                 this.getPlace(this.$route.params.id)

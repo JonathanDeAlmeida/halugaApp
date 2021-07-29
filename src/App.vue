@@ -79,6 +79,7 @@
 <script>
 import Menu from './components/Menu.vue'
 import './assets/style.css'
+import { apiUrl } from './config'
 
 export default {
   name: 'App',
@@ -119,7 +120,7 @@ export default {
       }
       this.showAlertDanger = true
       this.$store.dispatch('getSpinner', true)
-      this.$http.post('http://localhost:8000/api/help-create', this.form).then(() => {
+      this.$http.post(apiUrl + 'help-create', this.form).then(() => {
         this.$store.dispatch('getAlertSuccess', 'Mensagem enviada com sucesso')
       }, error => {
         console.log(error)

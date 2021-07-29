@@ -163,7 +163,7 @@
 
 <script>
 import Pagination from './Pagination'
-import { getHeader, logout } from './config'
+import { getHeader, logout, apiUrl } from './config'
 // import spinner from 'vue-strap/src/Spinner'
 
 export default {
@@ -201,7 +201,7 @@ export default {
         },
         excluir (id) {
             this.$store.dispatch('getSpinner', true)
-            this.$http.post('http://localhost:8000/api/delete-place', {place_id: id}, {headers: getHeader()}).then(() => {
+            this.$http.post(apiUrl + 'delete-place', {place_id: id}, {headers: getHeader()}).then(() => {
                 this.placeDeleteId = null
                 this.showModalPlaceDelete = false
                 this.navigate()
@@ -218,7 +218,7 @@ export default {
                 user_id: userId,
                 page: page
             }
-            this.$http.get('http://localhost:8000/api/get-places', {params, headers: getHeader()}).then(response => {
+            this.$http.get(apiUrl + 'get-places', {params, headers: getHeader()}).then(response => {
                 this.places = response.body.data
                 this.pagination = response.body
                 window.scrollTo(0, 0)
@@ -233,7 +233,7 @@ export default {
         getUser () {
             let userId = window.localStorage.getItem('userId')
             if (userId) {
-                this.$http.post('http://localhost:8000/api/get-user', {user_id: userId}, {headers: getHeader()}).then(response => {
+                this.$http.post(apiUrl + 'get-user', {user_id: userId}, {headers: getHeader()}).then(response => {
                     this.$store.dispatch('getUser', response.body)
                     this.navigate()
                 }, error => {

@@ -32,6 +32,8 @@
 </template>
 
 <script>
+import { apiUrl } from './config'
+
 export default {
     name: 'RecuperarSenha',
     components: {
@@ -45,7 +47,7 @@ export default {
     }),
     methods: {
         formSubmit () {        
-            this.$http.post('http://localhost:8000/api/recover-password', this.form).then(response => {
+            this.$http.post(apiUrl + 'recover-password', this.form).then(response => {
                 console.log(response)
                 if (response.body.not_found) {
                     this.$store.dispatch('getAlertDanger', response.body.message)
