@@ -79,7 +79,7 @@
 <script>
 import Menu from './components/Menu.vue'
 import './assets/style.css'
-import { apiUrl } from './config'
+import { apiUrl } from './components/config'
 
 export default {
   name: 'App',

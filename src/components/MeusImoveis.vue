@@ -74,10 +74,10 @@
                                                     <p class="place-rent-value mt-mobile">R$ {{ formatValue(place.sale_value) }} </p>
                                                 </template>
                                                 </div>
-                                                <div class="col-lg-5 col-md-12 mt-mobile">
+                                                <div class="col-lg-5 col-md-12 mt-mobile" style="padding-left: 0">
                                                     <div class="btn-place-actions">
                                                         <button @click.prevent="openModalPlaceDelete(place.place_id)" class="btn-general danger mr-2">Excluir</button>
-                                                        <router-link class="btn-general blue" :to="/editar-local/ + place.place_id">
+                                                        <router-link class="btn-general blue" :to="/editar-imovel/ + place.place_id">
                                                             Editar
                                                         </router-link>
                                                     </div>
@@ -122,9 +122,9 @@
                                                 </div>
                                                 <div class="width-place-button">
                                                     <div v-if="place.active">
-                                                        <router-link class="btn-general blue mt-3" :to="/horarios/ + place.place_id">
+                                                        <button class="btn-general blue mt-3" @click.prevent="goTo('/detalhes-imovel/' + place.place_id)">
                                                             Ver Detalhes
-                                                        </router-link>
+                                                        </button>
                                                     </div>
                                                     <div v-else>
                                                         <button disabled class="btn-general gray mt-3 cursor-pointer" title="Ver detalhes só estará disponível, quando o anúncio estiver ativo, quando tiver no mínimo 5 fotos">
@@ -167,7 +167,7 @@ import { getHeader, logout, apiUrl } from './config'
 // import spinner from 'vue-strap/src/Spinner'
 
 export default {
-    name: 'Agendamentos',
+    name: 'MeusImoveis',
     components: {
         Pagination,
         // spinner
@@ -198,6 +198,13 @@ export default {
         formatValue (valueNumber) {
             let value = parseFloat(valueNumber)
             return value.toLocaleString('pt-br', {minimumFractionDigits: 2})
+        },
+        goTo (path) {
+            this.$store.dispatch('getSpinner', true)
+            this.$router.push(path)
+            setTimeout(() => {
+                this.$store.dispatch('getSpinner', false)
+            }, 1000)
         },
         excluir (id) {
             this.$store.dispatch('getSpinner', true)

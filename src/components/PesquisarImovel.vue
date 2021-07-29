@@ -192,7 +192,7 @@
                                                 </div>
                                                 <div class="width-place-button">
                                                     <div>
-                                                        <router-link class="btn-general blue mt-3" :to="/horarios/ + place.place_id" target="_blank">
+                                                        <router-link class="btn-general blue mt-3" :to="/detalhes-imovel/ + place.place_id" target="_blank" style="display: inline-block">
                                                             Saber Mais
                                                         </router-link>
                                                     </div>
@@ -287,6 +287,9 @@ export default {
             if (value) {
                 return (value.length > limit ? value.substr(0, limit) : value)
             }
+        },
+        goTo (path) {
+            this.$router.push(path)
         },
         showDescription (description) {
             this.description = description

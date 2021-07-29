@@ -86,7 +86,7 @@ export default {
                     window.localStorage.setItem('userId', response.body.userId)
                     window.localStorage.setItem('authUser', response.body.authUser)
                     this.$store.dispatch('getSpinner', false)
-                    this.$router.push('/criar-local')
+                    this.$router.push('/cadastrar-imovel')
                 } else {
                     this.$store.dispatch('getAlertDanger', response.body.message)
                 }

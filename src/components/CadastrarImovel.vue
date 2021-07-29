@@ -205,7 +205,7 @@ import { getHeaderFile, logout, getHeader, apiDomain, apiUrl } from './config'
 import {Money} from 'v-money'
 
 export default {
-    name: 'CriarLocal',
+    name: 'CadastrarImovel',
     components: {
         'vuedropzone': vue2Dropzone,
         ValidationObserver,
@@ -332,7 +332,7 @@ export default {
             this.$http.post(apiUrl + action, this.form, {headers: getHeader()}).then(response => {
                 if (!this.$route.params.id) {
                     this.dropzoneOptions.params.place_id = response.body.id
-                    this.$router.push('editar-local/' + response.body.id)
+                    this.$router.push('editar-imovel/' + response.body.id)
                     this.$store.dispatch('getAlertSuccess', 'Local Cadastrado com Sucesso')
                     window.scrollTo(0, 0)
                     this.getPlace(response.body.id)

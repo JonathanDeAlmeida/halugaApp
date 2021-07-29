@@ -31,7 +31,7 @@
                 </ValidationObserver>
             </div>
             <div class="col-md-12 text-center">
-                <router-link class="d-block" to="/cadastro-perfil">Ainda não tenho cadastro</router-link>
+                <router-link class="d-block" to="/cadastrar-perfil">Ainda não tenho cadastro</router-link>
                 <!-- <router-link to="/recuperar-senha">Esqueci a senha</router-link> -->
             </div>
         </div>
@@ -59,7 +59,7 @@ export default {
                 if (response.body.user_enabled) {
                     window.localStorage.setItem('userId', response.body.userId)
                     window.localStorage.setItem('authUser', response.body.authUser)
-                    this.$router.push('/agendamentos')
+                    this.$router.push('/meus-imoveis')
                 } else {
                     this.$store.dispatch('getAlertDanger', response.body.message)
                 }

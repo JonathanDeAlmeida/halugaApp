@@ -1,12 +1,12 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import Agendamentos from './components/Agendamentos'
-import CriarLocal from './components/CriarLocal.vue'
-import CadastroPerfil from './components/CadastroPerfil.vue'
+import MeusImoveis from './components/MeusImoveis'
+import CadastrarImovel from './components/CadastrarImovel.vue'
+import CadastrarPerfil from './components/CadastrarPerfil.vue'
 import Login from './components/Login.vue'
-import PesquisarLocais from './components/PesquisarLocais.vue'
-import Horarios from './components/Horarios.vue'
+import PesquisarImovel from './components/PesquisarImovel.vue'
+import DetalhesImovel from './components/DetalhesImovel.vue'
 import EditarPerfil from './components/EditarPerfil.vue'
 import RecuperarSenha from './components/RecuperarSenha.vue'
 
@@ -15,9 +15,9 @@ Vue.use(VueRouter)
 
 const routes = [
     {
-        name: 'Agendamentos',
-        path: '/agendamentos',
-        component: Agendamentos
+        name: 'MeusImoveis',
+        path: '/meus-imoveis',
+        component: MeusImoveis
     },
     {
         name: 'RecuperarSenha',
@@ -25,19 +25,19 @@ const routes = [
         component: RecuperarSenha
     },
     {
-        name: 'CriarLocal',
-        path: '/criar-local',
-        component: CriarLocal
+        name: 'CadastrarImovel',
+        path: '/cadastrar-imovel',
+        component: CadastrarImovel
     },
     {
-        name: 'EditarLocal',
-        path: '/editar-local/:id',
-        component: CriarLocal
+        name: 'EditarImovel',
+        path: '/editar-imovel/:id',
+        component: CadastrarImovel
     },
     {
-        name: 'CadastroPerfil',
-        path: '/cadastro-perfil',
-        component: CadastroPerfil
+        name: 'CadastrarPerfil',
+        path: '/cadastrar-perfil',
+        component: CadastrarPerfil
     },
     {
         name: 'Login',
@@ -45,14 +45,14 @@ const routes = [
         component: Login
     },
     {
-        name: 'PesquisarLocais',
+        name: 'PesquisarImovel',
         path: '/',
-        component: PesquisarLocais
+        component: PesquisarImovel
     },
     {
-        name: 'Horarios',
-        path: '/horarios/:id',
-        component: Horarios
+        name: 'DetalhesImovel',
+        path: '/detalhes-imovel/:id',
+        component: DetalhesImovel
     },
     {
         name: 'EditarPerfil',

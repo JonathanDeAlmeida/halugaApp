@@ -24,7 +24,7 @@
                 </ValidationObserver>
             </div>
             <div class="col-md-12 text-center">
-                <router-link class="d-block" to="/cadastro-perfil">Ainda não tenho cadastro</router-link>
+                <router-link class="d-block" to="/cadastrar-perfil">Ainda não tenho cadastro</router-link>
                 <router-link to="/login">Fazer Login</router-link>
             </div>
         </div>

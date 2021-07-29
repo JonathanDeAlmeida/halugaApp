@@ -16,12 +16,12 @@
             
             <b-navbar-nav>
               <b-nav-item>
-                <span class="item-menu" @click.prevent="goTo('/agendamentos')">
+                <span class="item-menu" @click.prevent="goTo('/meus-imoveis')">
                   Meus Imóveis
                 </span>
               </b-nav-item>
               <b-nav-item>
-                <span class="item-menu" @click.prevent="goTo('/criar-local')">
+                <span class="item-menu" @click.prevent="goTo('/cadastrar-imovel')">
                   Cadastrar Imóvel
                 </span>
               </b-nav-item>
