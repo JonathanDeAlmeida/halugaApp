@@ -5,7 +5,7 @@
 
         <b-navbar-brand>
           <router-link to="/" class="mr-3">
-            <!-- <img height="40" src="..\assets\logo-white.svg"> -->
+            <img height="40" src="../static/logo-white.svg">
           </router-link>
         </b-navbar-brand>
 
