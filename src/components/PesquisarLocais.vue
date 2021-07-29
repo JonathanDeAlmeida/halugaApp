@@ -192,7 +192,7 @@
                                                 </div>
                                                 <div class="width-place-button">
                                                     <div>
-                                                        <router-link class="btn btn-primary mt-3" :to="/horarios/ + place.place_id" target="_blank">
+                                                        <router-link class="btn-general blue mt-3" :to="/horarios/ + place.place_id" target="_blank">
                                                             Saber Mais
                                                         </router-link>
                                                     </div>

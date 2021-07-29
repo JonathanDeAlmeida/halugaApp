@@ -63,14 +63,14 @@
         <div class="container mb-2">
           <div class="row">
             <div class="col-md-12">
-              <button class="btn btn-info float-right" @click.prevent="showModalHelp = true">Fale Conosco</button>
+              <button class="btn-general btn-contact float-right" @click.prevent="showModalHelp = true">Fale Conosco</button>
             </div>
           </div>
         </div>
       </template>
       <template v-else>
-        <div @click.prevent="showModalHelp = true" class="btn-contact" style="z-index: 5">
-          <button class="btn btn-info" @click.prevent="showModalHelp = true">Fale Conosco</button>
+        <div @click.prevent="showModalHelp = true" class="div-btn-contact">
+          <button class="btn-general btn-contact" @click.prevent="showModalHelp = true">Fale Conosco</button>
         </div>
       </template>
   </section>

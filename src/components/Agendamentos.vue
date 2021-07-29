@@ -76,8 +76,8 @@
                                                 </div>
                                                 <div class="col-lg-5 col-md-12 mt-mobile">
                                                     <div class="btn-place-actions">
-                                                        <button @click.prevent="openModalPlaceDelete(place.place_id)" class="btn btn-danger mr-2">Excluir</button>
-                                                        <router-link class="btn btn-primary" :to="/editar-local/ + place.place_id">
+                                                        <button @click.prevent="openModalPlaceDelete(place.place_id)" class="btn-general danger mr-2">Excluir</button>
+                                                        <router-link class="btn-general blue" :to="/editar-local/ + place.place_id">
                                                             Editar
                                                         </router-link>
                                                     </div>
@@ -122,12 +122,12 @@
                                                 </div>
                                                 <div class="width-place-button">
                                                     <div v-if="place.active">
-                                                        <router-link class="btn btn-info mt-3" :to="/horarios/ + place.place_id">
+                                                        <router-link class="btn-general blue mt-3" :to="/horarios/ + place.place_id">
                                                             Ver Detalhes
                                                         </router-link>
                                                     </div>
                                                     <div v-else>
-                                                        <button disabled class="btn btn-secondary mt-3 cursor-pointer" title="Ver detalhes só estará disponível, quando o anúncio estiver ativo, quando tiver no mínimo 5 fotos">
+                                                        <button disabled class="btn-general gray mt-3 cursor-pointer" title="Ver detalhes só estará disponível, quando o anúncio estiver ativo, quando tiver no mínimo 5 fotos">
                                                             Ver Detalhes
                                                         </button>
                                                     </div>

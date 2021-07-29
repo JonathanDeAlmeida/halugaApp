@@ -16,14 +16,14 @@
             
             <b-navbar-nav>
               <b-nav-item>
-                <router-link to="/agendamentos" class="item-menu">
-                  <span>Meus Imóveis</span>
-                </router-link>
+                <span class="item-menu" @click.prevent="goTo('/agendamentos')">
+                  Meus Imóveis
+                </span>
               </b-nav-item>
               <b-nav-item>
-                <router-link to="/criar-local" class="item-menu">
-                  <span>Cadastrar Imóvel</span>
-                </router-link>
+                <span class="item-menu" @click.prevent="goTo('/criar-local')">
+                  Cadastrar Imóvel
+                </span>
               </b-nav-item>
             </b-navbar-nav>
 

@@ -52,7 +52,7 @@
             <div class="row" v-if="place">
                 <div class="col-md-6">
                     <div class="btn-all-photos-mobile text-center mb-4">
-                        <button class="btn btn-info" @click="showModalAllPhotos = true">Ver Todas As Fotos</button>
+                        <button class="btn-general blue" @click="showModalAllPhotos = true">Ver Todas As Fotos</button>
                     </div>
                     <template v-if="place.intent === 'rent'">
                         <p class="place-rent-value text-center-mobile">R$ {{ formatValue(place.rent_value) }} 
@@ -100,7 +100,7 @@
                 </div>
                 <div class="col-md-4 mx-auto text-center">
                     <div class="btn-all-photos-desktop">
-                        <button class="btn btn-info" @click="showModalAllPhotos = true">Ver Todas As Fotos</button>
+                        <button class="btn-general blue" @click="showModalAllPhotos = true">Ver Todas As Fotos</button>
                     </div>
                     <div class="responsible-place">
                         <span class="responsible-name"><strong>Anunciante</strong> {{place.responsible_name}}</span>
