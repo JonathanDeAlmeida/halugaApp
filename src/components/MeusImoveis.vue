@@ -48,7 +48,7 @@
                                 <template v-if="place.images.length > 0">
                                     <div class="col-lg-5 col-md-12 col-sm-12">
                                         <b-carousel :interval="0" controls>
-                                            <b-carousel-slide v-for="(image, index) of place.images" :img-src="'http://localhost:8000' + image.path" :key="index">
+                                            <b-carousel-slide v-for="(image, index) of place.images" :img-src="domain + image.path" :key="index">
                                             </b-carousel-slide>
                                         </b-carousel>                                
                                     </div>
@@ -163,7 +163,7 @@
 
 <script>
 import Pagination from './Pagination'
-import { getHeader, logout, apiUrl } from './config'
+import { getHeader, logout, apiUrl, apiDomain } from './config'
 // import spinner from 'vue-strap/src/Spinner'
 
 export default {
@@ -173,6 +173,7 @@ export default {
         // spinner
     },
     data: () => ({
+        domain: apiDomain,
         pagination: {},
         places: [],
         description: "",

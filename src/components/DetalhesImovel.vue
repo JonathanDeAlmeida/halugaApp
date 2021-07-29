@@ -8,7 +8,7 @@
                 </div>
                 <div class="col-md-12" style="overflow:auto; height: 400px">
                     <div v-for="(image, index) of place.images" :key="index">
-                       <img class="mb-5" width="100%" height="auto" :src="'http://localhost:8000' + image.path">
+                       <img class="mb-5" width="100%" height="auto" :src="apiDomain + image.path">
                     </div>
                 </div>
                 <hr>
@@ -24,7 +24,7 @@
             <div class="w-100 mb-5">
                 <div class="place-images-one">
                     <template v-for="(image, index) of place.images">
-                        <img v-if="index < 4" class="place-image-item-one" :src="'http://localhost:8000' + image.path" :key="index">
+                        <img v-if="index < 4" class="place-image-item-one" :src="apiDomain + image.path" :key="index">
                     </template>
                 </div>
                 <div style="clear:both"></div>

@@ -215,7 +215,7 @@ export default {
     data: () => ({
         dropzoneOptions: {
             maxFiles: 10,
-            url: 'http://localhost:8000/api/upload-file',
+            url: apiUrl + 'upload-file',
             clickable: true,
             params: {
                 place_id: null
