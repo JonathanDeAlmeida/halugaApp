@@ -3,7 +3,7 @@
 
         <div class="row text-center">
             <div class="col-md-12 text-center">
-                <!-- <img width="100%" height="100" src="..\assets\logo-color.svg"> -->
+                <img width="100%" height="100" src="../static/logo-color.svg">
             </div>
         </div>
         <div class="row">
