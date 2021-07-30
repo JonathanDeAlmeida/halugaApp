@@ -126,11 +126,11 @@
                                                             Ver Detalhes
                                                         </button>
                                                     </div>
-                                                    <div v-else>
+                                                    <!-- <div v-else>
                                                         <button disabled class="btn-general gray mt-3 cursor-pointer" title="Ver detalhes só estará disponível, quando o anúncio estiver ativo, quando tiver no mínimo 5 fotos">
                                                             Ver Detalhes
                                                         </button>
-                                                    </div>
+                                                    </div> -->
                                                 </div>  
                                                 <div class="col-md-12 mt-2" style="padding: 0">
                                                     <div class="float-left">

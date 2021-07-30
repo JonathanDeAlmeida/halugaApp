@@ -192,7 +192,7 @@
                                                 </div>
                                                 <div class="width-place-button">
                                                     <div>
-                                                        <router-link class="btn-general blue mt-3" :to="/detalhes-imovel/ + place.place_id" target="_blank" style="display: inline-block">
+                                                        <router-link class="btn-general blue mt-3 mb-3" :to="/detalhes-imovel/ + place.place_id" target="_blank" style="display: inline-block">
                                                             Saber Mais
                                                         </router-link>
                                                     </div>

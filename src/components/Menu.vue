@@ -9,11 +9,11 @@
           </router-link>
         </b-navbar-brand>
 
-        <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
-      
-        <b-collapse id="nav-collapse" is-nav>
-          <template v-if="$store.state.user">
-            
+        <template v-if="$store.state.user">
+
+          <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+          
+          <b-collapse id="nav-collapse" is-nav>
             <b-navbar-nav>
               <b-nav-item>
                 <span class="item-menu" @click.prevent="goTo('/meus-imoveis')">
@@ -26,7 +26,6 @@
                 </span>
               </b-nav-item>
             </b-navbar-nav>
-
             <b-navbar-nav class="ml-auto">
               <b-nav-item-dropdown>
                 <template #button-content>
@@ -39,20 +38,19 @@
                   <span>Sair</span>
                 </b-dropdown-item>
               </b-nav-item-dropdown>
-            </b-navbar-nav>
-            
-          </template>
-          <template v-else>
+            </b-navbar-nav>  
+          </b-collapse>
+        
+        </template>
+        <template v-else>
 
-            <b-navbar-nav class="ml-auto">
-              <b-nav-item right v-if="$route.path !== '/login' && $route.path !== '/cadastro-perfil'">
-                <router-link class="button-menu" to="/login">Anúnciar Imóvel</router-link>
-              </b-nav-item>
-            </b-navbar-nav>
-            
-          </template>
-
-        </b-collapse>
+          <b-navbar-nav class="ml-auto">
+            <b-nav-item right v-if="$route.path !== '/login' && $route.path !== '/cadastrar-perfil'">
+              <router-link class="button-menu" to="/login">Anúnciar Imóvel</router-link>
+            </b-nav-item>
+          </b-navbar-nav>
+          
+        </template>
 
       </div>
     </b-navbar>
