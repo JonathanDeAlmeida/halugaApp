@@ -468,6 +468,10 @@
     background-color: #e63946 !important;
     border: 2px solid  #e63946 !important;
     border-radius: 5px;
+    color: white;
+  }
+  .page-item.active .page-link:hover {
+    color: white;
   }
   .page-item .page-link {
     border: 2px solid  #e63946;
@@ -490,7 +494,7 @@
     font-size: 18px;
     color: white;
     text-decoration: none !important;
-    padding: 20px 10px;
+    padding: 23px 10px;
   }
   .item-menu:hover {
     color: #f6f6f6; 
