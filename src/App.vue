@@ -59,7 +59,7 @@
       <div v-if="$store.state.spinner" class="load">
         <img height="200" src="./static/spinner-roxo.gif">
       </div>
-      <template v-if="$route.name === 'CriarLocal' || $route.name === 'EditarLocal'">
+      <template v-if="$route.path === 'CadastrarImovel' || $route.name === 'EditarImovel'">
         <div class="container mb-2">
           <div class="row">
             <div class="col-md-12">
