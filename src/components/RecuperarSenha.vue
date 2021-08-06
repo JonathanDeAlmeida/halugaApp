@@ -68,7 +68,7 @@ import { required, email } from 'vee-validate/dist/rules';
 
 extend('required', {
     ...required,
-    message: 'O preenchimento do campo é obrigatório'
+    message: 'Preenchimento obrigatório'
 });
 extend('email', {
     ...email,

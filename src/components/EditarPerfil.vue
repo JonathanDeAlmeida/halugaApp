@@ -21,7 +21,7 @@
 
         <div class="row text-center">
             <div class="col-md-12 text-center">
-                <p class="title-path">Edição</p>
+                <p class="title-path">Editar Perfil</p>
             </div>
         </div>
 
@@ -49,7 +49,7 @@
                                 <input type="password" v-model="form.password" class="input-line">
                                 <small>Se não for preenchido permanecerá com a senha atual</small>
                             </div>
-                            <div class="col-md-2 mb-25" style="margin-top: 38px;">
+                            <div class="col-md-2 mb-25 link-delete-user">
                                 <a @click.prevent="showModalUserDelete = true" style="color: red" href="">Excluir meu usuário</a>
                             </div>
                         </div>
@@ -153,7 +153,7 @@ import { email, required } from 'vee-validate/dist/rules';
 
 extend('required', {
     ...required,
-    message: 'O preenchimento do campo é obrigatório'
+    message: 'Preenchimento obrigatório'
 });
 
 extend('email', {

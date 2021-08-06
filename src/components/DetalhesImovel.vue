@@ -63,11 +63,11 @@
                         <p class="place-rent-value text-center-mobile">R$ {{ formatValue(place.sale_value) }} </p>
                     </template>
 
-                    <template v-if="place.condominium_value">
+                    <template v-if="place.condominium_value > 0">
                         <p class="d-inline place-secondary-value">Condomínio R$ {{ formatValue(place.condominium_value) }}</p>
                         - 
                     </template>
-                    <p v-if="place.iptu" class="d-inline place-secondary-value">IPTU R$ {{ formatValue(place.iptu) }}</p>
+                    <p v-if="place.iptu > 0" class="d-inline place-secondary-value">IPTU R$ {{ formatValue(place.iptu) }}</p>
 
                     <div class="container">
                         <div class="row text-center">

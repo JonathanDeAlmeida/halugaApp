@@ -14,6 +14,16 @@
                             id="myVueDropzone"
                             :options="dropzoneOptions">
                         </vuedropzone>
+                        <div class="row" v-if="!form.active">
+                            <div class="col-md-6">
+                                <div class="mt-2">
+                                    <div class="alert alert-success" role="alert">
+                                        <!-- <span class="material-icons">arrow_back_ios</span> -->
+                                        Para ativar o anúncio devem ser inseridas no mínimo cinco imagens
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </template>       
 
@@ -241,6 +251,7 @@ export default {
             id: null,
             userId: null,
             imagePath: null,
+            active: null,
             intent: 'rent',
             condition: 'residencial',
             type: 'Apartamento',
@@ -258,8 +269,8 @@ export default {
             suites: null,
             vacancies: null,
             value: 0,
-            rent_value: null,
-            sale_value: null,
+            rent_value: 0,
+            sale_value: 0,
             condominium_value: 0,
             iptu: 0,
             description: null
@@ -306,6 +317,7 @@ export default {
         },
         addedDropZoneProfileFile: function (file, response) {
             file.id = response.id
+            this.getPlace(response.place_id)
         },
         validateForm () {
             if (this.form.value === 0) {
@@ -318,8 +330,6 @@ export default {
             } else {
                 this.form.sale_value = this.form.value
             }
-            this.form.iptu = this.form.iptu === 0 ? null : this.form.iptu
-            this.form.condominium_value = this.form.condominium_value === 0 ? null : this.form.condominium_value
             return true
         },
         formSubmit () {
@@ -356,7 +366,9 @@ export default {
             })
         },
         removedDropZoneProfileFile: function (file) {
-            this.$http.post(apiUrl + 'remove-file', {file_id: file.id}, {headers: getHeaderFile()})
+            this.$http.post(apiUrl + 'remove-file', {file_id: file.id}, {headers: getHeaderFile()}).then(response => {
+                this.getPlace(response.body.id)
+            })
         },
         getUser () {
             let userId = window.localStorage.getItem('userId')

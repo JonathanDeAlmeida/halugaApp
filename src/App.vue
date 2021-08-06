@@ -47,32 +47,40 @@
       </b-modal>
 
       <div v-if="$store.state.alert.status" :class="'alert-general ' + $store.state.alert.type">
-          <div :class="'border-alert ' + $store.state.alert.type">
+          <!-- <div :class="'border-alert ' + $store.state.alert.type">
               <span>{{$store.state.alert.title}}</span>
-          </div>
+          </div> -->
           <div>
               <span>{{$store.state.alert.message}}</span>
           </div>
       </div>
+      
       <Menu/>
       <router-view></router-view>
       <div v-if="$store.state.spinner" class="load">
         <img height="200" src="./static/spinner-roxo.gif">
       </div>
-      <template v-if="$route.name === 'CadastrarImovel' || $route.name === 'EditarImovel'">
-        <div class="container mb-2">
+      <div class="container mb-3">
+        <div class="row">
+          <div class="col-md-12">
+            <button class="btn-general btn-contact float-right" @click.prevent="showModalHelp = true">Fale Conosco</button>
+          </div>
+        </div>
+      </div>
+      <!-- <template v-if="$route.name === 'CadastrarImovel' || $route.name === 'EditarImovel'">
+        <div class="container mb-3">
           <div class="row">
             <div class="col-md-12">
               <button class="btn-general btn-contact float-right" @click.prevent="showModalHelp = true">Fale Conosco</button>
             </div>
           </div>
         </div>
-      </template>
-      <template v-else>
+      </template> -->
+      <!-- <template>
         <div @click.prevent="showModalHelp = true" class="div-btn-contact">
           <button class="btn-general btn-contact" @click.prevent="showModalHelp = true">Fale Conosco</button>
         </div>
-      </template>
+      </template> -->
   </section>
 </template>
 
@@ -136,7 +144,7 @@ import { required } from 'vee-validate/dist/rules';
 
 extend('required', {
     ...required,
-    message: 'O preenchimento do campo é obrigatório'
+    message: 'Preenchimento obrigatório'
 });
 
 </script>

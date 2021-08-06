@@ -94,7 +94,7 @@ import { required } from 'vee-validate/dist/rules';
 
 extend('required', {
     ...required,
-    message: 'O preenchimento do campo é obrigatório'
+    message: 'Preenchimento obrigatório'
 });
 
 </script>
