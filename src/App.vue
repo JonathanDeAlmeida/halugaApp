@@ -69,7 +69,7 @@
           </div>
         </div>
       </template>
-      <template>
+      <template v-else>
         <div @click.prevent="showModalHelp = true" class="div-btn-contact">
           <button class="btn-general btn-contact" @click.prevent="showModalHelp = true">Fale Conosco</button>
         </div>
