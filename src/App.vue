@@ -60,14 +60,7 @@
       <div v-if="$store.state.spinner" class="load">
         <img height="200" src="./static/spinner-roxo.gif">
       </div>
-      <div class="container mb-3">
-        <div class="row">
-          <div class="col-md-12">
-            <button class="btn-general btn-contact float-right" @click.prevent="showModalHelp = true">Fale Conosco</button>
-          </div>
-        </div>
-      </div>
-      <!-- <template v-if="$route.name === 'CadastrarImovel' || $route.name === 'EditarImovel'">
+      <template v-if="$route.name === 'CadastrarImovel' || $route.name === 'EditarImovel'">
         <div class="container mb-3">
           <div class="row">
             <div class="col-md-12">
@@ -75,12 +68,12 @@
             </div>
           </div>
         </div>
-      </template> -->
-      <!-- <template>
+      </template>
+      <template>
         <div @click.prevent="showModalHelp = true" class="div-btn-contact">
           <button class="btn-general btn-contact" @click.prevent="showModalHelp = true">Fale Conosco</button>
         </div>
-      </template> -->
+      </template>
   </section>
 </template>
 
