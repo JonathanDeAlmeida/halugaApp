@@ -1,7 +1,7 @@
 <template>
     <div class="container mt-container mb-container">
 
-        <div class="row text-center">
+        <div class="row text-center mb-3">
             <div class="col-md-12 text-center">
                 <img width="100%" height="100" src="../static/logo-color.svg">
             </div>

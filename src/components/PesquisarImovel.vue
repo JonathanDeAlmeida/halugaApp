@@ -1,18 +1,21 @@
 <template>
     <section class="mt-container mb-container">
 
-        <b-modal v-model="showModalDescription" hide-header hide-footer size="lg"> 
-            <template>
+        <b-modal v-model="showModalPlaceDetails" hide-header hide-footer size="lg"> 
+            <template v-if="placeDetails">
                 <div class="col-md-12 modal-border">
-                    <h4>Descrição</h4>
+                    <h4>Detalhes</h4>
                 </div>
                 <div class="col-md-12 text-justify">
-                    {{description}}
+                    <p><strong>Anunciante: </strong> {{placeDetails.responsible_name}}</p>
+                    <p><strong>Contato: </strong> {{placeDetails.phone}}</p>
+                    <p><strong>Endereço: </strong> <span v-html="textAddress(placeDetails, 1000)"></span></p>
+                    <p><strong>Descrição: </strong> {{placeDetails.description}}</p>
                 </div>
                 <hr>
                 <div class="col-md-12">
                     <div class="float-right">
-                        <button class="btn-general blue" @click="showModalDescription = false"> Fechar </button>
+                        <button class="btn-general blue" @click="showModalPlaceDetails = false"> Fechar </button>
                     </div>
                 </div>
             </template>
@@ -163,10 +166,10 @@
                                             <br>
                                             <template v-if="place.description">
                                                 <p class="place-description-search" v-html="limitText(place.description, 42)"></p>...
-                                                <a class="d-inline" href="" @click.prevent="showDescription(place.description)">Ver Mais</a>
+                                                <a class="d-inline" href="" @click.prevent="showPlaceDetails(place)">Ver Mais</a>
                                             </template>
                                             
-                                            <p class="place-address" :class="place.description ? '' : 'mt-5'">{{place.street}}, Bairro {{place.district}}, {{place.city}}</p>
+                                            <p class="place-address" v-html="textAddress(place, 55)" :class="place.description ? '' : 'mt-5'"></p>
                                         </div>
                                         <div class="container">
                                             <div class="row text-center">
@@ -260,8 +263,8 @@ export default {
           precision: 2,
           masked: false
         },
-        description: "",
-        showModalDescription: false,
+        placeDetails: null,
+        showModalPlaceDetails: false,
         pagination: {}
     }),
     methods: {
@@ -288,12 +291,16 @@ export default {
                 return (value.length > limit ? value.substr(0, limit) : value)
             }
         },
+        textAddress (place, limit) {
+            let address = place.street + ', ' + 'Bairro ' + place.district + ', ' + place.city
+            return (address.length > limit ? address.substr(0, limit) + '...' : address)
+        },
         goTo (path) {
             this.$router.push(path)
         },
-        showDescription (description) {
-            this.description = description
-            this.showModalDescription = true
+        showPlaceDetails (place) {
+            this.placeDetails = place
+            this.showModalPlaceDetails = true
         },
         clearFormFilter () {
             let formKeys = Object.keys(this.form)

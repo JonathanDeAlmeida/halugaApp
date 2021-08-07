@@ -1,7 +1,7 @@
 <template>
     <div class="container mt-container mb-container">
 
-        <div class="row text-center">
+        <div class="row text-center mb-3">
             <div class="col-md-12 text-center">
                 <img width="100%" height="100" src="../static/logo-color.svg">
             </div>
@@ -39,7 +39,7 @@
                                             <span class="form-error">{{ errors[0] }}</span>
                                         </ValidationProvider>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 mt-mobile-one">
                                         <label class="label-line">Confirmar Senha</label>                        
                                         <ValidationProvider rules="required|minmax:5,10|confirmed:confirmationPassword" v-slot="{ errors }">
                                             <input type="password" v-model="form.confirmPassword" class="input-line">

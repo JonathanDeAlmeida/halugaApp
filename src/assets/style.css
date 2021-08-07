@@ -218,6 +218,12 @@
       margin-top: 15px;
     }
   }
+  @media (max-width: 767px)
+  {
+    .mt-mobile-one { 
+      margin-top: 25px;
+    }
+  }
   .place-secondary-value {
     font-size: 16px;
   }
@@ -390,12 +396,14 @@
     border-radius: 20px !important;
     color: white !important;
     background-color: #1d3557;
+    /* background-color: #5e97e7; */
     padding: 10px 15px;
   }
 
   .button-menu:hover {
     color: #f6f6f6; 
     background: rgba(0, 0, 0, 0.1);
+    /* background: #5e97e7; */
     color: white;
   }
 
@@ -529,6 +537,9 @@
 
   .btn-general.blue {
     background-color: #1d3557;
+  }
+  .btn-general.blue-light {
+    background-color: #00a6fb;
   }
   .btn-general.green {
     background-color: rgb(26, 163, 79);
