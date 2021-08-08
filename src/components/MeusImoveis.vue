@@ -32,8 +32,8 @@
                 <hr>
                 <div class="col-md-12">
                     <div class="float-right">
-                        <button class="btn-general blue mr-2" @click="showModalPlaceDelete = false"> Fechar </button>
-                        <button @click="excluir(placeDeleteId)" class="btn-general green">Confirmar</button>
+                        <button class="btn-general blue-light mr-2" @click="showModalPlaceDelete = false"> Fechar </button>
+                        <button @click="excluir(placeDeleteId)" class="btn-general blue">Confirmar</button>
                     </div>
                 </div>
             </template>
@@ -77,7 +77,7 @@
                                                 </div>
                                                 <div class="col-lg-5 col-md-12 mt-mobile" style="padding-left: 0">
                                                     <div class="btn-place-actions">
-                                                        <button @click.prevent="openModalPlaceDelete(place.place_id)" class="btn-general danger mr-2">Excluir</button>
+                                                        <button @click.prevent="openModalPlaceDelete(place.place_id)" class="btn-general blue-light mr-2">Excluir</button>
                                                         <button class="btn-general blue" @click.prevent="goTo('/editar-imovel/' + place.place_id)">
                                                             Editar
                                                         </button>
@@ -123,7 +123,7 @@
                                                 </div>
                                                 <div class="width-place-button">
                                                     <div v-if="place.active">
-                                                        <button class="btn-general blue mt-3" @click.prevent="goTo('/detalhes-imovel/' + place.place_id)">
+                                                        <button class="btn-general main mt-3" @click.prevent="goTo('/detalhes-imovel/' + place.place_id)">
                                                             Ver Detalhes
                                                         </button>
                                                     </div>

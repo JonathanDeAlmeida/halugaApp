@@ -1,8 +1,14 @@
   
   body {
     font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, sans-serif;
+    background-color: #fff;
   }
 
+  .navbar-main {
+    background-color: #e63946;
+    box-shadow: 0 1px 6px 0 rgb(0 0 0 / 30%);
+  }
+  
   .mb-25 {
     margin-bottom: 25px;
   }
@@ -388,6 +394,10 @@
       margin-bottom: 15px;
     }
   }
+  .btn-place-actions button {
+    font-size: 15px;
+    padding: 7px 14px;
+  }
 
   .button-menu {
     font-weight: 500;
@@ -425,7 +435,7 @@
   .load {
     position: fixed;
     background-color:rgb(255 255 255 / 90%);
-    z-index: 5;
+    z-index: 6;
     top: 0;
     right: 0;
     bottom: 0;
@@ -466,6 +476,10 @@
 
   .btn-contact {
     background-color: rgb(34, 34, 34) !important;
+    border-radius: 8px;
+    padding: 4px 8px;
+    border: none;
+    color: rgb(255, 255, 255);
   }
   
   .page-item {
@@ -511,15 +525,6 @@
     /* left: -100px !important; */
     border: 1px solid #00000036 !important;
   }
-  
-  /* .btn-general {
-    border: none;
-    border-radius: 50px;
-    padding: 5px 10px;
-    display: inline-block;
-    color: white !important;
-    text-decoration: none !important;
-  } */
 
   .btn-general {
     text-decoration: none !important;
@@ -535,11 +540,22 @@
     color: rgb(255, 255, 255);
   }
 
+  .btn-general.main {
+    background-color: #e63946;
+    font-size: 17px;
+    padding: 9px 18px;
+  }
   .btn-general.blue {
     background-color: #1d3557;
   }
   .btn-general.blue-light {
     background-color: #00a6fb;
+  }
+  .btn-general.blue-medium {
+    background-color: #457b9d;
+  }
+  .btn-general.blue-dark {
+    background-color: #264653;
   }
   .btn-general.green {
     background-color: rgb(26, 163, 79);
@@ -566,5 +582,16 @@
     .link-delete-user {
       margin-top: 0px;
       margin-bottom: 50px;
+    }
+  }
+
+  .cep-link {
+    padding-top: 36px;
+  }
+
+  @media (max-width: 991px)
+  {
+    .cep-link {
+      padding-top: 15px;
     }
   }

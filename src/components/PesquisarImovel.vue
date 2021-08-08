@@ -120,7 +120,7 @@
             <hr>
             <div class="col-md-12">
                 <div class="float-right">
-                    <button v-if="clearFilter" @click="clearFormFilter()" class="btn-general danger mr-2">Limpar Filtro</button>
+                    <button v-if="clearFilter" @click="clearFormFilter()" class="btn-general blue-light mr-2">Limpar Filtro</button>
                     <button @click="navigate()" class="btn-general blue float-right">Buscar</button>
                 </div>
             </div>
@@ -130,7 +130,7 @@
             <div class="row">
                 <div class="col-lg-10 mx-auto">
                     <div class="mb-25 float-right"> 
-                        <button @click="modalFilterShow = true" class="btn-general blue float-right">Filtrar</button>
+                        <button @click="modalFilterShow = true" class="btn-general blue-light float-right">Filtrar</button>
                     </div>
                 </div>
             </div>
@@ -195,7 +195,7 @@
                                                 </div>
                                                 <div class="width-place-button">
                                                     <div>
-                                                        <router-link class="btn-general blue mt-3 mb-3" :to="/detalhes-imovel/ + place.place_id" target="_blank" style="display: inline-block">
+                                                        <router-link class="btn-general main mt-3 mb-3" :to="/detalhes-imovel/ + place.place_id" target="_blank" style="display: inline-block">
                                                             Saber Mais
                                                         </router-link>
                                                     </div>

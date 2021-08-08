@@ -3,7 +3,7 @@
       <b-modal v-model="showModalHelp" hide-header hide-footer size="lg"> 
         <template>
           <div class="col-md-12 modal-border">
-            <h4>Fale Conosco</h4>
+            <h4>Ajuda</h4>
           </div>
           <div class="col-md-12">
             <p style="font-size: 15px">Envie um email para <strong>haluga.imoveis@gmail.com</strong> ou preencha os campos abaixo que entraremos em contato.</p>
@@ -32,7 +32,7 @@
                       </ValidationProvider>
                   </div>
                     <div class="mb-25">
-                      <button class="btn-general blue" type="submit">Enviar</button>
+                      <button class="btn-general blue-light" type="submit">Enviar</button>
                     </div>
                 </form>
             </ValidationObserver>
@@ -51,7 +51,9 @@
               <span>{{$store.state.alert.title}}</span>
           </div> -->
           <div>
-              <span>{{$store.state.alert.message}}</span>
+              <img v-if="$store.state.alert.type === 'success'" height="27" width="27" src="./static/success.png">
+              <img v-else height="27" width="27" src="./static/error.png">
+              <span class="pl-1">{{$store.state.alert.message}}</span>
           </div>
       </div>
       
@@ -65,14 +67,18 @@
         <div class="container mb-3">
           <div class="row">
             <div class="col-md-12">
-              <button class="btn-general btn-contact float-right" @click.prevent="showModalHelp = true">Fale Conosco</button>
+              <button class="btn-contact float-right" @click.prevent="showModalHelp = true">
+                <img height="27" width="27" src="./static/help.png">
+              </button>
             </div>
           </div>
         </div>
       </template>
       <template v-else>
         <div @click.prevent="showModalHelp = true" class="div-btn-contact">
-          <button class="btn-general btn-contact" @click.prevent="showModalHelp = true">Fale Conosco</button>
+          <button class="btn-contact" @click.prevent="showModalHelp = true">
+            <img height="27" width="27" src="./static/help.png">
+          </button>
         </div>
       </template>
   </section>

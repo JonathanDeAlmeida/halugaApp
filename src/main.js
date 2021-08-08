@@ -66,7 +66,7 @@ const store = new Vuex.Store({
         state.alert.type = ""
         state.alert.title = ""
         state.alert.message = ""
-      }, 5000)
+      }, 7000)
     },
     setAlertSuccess(state, message) {
       state.alert.type = 'success'
@@ -78,7 +78,7 @@ const store = new Vuex.Store({
         state.alert.type = ""
         state.alert.title = ""
         state.alert.message = ""
-      }, 5000)
+      }, 7000)
     }
   },
   actions: {

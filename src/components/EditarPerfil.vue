@@ -12,8 +12,8 @@
                 <hr>
                 <div class="col-md-12">
                     <div class="float-right">
-                        <button class="btn-general blue mr-2" @click="showModalUserDelete = false"> Fechar </button>
-                        <button @click="excluir()" class="btn-general green">Confirmar</button>
+                        <button class="btn-general blue-light mr-2" @click="showModalUserDelete = false"> Fechar </button>
+                        <button @click="excluir()" class="btn-general blue">Confirmar</button>
                     </div>
                 </div>
             </template>

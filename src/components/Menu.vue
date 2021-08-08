@@ -1,6 +1,6 @@
 <template>
   <section>
-    <b-navbar toggleable="lg" style="background-color: #e63946 !important;">
+    <b-navbar toggleable="lg" class="navbar-main">
       <div class="container">
 
         <b-navbar-brand>

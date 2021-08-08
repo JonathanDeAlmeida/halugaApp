@@ -147,7 +147,7 @@
                                     <span class="form-error">{{ errors[0] }}</span>
                                 </ValidationProvider>
                             </div>
-                            <div class="col-lg-2" style="padding-top: 36px">
+                            <div class="col-lg-2 mb-25 cep-link">
                                 <a class="float-left" href="http://www.buscacep.correios.com.br/sistemas/buscacep/" target="_blank">
                                     <u>Não sei meu CEP</u>
                                 </a>
