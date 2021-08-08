@@ -258,7 +258,8 @@
     font-size: 15px;
   }
   .carousel-item {
-      height: 230px;
+    /* height: 230px; */
+    height: 100%;
   }
   .no-image {
     height: 235px; 
