@@ -24,6 +24,10 @@ const store = new Vuex.Store({
   state: {
     user: null,
     spinner: false,
+    address: "",
+    intent: "rent",
+    condition: "residencial",
+    modalFilterShow: false,
     alert: {
       status: false,
       title: "",
@@ -31,6 +35,7 @@ const store = new Vuex.Store({
       message: ""
     },
     types: [
+      {value: 'Todos'},
       {value: 'Apartamento'},
       {value: 'Casa'},
       {value: 'Casa de condomínio'},
@@ -79,7 +84,19 @@ const store = new Vuex.Store({
         state.alert.title = ""
         state.alert.message = ""
       }, 7000)
-    }
+    },
+    setIntent(state, data) {
+      state.intent = data
+    },
+    setAddress(state, data) {
+      state.address = data
+    },
+    setCondition(state, data) {
+      state.condition = data
+    },
+    setModalFilterShow(state, data) {
+      state.modalFilterShow = data
+    },
   },
   actions: {
     getUser(context, params) {
@@ -93,7 +110,19 @@ const store = new Vuex.Store({
     },
     getSpinner(context, data) {
       context.commit('setSpinner', data)    
-    }
+    },
+    getIntent(context, data) {
+      context.commit('setIntent', data)    
+    },
+    getAddress(context, data) {
+      context.commit('setAddress', data)    
+    },
+    getCondition(context, data) {
+      context.commit('setCondition', data)    
+    },
+    getModalFilterShow(context, data) {
+      context.commit('setModalFilterShow', data)    
+    },
   }
 })
 

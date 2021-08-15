@@ -43,15 +43,28 @@
         
         </template>
         <template v-else>
-
-          <b-navbar-nav class="ml-auto">
-            <b-nav-item right v-if="$route.path !== '/login' && $route.path !== '/cadastrar-perfil'">
-              <router-link class="button-menu" to="/login">Anúnciar Imóvel</router-link>
-            </b-nav-item>
-          </b-navbar-nav>
-          
+          <template v-if="$route.path !== '/login' && $route.path !== '/cadastrar-perfil'">
+            <b-navbar-nav class="search-menu">
+              <b-dropdown class="mr-1" :text="$store.state.intent === 'rent' ? 'Alugar' : 'Comprar'">
+                <b-dropdown-item @click="$store.state.intent = 'rent'">Alugar</b-dropdown-item>
+                <b-dropdown-item @click="$store.state.intent = 'sell'">Comprar</b-dropdown-item>
+              </b-dropdown>
+              <b-dropdown :text="$store.state.condition === 'residencial' ? 'Residencial' : 'Comercial'">
+                <b-dropdown-item @click="$store.state.condition = 'residencial'">Residencial</b-dropdown-item>
+                <b-dropdown-item @click="$store.state.condition = 'comercial'">Comercial</b-dropdown-item>
+              </b-dropdown>
+              <input v-model="$store.state.address" placeholder="Adicionar uma rua, bairro ou cidade" class="input-search-menu">
+              <button class="btn-general blue float-right" @click.prevent="setFilter()">
+                Filtro
+              </button>
+            </b-navbar-nav>
+            <b-navbar-nav>
+              <b-nav-item right>
+                <router-link class="button-menu" to="/login">Anúnciar Imóvel</router-link>
+              </b-nav-item>
+            </b-navbar-nav>
+          </template>
         </template>
-
       </div>
     </b-navbar>
   </section>
@@ -64,6 +77,9 @@ export default {
     user: null
   }),
   methods: {
+    setFilter () {
+      this.$store.dispatch('getModalFilterShow', true)
+    },
     goTo (path) {
       this.$store.dispatch('getSpinner', true)
       this.$router.push(path)

@@ -1,5 +1,5 @@
 <template>
-    <section class="mt-container mb-container">
+    <section class="mt-container-search mb-container">
 
         <b-modal v-model="showModalPlaceDetails" hide-header hide-footer size="lg"> 
             <template v-if="placeDetails">
@@ -21,7 +21,7 @@
             </template>
         </b-modal>
 
-        <b-modal v-model="modalFilterShow" hide-header hide-footer size="lg"> 
+        <b-modal v-model="$store.state.modalFilterShow" hide-header hide-footer size="lg"> 
             <div class="col-md-12 modal-border">
                 <h4>Filtro</h4>
             </div>
@@ -29,21 +29,28 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="row">
-                            <div class="col-md-3 mb-25">
+                            <div class="col-md-12 col-lg-6 mb-25">
+                                <label class="label-line">Endereço</label>
+                                <input v-model="$store.state.address" class="input-line">
+                            </div>
+                            <div class="col-md-12 col-lg-3 mb-25">
                                 <label class="label-line">Intenção</label>
-                                <select class="select-line" v-model="form.intent">
+                                <select class="select-line" v-model="$store.state.intent">
                                     <option value="rent">Alugar</option>
                                     <option value="sell">Comprar</option>
                                 </select>
                             </div>
-                            <div class="col-md-4 mb-25">
+                            <div class="col-md-12 col-lg-3 mb-25">
                                 <label class="label-line">Condição</label>
-                                <select class="select-line" v-model="form.condition">
+                                <select class="select-line" v-model="$store.state.condition">
                                     <option value="residencial">Residencial</option>
                                     <option value="comercial">Comercial</option>
                                 </select>
                             </div>
-                            <div class="col-md-4 mb-25">
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12 col-lg-4 mb-25">
                                 <label class="label-line">Tipo</label>
                                 <select class="select-line" v-model="form.type">
                                     <option v-for="(type, index) of $store.state.types" :key="index">
@@ -51,66 +58,56 @@
                                     </option>
                                 </select>
                             </div>
-                        <div class="col-md-1 mb-25 mt-2">
-                                <label class="label-line">UF</label>
-                                <input v-model="form.state" class="input-line">    
+                            <div class="col-md-12 col-lg-2 mb-25">
+                                <label class="label-line">Banheiros</label>
+                                <select class="select-line" v-model="form.bathrooms">
+                                    <option v-for="(number, index) of quantities" :key="index" :value="number.value">
+                                        {{number.text}}
+                                    </option>
+                                </select>
                             </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-4 mb-25">
-                                <label class="label-line">Cidade</label>
-                                <input v-model="form.city" class="input-line">    
-                            </div>
-                            <div class="col-md-6 mb-25">
-                                <label class="label-line">Bairro</label>
-                                <input v-model="form.district" class="input-line">    
-                            </div>
-                            <div class="col-md-2 mb-25">
+                            <div class="col-md-12 col-lg-2 mb-25">
                                 <label class="label-line">Quartos</label>
-                                <input v-model="form.rooms" class="input-line">    
+                                <select class="select-line" v-model="form.rooms">
+                                    <option v-for="(number, index) of quantities" :key="index" :value="number.value">
+                                        {{number.text}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-md-12 col-lg-2 mb-25">
+                                <label class="label-line">Suítes</label>
+                                <select class="select-line" v-model="form.suites">
+                                    <option v-for="(number, index) of quantities" :key="index" :value="number.value">
+                                        {{number.text}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-md-12 col-lg-2 mb-25">
+                                <label class="label-line">Vagas</label>
+                                <select class="select-line" v-model="form.vacancies">
+                                    <option v-for="(number, index) of quantities" :key="index" :value="number.value">
+                                        {{number.text}}
+                                    </option>
+                                </select>   
                             </div>
                         </div>
                         
                         <div class="row">
-                            <div class="col-md-3 mb-25">
+                            <div class="col-md-12 col-lg-3 mb-25">
                                 <label class="label-line">Área útil (Mínima)</label>
                                 <input v-model="form.areaMin" class="input-line">   
                             </div>
-                            <div class="col-md-3 mb-25">
+                            <div class="col-md-12 col-lg-3 mb-25">
                                 <label class="label-line">Área útil (Máxima)</label>
                                 <input v-model="form.areaMax" class="input-line">  
                             </div>
-                            <div class="col-md-2 mb-25">
-                                <label class="label-line">Banheiros</label>
-                                <input v-model="form.bathrooms" class="input-line">    
+                            <div class="col-md-12 col-lg-3 mb-25">
+                                <label class="label-line">Faixa de Preço (Mínimo)</label>
+                                <money id="valueMin" name="valueMin" v-model="form.valueMin" class="input-line" maxlength="14" v-bind="money"></money>
                             </div>
-                            <div class="col-md-2 mb-25">
-                                <label class="label-line">Suítes</label>
-                                <input v-model="form.suites" class="input-line">    
-                            </div>
-                            <div class="col-md-2 mb-25">
-                                <label class="label-line">Vagas</label>
-                                <input v-model="form.vacancies" class="input-line">    
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-3 mb-25">
-                                <label class="label-line">Valor Aluguel (Mínimo)</label>
-                                <money id="rentValueMin" name="rentValueMin" v-model="form.rentValueMin" class="input-line" maxlength="14" v-bind="money"></money>
-                            </div>
-                            <div class="col-md-3 mb-25">
-                                <label class="label-line">Valor Aluguel (Máximo)</label>
-                                <money id="rentValueMax" name="rentValueMax" v-model="form.rentValueMax" class="input-line" maxlength="14" v-bind="money"></money>
-                            </div>
-                            <div class="col-md-3 mb-25">
-                                <label class="label-line">Valor da Venda (Mínimo)</label>
-                                <money id="saleValueMin" name="saleValueMin" v-model="form.saleValueMin" class="input-line" maxlength="14" v-bind="money"></money>
-                            </div>
-                            <div class="col-md-3 mb-25">
-                                <label class="label-line">Valor da Venda (Máximo)</label>
-                                <money id="saleValueMax" name="saleValueMax" v-model="form.saleValueMax" class="input-line" maxlength="14" v-bind="money"></money>
+                            <div class="col-md-12 col-lg-3 mb-25">
+                                <label class="label-line">Faixa de Preço (Máximo)</label>
+                                <money id="valueMax" name="valueMax" v-model="form.valueMax" class="input-line" maxlength="14" v-bind="money"></money>
                             </div>
                         </div>
 
@@ -121,16 +118,30 @@
             <div class="col-md-12">
                 <div class="float-right">
                     <button v-if="clearFilter" @click="clearFormFilter()" class="btn-general blue-light mr-2">Limpar Filtro</button>
+                    <button v-if="!clearFilter" @click="$store.state.modalFilterShow = false" class="btn-general blue-light mr-2">Fechar</button>
                     <button @click="navigate()" class="btn-general blue float-right">Buscar</button>
                 </div>
             </div>
         </b-modal>
 
         <div class="container">
-            <div class="row">
-                <div class="col-lg-10 mx-auto">
-                    <div class="mb-25 float-right"> 
-                        <button @click="modalFilterShow = true" class="btn-general blue-light float-right">Filtrar</button>
+            <div class="search-mobile">
+                <div class="row">
+                    <div class="col-lg-10 mx-auto mb-5">
+                        <ul class="ul-search-mobile">
+                            <input class="input-search-mobile" v-model="$store.state.address" placeholder="Adicionar uma rua, bairro ou cidade">
+                            <button class="btn-general blue float-right" @click.prevent="setFilter()">
+                                Filtro
+                            </button>
+                        </ul>
+                        <b-dropdown :text="$store.state.intent === 'rent' ? 'Alugar' : 'Comprar'">
+                            <b-dropdown-item @click="$store.state.intent = 'rent'">Alugar</b-dropdown-item>
+                            <b-dropdown-item @click="$store.state.intent = 'sell'">Comprar</b-dropdown-item>
+                        </b-dropdown>
+                        <b-dropdown class="float-right" :text="$store.state.condition === 'residencial' ? 'Residencial' : 'Comercial'">
+                            <b-dropdown-item @click="$store.state.condition = 'residencial'">Residencial</b-dropdown-item>
+                            <b-dropdown-item @click="$store.state.condition = 'comercial'">Comercial</b-dropdown-item>
+                        </b-dropdown>
                     </div>
                 </div>
             </div>
@@ -233,23 +244,25 @@ export default {
         money: Money
     },
     data: () => ({
-        modalFilterShow: false,
         places: [],
         clearFilter: false,
         apiDomain: apiDomain,
+        quantities: [
+            {'value': "", 'text': ''},
+            {'value': 1, 'text': '1+'},
+            {'value': 2, 'text': '2+'},
+            {'value': 3, 'text': '3+'},
+            {'value': 4, 'text': '4+'}
+        ],
         form: {
-            district: "",
-            city: "",
-            state: "",
+            address: "",
             intent: "",
             condition: "",
             type: "",
             areaMin: "",
             areaMax: "",
-            rentValueMin: "",
-            rentValueMax: "",
-            saleValueMin: "",
-            saleValueMax: "",
+            valueMin: "",
+            valueMax: "",
             rooms: "",
             bathrooms: "",
             vacancies: "",
@@ -268,15 +281,21 @@ export default {
         pagination: {}
     }),
     methods: {
+        openModalFilterShow () {
+            this.$store.dispatch('getModalFilterShow', true)
+        },
         navigate (page = 1) {
             this.$store.dispatch('getSpinner', true)
-            this.modalFilterShow = false
+            this.$store.dispatch('getModalFilterShow', false)
+            this.form.address = this.$store.state.address
+            this.form.intent = this.$store.state.intent
+            this.form.condition = this.$store.state.condition
             let params = this.form
             params.page = page
             this.$http.get(apiUrl + 'get-filter-place', {params}).then(response => {
                     let formKeys = Object.keys(this.form)
                     for (let key of formKeys) {
-                        if (this.form[key] !== "" && key !== 'page' && this.form[key] !== 0) {
+                        if (this.form[key] !== "residencial" && this.form[key] !== "rent" && this.form[key] !== "" && key !== 'page' && this.form[key] !== 0) {
                             this.clearFilter = true
                         }
                     }
@@ -307,13 +326,18 @@ export default {
             for (let key of formKeys) {
                 this.form[key] = ""
             }
-            console.log(this.form)
+            this.$store.dispatch('getIntent', "rent")
+            this.$store.dispatch('getCondition', "residencial")
+            this.$store.dispatch('getAddress', "")
             this.clearFilter = false
             this.navigate()
         },
         formatValue (valueNumber) {
             let value = parseFloat(valueNumber)
             return value.toLocaleString('pt-br', {minimumFractionDigits: 2})
+        },
+        setFilter () {
+            this.$store.dispatch('getModalFilterShow', true)
         },
         getUser () {
             let userId = window.localStorage.getItem('userId')
