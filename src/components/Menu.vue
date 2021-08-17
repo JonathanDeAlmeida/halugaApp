@@ -53,7 +53,9 @@
                 <b-dropdown-item @click="$store.state.condition = 'residencial'">Residencial</b-dropdown-item>
                 <b-dropdown-item @click="$store.state.condition = 'comercial'">Comercial</b-dropdown-item>
               </b-dropdown>
-              <input v-model="$store.state.address" placeholder="Adicionar uma rua, bairro ou cidade" class="input-search-menu">
+              <div style="width: 100%">
+                <input v-model="$store.state.address" placeholder="Adicionar uma rua, bairro ou cidade" class="input-search-menu">
+              </div>
               <button class="btn-general blue float-right" @click.prevent="setFilter()">
                 Filtro
               </button>
