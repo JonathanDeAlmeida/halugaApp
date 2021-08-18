@@ -599,28 +599,28 @@
 
   @media (max-width: 1200px)
   {
-    .div-dropdown-menu {
+    /* .div-dropdown-menu {
       width: 39% !important;
     }
     .div-btn-filter-menu {
       width: 12% !important;
-    }
-    .input-search-menu { 
+    } */
+    /* .input-search-menu { 
       width: 49% !important;
-    }
+    } */
   }
 
-  .div-dropdown-menu {
+  /* .div-dropdown-menu {
     width: 33%;
-  }
-  .div-btn-filter-menu {
+  } */
+  /* .div-btn-filter-menu {
     width: 10%;
-  }
-  .input-search-menu {
+  } */
+  /* .input-search-menu {
     border: none; 
     background-color: #e3e3e3; 
     width: 57%;
-  }
+  } */
 
   .input-search-menu:focus {
     box-shadow: 0 0 0 0 !important;
