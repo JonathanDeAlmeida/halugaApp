@@ -53,8 +53,10 @@
                 <b-dropdown-item @click="$store.state.condition = 'residencial'">Residencial</b-dropdown-item>
                 <b-dropdown-item @click="$store.state.condition = 'comercial'">Comercial</b-dropdown-item>
               </b-dropdown>
-              <input v-model="$store.state.address" placeholder="Adicionar uma rua, bairro ou cidade" 
-              style="border: none; background-color: #e3e3e3; width: 100%; display: inline">
+              <div style="display: inline; width: 100%;">
+                <input v-model="$store.state.address" placeholder="Adicionar uma rua, bairro ou cidade" 
+                style="border: none; background-color: #e3e3e3; width: 100%; display: inline">
+              </div>
               <button class="btn-general blue float-right d-inline" @click.prevent="setFilter()">
                 Filtro
               </button>
