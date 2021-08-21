@@ -408,10 +408,10 @@
     background-color: #1d3557;
     padding: 10px 15px;
   }
-
+  
   .button-menu:hover {
     color: white !important;
-    opacity: .75;
+    background-color: #015c8b;
   }
 
   .bg-main-color {
