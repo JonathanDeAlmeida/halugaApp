@@ -46,22 +46,27 @@
           <template v-if="$route.path !== '/login' && $route.path !== '/cadastrar-perfil'">
             <b-navbar-nav class="search-menu">
               
-              <b-dropdown class="mr-1" :text="intentText">
-                <b-dropdown-item @click="changeIntent('rent-residencial', 'Alugar - Residencial')">Alugar - Residencial</b-dropdown-item>
-                <b-dropdown-item @click="changeIntent('rent-comercial', 'Alugar - Comercial')">Alugar - Comercial</b-dropdown-item>
-                <b-dropdown-item @click="changeIntent('sell-residencial', 'Comprar - Residencial')">Comprar - Residencial</b-dropdown-item>
-                <b-dropdown-item @click="changeIntent('sell-comercial', 'Comprar - Comercial')">Comprar - Comercial</b-dropdown-item>
-              </b-dropdown>
+              <div class="w-100">
 
-              <button class="btn-general blue d-inline" @click.prevent="setFilter()">
-                Mais Filtros
-              </button>
-              
-              <div class="div-search-menu">
-                <input v-model="$store.state.address" placeholder="Adicionar uma rua, bairro ou cidade" class="input-search-menu">
-                <span class="material-icons mt-2 cursor-pointer" @click="searchAddress()">search</span>
+                <div class="d-inline-flex">
+                  <b-dropdown class="mr-1" :text="intentText">
+                    <b-dropdown-item @click="changeIntent('rent-residencial', 'Alugar - Residencial')">Alugar - Residencial</b-dropdown-item>
+                    <b-dropdown-item @click="changeIntent('rent-comercial', 'Alugar - Comercial')">Alugar - Comercial</b-dropdown-item>
+                    <b-dropdown-item @click="changeIntent('sell-residencial', 'Comprar - Residencial')">Comprar - Residencial</b-dropdown-item>
+                    <b-dropdown-item @click="changeIntent('sell-comercial', 'Comprar - Comercial')">Comprar - Comercial</b-dropdown-item>
+                  </b-dropdown>
+                  <button class="btn-general blue d-inline" @click.prevent="setFilter()">
+                    Mais Filtros
+                  </button>
+                </div>
+
+                <div class="div-search-menu float-right">
+                  <input v-model="$store.state.address" placeholder="Adicionar uma rua, bairro ou cidade" class="input-search-menu">
+                  <span class="material-icons ml-2 mt-2 cursor-pointer" @click="searchAddress()">search</span>
+                </div>
+
               </div>
-              
+            
             </b-navbar-nav>
             <b-navbar-nav>
               <b-nav-item right>
