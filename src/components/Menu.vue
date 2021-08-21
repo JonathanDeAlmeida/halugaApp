@@ -44,7 +44,7 @@
         </template>
         <template v-else>
           <template v-if="$route.path !== '/login' && $route.path !== '/cadastrar-perfil'">
-            <b-navbar-nav class="search-menu text-center">
+            <b-navbar-nav class="search-menu">
               
               <b-dropdown class="mr-1" :text="intentText">
                 <b-dropdown-item @click="changeIntent('rent-residencial', 'Alugar - Residencial')">Alugar - Residencial</b-dropdown-item>

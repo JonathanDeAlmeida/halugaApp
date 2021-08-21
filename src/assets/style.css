@@ -596,12 +596,13 @@
       width: 80% !important;
     }
     .div-search-menu {
-      width: 270px !important;
+      width: 255px!important;
     }
   }
 
   .div-search-menu {
-    width: 385px;
+    width: 370px;
+    display: inline-flex;
   }
 
   .input-search-menu {
