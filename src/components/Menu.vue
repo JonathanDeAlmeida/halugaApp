@@ -44,19 +44,24 @@
         </template>
         <template v-else>
           <template v-if="$route.path !== '/login' && $route.path !== '/cadastrar-perfil'">
-            <b-navbar-nav class="search-menu">
-              <b-dropdown class="mr-1" :text="$store.state.intent === 'rent' ? 'Alugar' : 'Comprar'">
-                <b-dropdown-item @click="$store.state.intent = 'rent'">Alugar</b-dropdown-item>
-                <b-dropdown-item @click="$store.state.intent = 'sell'">Comprar</b-dropdown-item>
+            <b-navbar-nav class="search-menu text-center">
+              
+              <b-dropdown class="mr-1" :text="intentText">
+                <b-dropdown-item @click="changeIntent('rent-residencial', 'Alugar - Residencial')">Alugar - Residencial</b-dropdown-item>
+                <b-dropdown-item @click="changeIntent('rent-comercial', 'Alugar - Comercial')">Alugar - Comercial</b-dropdown-item>
+                <b-dropdown-item @click="changeIntent('sell-residencial', 'Comprar - Residencial')">Comprar - Residencial</b-dropdown-item>
+                <b-dropdown-item @click="changeIntent('sell-comercial', 'Comprar - Comercial')">Comprar - Comercial</b-dropdown-item>
               </b-dropdown>
-              <b-dropdown :text="$store.state.condition === 'residencial' ? 'Residencial' : 'Comercial'">
-                <b-dropdown-item @click="$store.state.condition = 'residencial'">Residencial</b-dropdown-item>
-                <b-dropdown-item @click="$store.state.condition = 'comercial'">Comercial</b-dropdown-item>
-              </b-dropdown> 
-              <input v-model="$store.state.address" placeholder="Adicionar uma rua, bairro ou cidade" class="input-search-menu">
-              <button class="btn-general blue float-right d-inline" @click.prevent="setFilter()">
-                Filtro
+
+              <button class="btn-general blue d-inline" @click.prevent="setFilter()">
+                Mais Filtros
               </button>
+              
+              <div class="div-search-menu">
+                <input v-model="$store.state.address" placeholder="Adicionar uma rua, bairro ou cidade" class="input-search-menu">
+                <span class="material-icons mt-2 cursor-pointer" @click="searchAddress()">search</span>
+              </div>
+              
             </b-navbar-nav>
             <b-navbar-nav>
               <b-nav-item right>
@@ -74,11 +79,19 @@
 export default {
   name: 'Menu',
   data: () => ({
-    user: null
+    intentText: 'Alugar - Residencial'
   }),
   methods: {
     setFilter () {
       this.$store.dispatch('getModalFilterShow', true)
+    },
+    changeIntent (intent, intentText) {
+      this.$store.state.intent = intent
+      this.intentText = intentText
+      this.$store.dispatch('getSearch', !this.$store.state.search)
+    },
+    searchAddress () {
+      this.$store.dispatch('getSearch', !this.$store.state.search)
     },
     goTo (path) {
       this.$store.dispatch('getSpinner', true)

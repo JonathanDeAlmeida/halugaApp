@@ -28,7 +28,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="row">
+                        <!-- <div class="row">
                             <div class="col-md-12 col-lg-6 mb-25">
                                 <label class="label-line">Endereço</label>
                                 <input v-model="$store.state.address" class="input-line">
@@ -36,19 +36,13 @@
                             <div class="col-md-12 col-lg-3 mb-25">
                                 <label class="label-line">Intenção</label>
                                 <select class="select-line" v-model="$store.state.intent">
-                                    <option value="rent">Alugar</option>
-                                    <option value="sell">Comprar</option>
+                                    <option value="rent-residencial">Alugar - Residencial</option>
+                                    <option value="rent-comercial">Alugar - Comercial</option>
+                                    <option value="sell-residencial">Comprar - Residencial</option>
+                                    <option value="sell-comercial">Comprar - Comercial</option>
                                 </select>
                             </div>
-                            <div class="col-md-12 col-lg-3 mb-25">
-                                <label class="label-line">Condição</label>
-                                <select class="select-line" v-model="$store.state.condition">
-                                    <option value="residencial">Residencial</option>
-                                    <option value="comercial">Comercial</option>
-                                </select>
-                            </div>
-                        </div>
-
+                        </div> -->
                         <div class="row">
                             <div class="col-md-12 col-lg-4 mb-25">
                                 <label class="label-line">Tipo</label>
@@ -123,28 +117,30 @@
                 </div>
             </div>
         </b-modal>
-
-        <div class="container">
-            <div class="search-mobile">
+        
+        <div class="search-mobile">
+            <div class="container">
                 <div class="row">
-                    <div class="col-lg-10 mx-auto mb-5">
+                    <div class="col-lg-10 mx-auto mt-3 mb-5">
                         <ul class="ul-search-mobile">
-                            <input class="input-search-mobile" v-model="$store.state.address" placeholder="Adicionar uma rua, bairro ou cidade">
-                            <button class="btn-general blue float-right" @click.prevent="setFilter()">
-                                Filtro
-                            </button>
+                            <input class="input-search-place" v-model="$store.state.address" placeholder="Adicionar uma rua, bairro ou cidade">
+                            <span style="margin: 5px" class="material-icons cursor-pointer" @click="searchAddress()">search</span>
                         </ul>
-                        <b-dropdown :text="$store.state.intent === 'rent' ? 'Alugar' : 'Comprar'">
-                            <b-dropdown-item @click="$store.state.intent = 'rent'">Alugar</b-dropdown-item>
-                            <b-dropdown-item @click="$store.state.intent = 'sell'">Comprar</b-dropdown-item>
+                        <b-dropdown :text="intentText">
+                            <b-dropdown-item @click="changeIntent('rent-residencial', 'Alugar - Residencial')">Alugar - Residencial</b-dropdown-item>
+                            <b-dropdown-item @click="changeIntent('rent-comercial', 'Alugar - Comercial')">Alugar - Comercial</b-dropdown-item>
+                            <b-dropdown-item @click="changeIntent('sell-residencial', 'Comprar - Residencial')">Comprar - Residencial</b-dropdown-item>
+                            <b-dropdown-item @click="changeIntent('sell-comercial', 'Comprar - Comercial')">Comprar - Comercial</b-dropdown-item>
                         </b-dropdown>
-                        <b-dropdown class="float-right" :text="$store.state.condition === 'residencial' ? 'Residencial' : 'Comercial'">
-                            <b-dropdown-item @click="$store.state.condition = 'residencial'">Residencial</b-dropdown-item>
-                            <b-dropdown-item @click="$store.state.condition = 'comercial'">Comercial</b-dropdown-item>
-                        </b-dropdown>
+                        <button class="btn-general blue float-right" @click.prevent="setFilter()">
+                            Filtros
+                        </button>
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="container">
             <div class="row">
                 <template v-if="places.length > 0">
                     <div class="col-lg-10 mx-auto" v-for="(place, index) of places" :key="index">
@@ -255,14 +251,11 @@ export default {
             {'value': 4, 'text': '4+'}
         ],
         form: {
-            address: "",
-            intent: "",
-            condition: "",
             type: "",
             areaMin: "",
             areaMax: "",
-            valueMin: "",
-            valueMax: "",
+            valueMin: 0,
+            valueMax: 0,
             rooms: "",
             bathrooms: "",
             vacancies: "",
@@ -278,7 +271,8 @@ export default {
         },
         placeDetails: null,
         showModalPlaceDetails: false,
-        pagination: {}
+        pagination: {},
+        intentText: 'Alugar - Residencial'
     }),
     methods: {
         openModalFilterShow () {
@@ -287,15 +281,17 @@ export default {
         navigate (page = 1) {
             this.$store.dispatch('getSpinner', true)
             this.$store.dispatch('getModalFilterShow', false)
-            this.form.address = this.$store.state.address
-            this.form.intent = this.$store.state.intent
-            this.form.condition = this.$store.state.condition
-            let params = this.form
+            let params = {}
+            let formKeys = Object.keys(this.form)
+            for (let key of formKeys) {
+                params[key] = this.form[key]
+            }
             params.page = page
+            params.address = this.$store.state.address
+            params.intent = this.$store.state.intent
             this.$http.get(apiUrl + 'get-filter-place', {params}).then(response => {
-                    let formKeys = Object.keys(this.form)
                     for (let key of formKeys) {
-                        if (this.form[key] !== "residencial" && this.form[key] !== "rent" && this.form[key] !== "" && key !== 'page' && this.form[key] !== 0) {
+                        if (this.form[key] !== "" && this.form[key] !== 0) {
                             this.clearFilter = true
                         }
                     }
@@ -317,6 +313,14 @@ export default {
         goTo (path) {
             this.$router.push(path)
         },
+        changeIntent (intent, intentText) {
+            this.$store.state.intent = intent
+            this.intentText = intentText
+            this.$store.dispatch('getSearch', !this.$store.state.search)
+        },
+        searchAddress () {
+            this.$store.dispatch('getSearch', !this.$store.state.search)
+        },
         showPlaceDetails (place) {
             this.placeDetails = place
             this.showModalPlaceDetails = true
@@ -326,9 +330,6 @@ export default {
             for (let key of formKeys) {
                 this.form[key] = ""
             }
-            this.$store.dispatch('getIntent', "rent")
-            this.$store.dispatch('getCondition', "residencial")
-            this.$store.dispatch('getAddress', "")
             this.clearFilter = false
             this.navigate()
         },
@@ -351,6 +352,16 @@ export default {
                     }
                 })
             }
+        }
+    },
+    computed: {
+        search () {
+            return this.$store.state.search
+        }
+    },
+    watch: {
+        search () {
+           this.navigate()
         }
     },
     created () {
