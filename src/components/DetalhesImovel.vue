@@ -21,29 +21,41 @@
         </b-modal>
 
         <template v-if="place">
-            <div class="w-100 mb-5">
-                <div class="place-images-one">
-                    <template v-for="(image, index) of place.images">
-                        <img v-if="index < 4" class="place-image-item-one" :src="apiDomain + image.path" :key="index">
-                    </template>
-                </div>
-                <div style="clear:both"></div>
-                    <div class="place-images-two">
+            <div class="w-100 mb-4">
+                <div class="place-image-details-desktop">
+                    <div class="place-images-one">
                         <template v-for="(image, index) of place.images">
-                            <img v-if="index < 3" class="place-image-item-two" :src="apiDomain + image.path" :key="index">
+                            <img v-if="index < 4" class="place-image-item-one" :src="apiDomain + image.path" :key="index">
                         </template>
                     </div>
-                <div style="clear:both"></div>
+                    <div style="clear:both"></div>
+                        <div class="place-images-two">
+                            <template v-for="(image, index) of place.images">
+                                <img v-if="index < 3" class="place-image-item-two" :src="apiDomain + image.path" :key="index">
+                            </template>
+                        </div>
+                    <div style="clear:both"></div>
                     <div class="place-images-three">
                         <template v-for="(image, index) of place.images">
                             <img v-if="index < 2" class="place-image-item-three" :src="apiDomain + image.path" :key="index">
                         </template>
                     </div>
-                <div style="clear:both"></div>
-                <div class="place-images-four">
-                    <template v-for="(image, index) of place.images">
-                        <img v-if="index < 1" class="place-image-item-four" :src="apiDomain + image.path" :key="index">
-                    </template>
+                    <div style="clear:both"></div>
+                    <div class="place-images-four">
+                        <template v-for="(image, index) of place.images">
+                            <img v-if="index < 1" class="place-image-item-four" :src="apiDomain + image.path" :key="index">
+                        </template>
+                    </div>
+                </div>
+                <div class="place-image-details-mobile">
+                    <div class="row">
+                        <div class="col-lg-5 col-md-12 col-sm-12 place-details-carousel-mobile">
+                            <b-carousel :interval="0" controls>
+                                <b-carousel-slide v-for="(image, index) of place.images" :img-src="apiDomain + image.path" :key="index">
+                                </b-carousel-slide>
+                            </b-carousel>                                
+                        </div>
+                    </div>
                 </div>
             </div>
         </template>

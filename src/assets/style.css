@@ -411,7 +411,7 @@
   
   .button-menu:hover {
     color: white !important;
-    background-color: #015c8b;
+    background-color: #00517a;
   }
 
   .bg-main-color {
@@ -588,6 +588,35 @@
     .cep-link {
       padding-top: 15px;
     }
+  }
+
+  .place-image-details-desktop {
+    display: block;
+  }
+  .place-image-details-mobile {
+    display: none;
+  }
+  
+  @media (max-width: 500px)
+  {
+    .place-image-details-desktop {
+      display: none;
+    }
+    .place-image-details-mobile {
+      display: block;
+    }
+  }
+
+  .place-details-carousel-mobile {
+    padding: 0 !important;
+  }
+
+  .place-details-carousel-mobile .carousel-item {
+    height: 270px !important;
+  }
+
+  .place-details-carousel-mobile .carousel-item img {
+    height: 270px !important;
   }
 
   @media (max-width: 1199px)
