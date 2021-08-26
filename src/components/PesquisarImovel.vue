@@ -162,7 +162,7 @@
                             <b-dropdown-item @click="changeIntent('sell-residencial', 'Comprar - Residencial')">Comprar - Residencial</b-dropdown-item>
                             <b-dropdown-item @click="changeIntent('sell-comercial', 'Comprar - Comercial')">Comprar - Comercial</b-dropdown-item>
                         </b-dropdown>
-                        <button class="btn-general blue float-right" @click.prevent="setFilter()">
+                        <button style="padding: 8px 15px" class="btn-general blue float-right" @click.prevent="setFilter()">
                             Filtros
                         </button>
                     </div>
