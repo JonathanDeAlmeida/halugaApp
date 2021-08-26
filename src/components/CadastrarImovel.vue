@@ -61,10 +61,7 @@
                             </div>
                             <div class="col-lg-2 mb-25 mt-2">
                                 <label class="label-line">Contato</label>
-                                <ValidationProvider rules="required|integer" v-slot="{ errors }">
-                                    <input v-model="form.phone" class="input-line">
-                                    <span class="form-error">{{ errors[0] }}</span>
-                                </ValidationProvider>
+                                <masked-input v-model="form.phone" mask="(11) 11111-1111" class="input-line" />                                
                             </div>
                             <div class="col-lg-2 mb-25 mt-2">
                                 <template v-if="form.intent === 'rent'">
@@ -213,10 +210,12 @@ import vue2Dropzone from 'vue2-dropzone'
 import 'vue2-dropzone/dist/vue2Dropzone.min.css'
 import { getHeaderFile, logout, getHeader, apiDomain, apiUrl } from './config'
 import {Money} from 'v-money'
+import MaskedInput from 'vue-masked-input'
 
 export default {
     name: 'CadastrarImovel',
     components: {
+        MaskedInput,
         'vuedropzone': vue2Dropzone,
         ValidationObserver,
         ValidationProvider,
@@ -329,6 +328,10 @@ export default {
                 this.form.rent_value = this.form.value
             } else {
                 this.form.sale_value = this.form.value
+            }
+            this.form.phone = this.form.phone.replace(/[^\d]+/g,'')
+            if (this.form.phone.length < 10) {
+                this.$store.dispatch('getAlertDanger', 'Deve ser inserido um contato válido')
             }
             return true
         },
