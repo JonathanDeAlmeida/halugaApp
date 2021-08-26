@@ -130,7 +130,7 @@
                                 </ul>
                             </div>
                             <div style="width: 30%">
-                                <b-dropdown :text="intentText" class="float-right pr-1">
+                                <b-dropdown :text="intentText" class="float-right pr-2">
                                     <b-dropdown-item @click="changeIntent('rent-residencial', 'Alugar - Residencial')">Alugar - Residencial</b-dropdown-item>
                                     <b-dropdown-item @click="changeIntent('rent-comercial', 'Alugar - Comercial')">Alugar - Comercial</b-dropdown-item>
                                     <b-dropdown-item @click="changeIntent('sell-residencial', 'Comprar - Residencial')">Comprar - Residencial</b-dropdown-item>
