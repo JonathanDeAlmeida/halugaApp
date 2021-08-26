@@ -118,6 +118,36 @@
             </div>
         </b-modal>
         
+        <div v-if="$store.state.user">
+            <div class="container search-menu-user">
+                <div class="row">
+                    <div class="col-lg-10 mx-auto mb-4">
+                        <div class="row" style="padding: 0 15px">
+                            <div style="width: 60%">
+                                <ul class="ul-search-mobile">
+                                    <input class="input-search-place" v-model="$store.state.address" placeholder="Adicionar uma rua, bairro ou cidade">
+                                    <span style="margin: 5px" class="material-icons cursor-pointer" @click="searchAddress()">search</span>
+                                </ul>
+                            </div>
+                            <div style="width: 30%">
+                                <b-dropdown :text="intentText" class="float-right pr-1">
+                                    <b-dropdown-item @click="changeIntent('rent-residencial', 'Alugar - Residencial')">Alugar - Residencial</b-dropdown-item>
+                                    <b-dropdown-item @click="changeIntent('rent-comercial', 'Alugar - Comercial')">Alugar - Comercial</b-dropdown-item>
+                                    <b-dropdown-item @click="changeIntent('sell-residencial', 'Comprar - Residencial')">Comprar - Residencial</b-dropdown-item>
+                                    <b-dropdown-item @click="changeIntent('sell-comercial', 'Comprar - Comercial')">Comprar - Comercial</b-dropdown-item>
+                                </b-dropdown>
+                            </div>
+                            <div style="width: 10%">
+                                <button class="btn-general blue float-right" @click.prevent="setFilter()">
+                                    Filtros
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="search-mobile">
             <div class="container">
                 <div class="row">

@@ -240,9 +240,11 @@
   }
   .place-address {
     font-size: 16px;
+    padding-top: 10px;
   }
   .place-address-responsible {
     font-size: 16px;
+    padding-top: 10px;
     margin-bottom: 0;
   }
   .place-number {
@@ -299,7 +301,8 @@
   }
   .place-description-search {
     font-size: 16px;
-    margin: 10px 0;
+    margin-top: 10px;
+    margin-bottom: 0;
     display: inline-block;
   }
 
@@ -715,6 +718,10 @@
   .search-menu {
     display: block;
   }
+  .search-menu-user {
+    margin-top: -20px;
+    display: block;
+  }
   .search-mobile {
     display: none;
   }
@@ -727,6 +734,9 @@
       display: block;
     }
     .search-menu {
+      display: none !important;
+    }
+    .search-menu-user {
       display: none !important;
     }
     .mt-container-search {
