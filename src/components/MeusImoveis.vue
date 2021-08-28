@@ -8,7 +8,7 @@
                 </div>
                 <div class="col-md-12 text-justify">
                     <p><strong>Anunciante: </strong> {{placeDetails.responsible_name}}</p>
-                    <p><strong>Contato: </strong> {{placeDetails.phone}}</p>
+                    <p><strong>Contato: </strong> {{maskPhone(placeDetails.phone)}}</p>
                     <p><strong>Endereço: </strong> <span v-html="textAddress(placeDetails, 1000)"></span></p>
                     <p><strong>Descrição: </strong> {{placeDetails.description}}</p>
                 </div>
@@ -85,10 +85,10 @@
                                                 </div>
                                             </div>
 
-                                            <template v-if="place.condominium_value > 0">
-                                                <p class="d-inline place-secondary-value">Condomínio R$ {{ formatValue(place.condominium_value) }}</p>
-                                                - 
-                                            </template> 
+                                            <p v-if="place.condominium_value > 0" class="d-inline place-secondary-value">Condomínio R$ {{ formatValue(place.condominium_value) }}</p> 
+
+                                            <span v-if="place.condominium_value > 0 && place.iptu > 0"> - </span> 
+
                                             <p v-if="place.iptu > 0" class="d-inline place-secondary-value">IPTU R$ {{ formatValue(place.iptu) }}</p>
                                             
                                             <br>
@@ -164,7 +164,7 @@
 
 <script>
 import Pagination from './Pagination'
-import { getHeader, logout, apiUrl, apiDomain } from './config'
+import { getHeader, logout, apiUrl, apiDomain, maskPhone } from './config'
 // import spinner from 'vue-strap/src/Spinner'
 
 export default {
@@ -181,6 +181,7 @@ export default {
         showModalPlaceDetails: false,
         showModalPlaceDelete: false,
         placeDeleteId: null,
+        maskPhone: maskPhone
         // spinnerShow: true
     }),
     methods: {

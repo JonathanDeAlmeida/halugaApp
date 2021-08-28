@@ -8,7 +8,7 @@
                 </div>
                 <div class="col-md-12 text-justify">
                     <p><strong>Anunciante: </strong> {{placeDetails.responsible_name}}</p>
-                    <p><strong>Contato: </strong> {{placeDetails.phone}}</p>
+                    <p><strong>Contato: </strong> {{maskPhone(placeDetails.phone)}}</p>
                     <p><strong>Endereço: </strong> <span v-html="textAddress(placeDetails, 1000)"></span></p>
                     <p><strong>Descrição: </strong> {{placeDetails.description}}</p>
                 </div>
@@ -194,10 +194,10 @@
                                                 <p class="place-rent-value mt-mobile">R$ {{ formatValue(place.sale_value) }} </p>
                                             </template>
 
-                                            <template v-if="place.condominium_value > 0">
-                                                <p class="d-inline place-secondary-value">Condomínio R$ {{ formatValue(place.condominium_value) }}</p>
-                                                - 
-                                            </template> 
+                                            <p v-if="place.condominium_value > 0" class="d-inline place-secondary-value">Condomínio R$ {{ formatValue(place.condominium_value) }}</p>
+                                            
+                                            <span v-if="place.condominium_value > 0 && place.iptu > 0"> - </span> 
+                                             
                                             <p v-if="place.iptu > 0" class="d-inline place-secondary-value">IPTU R$ {{ formatValue(place.iptu) }}</p>
                                             
                                             <br>
@@ -260,7 +260,7 @@
 
 <script>
 import Pagination from './Pagination'
-import { logout, getHeader, apiDomain, apiUrl } from './config'
+import { logout, getHeader, apiDomain, apiUrl, maskPhone } from './config'
 import {Money} from 'v-money'
 
 export default {
@@ -273,6 +273,7 @@ export default {
         places: [],
         clearFilter: false,
         apiDomain: apiDomain,
+        maskPhone: maskPhone,
         quantities: [
             {'value': "", 'text': ''},
             {'value': 1, 'text': '1+'},

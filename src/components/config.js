@@ -22,3 +22,17 @@ export const getHeaderFile = function () {
     'Authorization': 'Bearer ' + window.localStorage.getItem('authUser')
   }
 }
+
+export const maskPhone = function (param) {
+  let phone = param.replace(/\D/g, '')
+  phone = phone.replace(/^0/, '')
+
+  if (phone.length > 11) {
+      phone = phone.replace(/^(\d\d)(\d{5})(\d{4}).*/, '($1) $2-$3')
+  } else if (phone.length > 7) {
+      phone = phone.replace(/^(\d\d)(\d{5})(\d{0,4}).*/, '($1) $2-$3')
+  } else if (phone.length > 2) {
+      phone = phone.replace(/^(\d\d)(\d{0,5})/, '($1) $2')
+  }
+  return phone
+}

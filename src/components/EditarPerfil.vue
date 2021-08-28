@@ -44,10 +44,13 @@
                                     <span class="form-error">{{ errors[0] }}</span>
                                 </ValidationProvider>  
                             </div>
-                            <div class="col-md-4 mb-25">
+                            <div class="col-md-2 mb-25">
                                 <label class="label-line">Senha</label>
                                 <input type="password" v-model="form.password" class="input-line">
-                                <small>Se não for preenchido permanecerá com a senha atual</small>
+                            </div>
+                            <div class="col-md-2 mb-25">
+                                <label class="label-line">Confirmar Senha</label> 
+                                <input type="password" v-model="form.confirmPassword" class="input-line">
                             </div>
                             <div class="col-md-2 mb-25 link-delete-user">
                                 <a @click.prevent="showModalUserDelete = true" style="color: red" href="">Excluir meu usuário</a>
@@ -76,11 +79,25 @@ export default {
         form: {
             name: null,
             email: null,
-            password: null
+            password: null,
+            confirmPassword: null
         }
     }),
     methods: {
-        formSubmit () {      
+        validateForm () {
+            if (this.form.password && this.form.password !== this.form.confirmPassword) {
+                return false
+            }
+            if (this.form.confirmPassword && this.form.confirmPassword !== this.form.password) {
+                return false
+            }
+            return true
+        },
+        formSubmit () {
+            if (!this.validateForm()) {
+                this.$store.dispatch('getAlertDanger', 'Os campos de confirmação de senha devem ser iguais')
+                return false
+            }
             this.$store.dispatch('getSpinner', true)
             this.form.id = window.localStorage.getItem('userId')
             this.$http.post(apiUrl + 'user-edit', this.form, {headers: getHeader()}).then(response => {
