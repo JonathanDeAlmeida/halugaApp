@@ -12,7 +12,7 @@
                 <ValidationObserver v-slot="{ handleSubmit }">
                     <form @submit.prevent="handleSubmit(formSubmit)">
                         <div class="row">
-                            <div class="col-md-4 mb-25 mx-auto">
+                            <div class="col-lg-4 col-md-6 mb-25 mx-auto">
                                 <label class="label-line">Nome</label>
                                 <ValidationProvider rules="required" v-slot="{ errors }">
                                     <input v-model="form.name" class="input-line">
@@ -21,7 +21,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-4 mb-25 mx-auto">
+                            <div class="col-lg-4 col-md-6 mb-25 mx-auto">
                                 <label class="label-line">Email</label>
                                 <ValidationProvider rules="required|email" v-slot="{ errors }">
                                     <input v-model="form.email" class="input-line">
@@ -30,7 +30,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-4 mb-25 mx-auto">
+                            <div class="col-lg-4 col-md-6 mb-25 mx-auto">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <label class="label-line">Senha</label>
@@ -50,8 +50,8 @@
                             </div>
                         </div>
                         <div class="row mt-4">
-                            <div class="col-md-4 mx-auto">
-                                <router-link class="btn-general green float-left" to="/login">Login</router-link>
+                            <div class="col-lg-4 col-md-6 mx-auto">
+                                <router-link class="btn-general blue-light float-left" to="/login">Login</router-link>
                                 <button type="submit" class="btn-general blue float-right">Cadastrar</button>
                             </div>
                         </div>
