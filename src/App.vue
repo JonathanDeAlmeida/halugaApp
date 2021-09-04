@@ -10,15 +10,15 @@
             <ValidationObserver v-slot="{ handleSubmit }">
                 <form @submit.prevent="handleSubmit(formSubmit)">
                   <div class="row">
-                      <div class="col-md-7">
+                      <div class="col-md-7 mb-3">
                         <label class="label-line">Email</label>
                         <input v-model="form.email" class="input-line">   
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4 mb-3">
                         <label class="label-line">Contato</label>
                         <input v-model="form.phone" class="input-line">
                     </div>
-                    <div v-if="showAlertDanger" class="col-md-12 mt-2">
+                    <div v-if="showAlertDanger" class="col-md-12">
                       <div class="alert alert-danger" role="alert">
                         Email ou contato devem ser preenchidos
                       </div>

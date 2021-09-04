@@ -39,7 +39,7 @@
             </template>
         </b-modal>
 
-        <div class="container">
+        <div class="container" v-if="load">
 
             <div class="row">
                 <template v-if="places.length > 0">
@@ -94,7 +94,7 @@
                                             <br>
                                             <template v-if="place.description">
                                                 <p class="place-description-search" v-html="limitText(place.description, 42)"></p>...
-                                                <a class="d-inline" href="" @click.prevent="showPlaceDetails(place)">Ver Mais</a>
+                                                <a class="link-blue-light d-inline" href="" @click.prevent="showPlaceDetails(place)">Ver Mais</a>
                                             </template>
                                             
                                             <p v-html="textAddress(place, 55)" class="place-address-responsible" :class="place.description ? '' : 'mt-5'"></p>
@@ -181,8 +181,8 @@ export default {
         showModalPlaceDetails: false,
         showModalPlaceDelete: false,
         placeDeleteId: null,
-        maskPhone: maskPhone
-        // spinnerShow: true
+        maskPhone: maskPhone,
+        load: false
     }),
     methods: {
         openModalPlaceDelete (placeId) {
@@ -236,12 +236,14 @@ export default {
                 this.places = response.body.data
                 this.pagination = response.body
                 window.scrollTo(0, 0)
+                this.load = true
                 this.$store.dispatch('getSpinner', false)
             }, error => {
                 if (error.status === 401) {
                     this.$store.dispatch('getUser', null)
                     logout()
                 }
+                this.load = true
             })
         },
         getUser () {

@@ -23,7 +23,7 @@
 
         <b-modal v-model="$store.state.modalFilterShow" hide-header hide-footer size="lg"> 
             <div class="col-md-12 modal-border">
-                <h4>Filtro</h4>
+                <h4>Filtros</h4>
             </div>
             <div class="container">
                 <div class="row">
@@ -203,7 +203,7 @@
                                             <br>
                                             <template v-if="place.description">
                                                 <p class="place-description-search" v-html="limitText(place.description, 42)"></p>...
-                                                <a class="d-inline" href="" @click.prevent="showPlaceDetails(place)">Ver Mais</a>
+                                                <a class="link-blue-light d-inline" href="" @click.prevent="showPlaceDetails(place)">Ver Mais</a>
                                             </template>
                                             
                                             <p class="place-address" v-html="textAddress(place, 55)" :class="place.description ? '' : 'mt-5'"></p>

@@ -31,7 +31,7 @@
                 </ValidationObserver>
             </div>
             <div class="col-md-12 text-center">
-                <router-link style="text-decoration: none" class="d-block" to="/cadastrar-perfil">Ainda não tenho cadastro</router-link>
+                <router-link class="link-blue d-block" to="/cadastrar-perfil">Ainda não tenho cadastro</router-link>
                 <!-- <router-link to="/recuperar-senha">Esqueci a senha</router-link> -->
             </div>
         </div>

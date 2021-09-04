@@ -527,6 +527,24 @@
     border: 1px solid #00000036 !important;
   }
 
+  .link-blue {
+    text-decoration: none;
+    color: #1d3557;
+  }
+  .link-blue:hover {
+    text-decoration: none;
+    color: #00a6fb;
+  }
+
+  .link-blue-light {
+    text-decoration: none;
+    color: #00a6fb;
+  }
+  .link-blue-light:hover {
+    text-decoration: none;
+    color: #1d3557;
+  }
+
   .btn-general {
     color: white !important;
     text-decoration: none !important;
