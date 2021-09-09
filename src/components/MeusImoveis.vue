@@ -103,7 +103,7 @@
                                             <div class="row text-center">
                                                 <div class="width-place-space" v-if="place.area">
                                                     <span class="place-number">{{place.area}}</span>
-                                                    <span class="place-space">Área (m²)</span>
+                                                    <span class="place-space">Área</span>
                                                 </div>
                                                 <div class="width-place-space" v-if="place.rooms">
                                                     <span class="place-number">{{place.rooms}}</span>
