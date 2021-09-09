@@ -73,7 +73,7 @@
                                 <money id="value" name="value" v-model="form.value" class="input-line" maxlength="14" v-bind="money"></money>
                             </div>
                             <div class="col-lg-2 mb-25 mt-2">         
-                                <label class="label-line">Área útil</label>                               
+                                <label class="label-line">Área útil (m²)</label>                               
                                 <ValidationProvider rules="required|integer" v-slot="{ errors }">
                                     <input v-model="form.area" class="input-line">
                                     <span class="form-error">{{ errors[0] }}</span>
