@@ -24,8 +24,11 @@ const store = new Vuex.Store({
   state: {
     user: null,
     spinner: false,
-    address: "",
-    intent: "rent-residencial",
+    addressType: "city",
+    city: "",
+    district: "",
+    street: "",
+    intent: "rent",
     search: false,
     modalFilterShow: false,
     alert: {
@@ -88,9 +91,6 @@ const store = new Vuex.Store({
     setIntent(state, data) {
       state.intent = data
     },
-    setAddress(state, data) {
-      state.address = data
-    },
     setModalFilterShow(state, data) {
       state.modalFilterShow = data
     },
@@ -113,9 +113,6 @@ const store = new Vuex.Store({
     },
     getIntent(context, data) {
       context.commit('setIntent', data)    
-    },
-    getAddress(context, data) {
-      context.commit('setAddress', data)    
     },
     getModalFilterShow(context, data) {
       context.commit('setModalFilterShow', data)    
