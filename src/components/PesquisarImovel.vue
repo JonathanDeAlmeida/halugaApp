@@ -225,7 +225,7 @@
                                                 <a class="link-blue-light d-inline" href="" @click.prevent="showPlaceDetails(place)">Ver Mais</a>
                                             </template>
                                             
-                                            <p class="place-address" v-html="textAddress(place, 55)" :class="place.description ? '' : 'mt-5'"></p>
+                                            <p class="place-address" v-html="textAddress(place, 50)" :class="place.description ? '' : 'mt-5'"></p>
                                         </div>
                                         <div class="container">
                                             <div class="row text-center">
