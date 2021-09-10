@@ -60,29 +60,29 @@
                                 </select>
                             </div>
                             <div class="col-lg-2 mb-25 mt-2">
-                                <label class="label-line">Contato</label>
+                                <label class="label-line">Contato (Obrigatório)</label>
                                 <masked-input v-model="form.phone" mask="(11) 11111-1111" class="input-line" />                                
                             </div>
-                            <div class="col-lg-2 mb-25 mt-2">
-                                <template v-if="form.intent === 'rent'">
-                                    <label class="label-line">Valor do Aluguel</label>
-                                </template>
-                                <template v-else>
-                                    <label class="label-line">Valor de Venda</label>
-                                </template>
-                                <money id="value" name="value" v-model="form.value" class="input-line" maxlength="14" v-bind="money"></money>
-                            </div>
                             <div class="col-lg-2 mb-25 mt-2">         
-                                <label class="label-line">Área útil (m²)</label>                               
+                                <label class="label-line">Área útil (m²) (Obrigatório)</label>                               
                                 <ValidationProvider rules="required|integer" v-slot="{ errors }">
                                     <input v-model="form.area" class="input-line">
                                     <span class="form-error">{{ errors[0] }}</span>
                                 </ValidationProvider>
                             </div>
+                            <div class="col-lg-2 mb-25 mt-2">
+                                <template v-if="form.intent === 'rent'">
+                                    <label class="label-line">Valor do Aluguel (Obrigatório)</label>
+                                </template>
+                                <template v-else>
+                                    <label class="label-line">Valor de Venda (Obrigatório)</label>
+                                </template>
+                                <money id="value" name="value" v-model="form.value" class="input-line" maxlength="14" v-bind="money"></money>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-lg-2 mb-25">
-                                <label class="label-line">Banheiros (Opcional)</label>
+                                <label class="label-line">Banheiros</label>
                                 <ValidationProvider rules="integer" v-slot="{ errors }">
                                     <input v-model="form.bathrooms" class="input-line">
                                     <span class="form-error">{{ errors[0] }}</span>
@@ -90,37 +90,29 @@
                             </div>
                             <template>
                                 <div class="col-lg-2 mb-25">
-                                    <label class="label-line">Quartos (Opcional)</label>
+                                    <label class="label-line">Quartos</label>
                                     <ValidationProvider rules="integer" v-slot="{ errors }">
                                         <input v-model="form.rooms" class="input-line">
                                         <span class="form-error">{{ errors[0] }}</span>
                                     </ValidationProvider>
                                 </div>
                                 <div class="col-lg-2 mb-25">
-                                    <label class="label-line">Suítes (Opcional)</label>
+                                    <label class="label-line">Suítes</label>
                                     <ValidationProvider rules="integer" v-slot="{ errors }">
                                         <input v-model="form.suites" class="input-line">
                                         <span class="form-error">{{ errors[0] }}</span>
                                     </ValidationProvider>
                                 </div>
                                 <div class="col-lg-2 mb-25">
-                                    <label class="label-line">Valor do Condomínio (Opcional)</label>
+                                    <label class="label-line">Valor do Condomínio</label>
                                     <money id="condominium_value" name="condominium_value" v-model="form.condominium_value" class="input-line" maxlength="14" v-bind="money"></money>
-                                    <!-- <ValidationProvider rules="" v-slot="{ errors }">
-                                        <input v-model="form.condominium_value" class="input-line">
-                                        <span class="form-error">{{ errors[0] }}</span>
-                                    </ValidationProvider>  -->
                                 </div>
                                 <div class="col-lg-2 mb-25">
-                                    <label class="label-line">IPTU (Opcional)</label>
+                                    <label class="label-line">IPTU</label>
                                     <money id="iptu" name="iptu" v-model="form.iptu" class="input-line" maxlength="14" v-bind="money"></money>
-                                    <!-- <ValidationProvider rules="" v-slot="{ errors }">
-                                        <input v-model="form.iptu" class="input-line">
-                                        <span class="form-error">{{ errors[0] }}</span>
-                                    </ValidationProvider> -->
                                 </div>
                                 <div class="col-lg-2 mb-25">
-                                    <label class="label-line">Vagas (Opcional)</label>
+                                    <label class="label-line">Vagas</label>
                                     <ValidationProvider rules="integer" v-slot="{ errors }">
                                         <input v-model="form.vacancies" class="input-line">
                                         <span class="form-error">{{ errors[0] }}</span>
@@ -130,16 +122,16 @@
                         </div>
                             
                         <div class="row">
-                            <div class="col-lg-2 mb-25">
+                            <!-- <div class="col-lg-2 mb-25">
                                 <label class="label-line">Número</label>
                                 <ValidationProvider rules="required|integer" v-slot="{ errors }">
                                     <input v-model="form.number" class="input-line">
                                     <span class="form-error">{{ errors[0] }}</span>
-                                </ValidationProvider>  
-                            </div>
+                                </ValidationProvider>
+                            </div> -->
                             <div class="col-lg-2 mb-25">
                                 <label class="label-line">Cep</label>
-                                <ValidationProvider rules="required|integer" v-slot="{ errors }">
+                                <ValidationProvider rules="integer" v-slot="{ errors }">
                                     <input v-model="form.cep" class="input-line" @keyup="searchCep()">
                                     <span class="form-error">{{ errors[0] }}</span>
                                 </ValidationProvider>
@@ -149,38 +141,35 @@
                                     <u>Não sei meu CEP</u>
                                 </a>
                             </div>
-                            <div class="col-lg-6 mb-25">
+                            <div class="col-lg-5 mb-25">
                                 <label class="label-line">Rua</label>
+                                <input v-model="form.street" class="input-line">
+                            </div>
+                            <div class="col-lg-3 mb-25">
+                                <label class="label-line">Cidade (Obrigatório)</label>
                                 <ValidationProvider rules="required" v-slot="{ errors }">
-                                    <input v-model="form.street" class="input-line">
+                                    <input v-model="form.city" class="input-line">
                                     <span class="form-error">{{ errors[0] }}</span>
-                                </ValidationProvider> 
+                                </ValidationProvider>
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-lg-4 mb-25">
-                                <label class="label-line">Bairro</label>
+                                <label class="label-line">Bairro (Obrigatório)</label>
                                 <ValidationProvider rules="required" v-slot="{ errors }">
                                     <input v-model="form.district" class="input-line">
                                     <span class="form-error">{{ errors[0] }}</span>
                                 </ValidationProvider> 
                             </div>
                             <div class="col-lg-2 mb-25">
-                                <label class="label-line">Cidade</label>
-                                <ValidationProvider rules="required" v-slot="{ errors }">
-                                    <input v-model="form.city" class="input-line">
-                                    <span class="form-error">{{ errors[0] }}</span>
-                                </ValidationProvider>
-                            </div>
-                            <div class="col-lg-1 mb-25">
-                                <label class="label-line">UF</label>
+                                <label class="label-line">UF (Obrigatório)</label>
                                 <ValidationProvider rules="required" v-slot="{ errors }">
                                     <input v-model="form.state" class="input-line">
                                     <span class="form-error">{{ errors[0] }}</span>
                                 </ValidationProvider>  
                             </div>
-                            <div class="col-lg-5 mb-25">
+                            <div class="col-lg-6 mb-25">
                                 <label class="label-line">Complemento</label>
                                 <input v-model="form.complement" class="input-line">    
                             </div>
@@ -332,6 +321,7 @@ export default {
             this.form.phone = this.form.phone.replace(/[^\d]+/g,'')
             if (this.form.phone.length < 10) {
                 this.$store.dispatch('getAlertDanger', 'Deve ser inserido um contato válido')
+                return false
             }
             return true
         },
