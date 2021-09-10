@@ -318,8 +318,8 @@ export default {
             } else {
                 this.form.sale_value = this.form.value
             }
-            this.form.phone = this.form.phone.replace(/[^\d]+/g,'')
-            if (this.form.phone.length < 10) {
+            this.form.phone = this.form.phone ? this.form.phone.replace(/[^\d]+/g,'') : null
+            if (!this.form.phone || this.form.phone.length < 10) {
                 this.$store.dispatch('getAlertDanger', 'Deve ser inserido um contato válido')
                 return false
             }
@@ -331,6 +331,7 @@ export default {
             }
             this.form.userId = window.localStorage.getItem('userId')
             let action = this.$route.params.id ? 'place-edit' : 'place-create'
+            this.form.id = this.$route.params.id ? this.$route.params.id : null
             this.$store.dispatch('getSpinner', true)
             this.$http.post(apiUrl + action, this.form, {headers: getHeader()}).then(response => {
                 if (!this.$route.params.id) {
