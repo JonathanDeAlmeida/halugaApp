@@ -38,7 +38,7 @@ const store = new Vuex.Store({
       message: ""
     },
     types: [
-      {value: 'Todos'},
+      {value: ''},
       {value: 'Apartamento'},
       {value: 'Casa'},
       {value: 'Casa de condomínio'},
