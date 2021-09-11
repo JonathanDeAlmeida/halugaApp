@@ -44,6 +44,7 @@
                             <div class="col-md-12 col-lg-2 mb-25">
                                 <label class="label-line">Condição</label>
                                 <select class="select-line" v-model="form.condition">
+                                    <option value=""></option>
                                     <option value="residencial">Residencial</option>
                                     <option value="comercial">Comercial</option>
                                 </select>
