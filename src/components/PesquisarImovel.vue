@@ -196,7 +196,7 @@
                     <div class="col-lg-10 mx-auto" v-for="(place, index) of places" :key="index">
                         <div class="place-border">
                             <div class="row">
-                                <div class="col-lg-5 col-md-12 col-sm-12">
+                                <div class="col-lg-5 col-md-12 col-sm-12 carousel-search">
                                     <b-carousel :interval="0" controls>
                                         <b-carousel-slide v-for="(image, index) of place.images" :img-src="apiDomain + image.path" :key="index">
                                         </b-carousel-slide>

@@ -47,7 +47,7 @@
                         <div class="place-border">
                             <div class="row">
                                 <template v-if="place.images.length > 0">
-                                    <div class="col-lg-5 col-md-12 col-sm-12">
+                                    <div class="col-lg-5 col-md-12 col-sm-12 carousel-my-places">
                                         <b-carousel :interval="0" controls>
                                             <b-carousel-slide v-for="(image, index) of place.images" :img-src="domain + image.path" :key="index">
                                             </b-carousel-slide>
