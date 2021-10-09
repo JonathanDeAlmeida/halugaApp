@@ -259,11 +259,8 @@
   .fs-15 {
     font-size: 15px;
   }
-  .carousel-my-places .carousel-item {
+  .carousel-item {
     height: 245px;
-  }
-  .carousel-search .carousel-item {
-    height: 237px;
   }
   .no-image {
     height: 235px; 
