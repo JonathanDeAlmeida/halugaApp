@@ -306,7 +306,9 @@
     display: inline-block;
   }
 
-
+  .required {
+    color: #d41515;
+  }
 
   .place-images-one {
     display: block;

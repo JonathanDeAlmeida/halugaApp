@@ -60,11 +60,11 @@
                                 </select>
                             </div>
                             <div class="col-lg-2 mb-25 mt-2">
-                                <label class="label-line">Contato (Obrigatório)</label>
+                                <label class="label-line">Contato <span class="required">(Obrigatório)</span></label>
                                 <masked-input v-model="form.phone" mask="(11) 11111-1111" class="input-line" />                                
                             </div>
                             <div class="col-lg-2 mb-25 mt-2">         
-                                <label class="label-line">Área útil (m²) (Obrigatório)</label>                               
+                                <label class="label-line">Área útil (m²) <span class="required">(Obrigatório)</span></label>                               
                                 <ValidationProvider rules="required|integer" v-slot="{ errors }">
                                     <input v-model="form.area" class="input-line">
                                     <span class="form-error">{{ errors[0] }}</span>
@@ -72,10 +72,10 @@
                             </div>
                             <div class="col-lg-2 mb-25 mt-2">
                                 <template v-if="form.intent === 'rent'">
-                                    <label class="label-line">Valor do Aluguel (Obrigatório)</label>
+                                    <label class="label-line">Valor do Aluguel <span class="required">(Obrigatório)</span></label>
                                 </template>
                                 <template v-else>
-                                    <label class="label-line">Valor de Venda (Obrigatório)</label>
+                                    <label class="label-line">Valor de Venda <span class="required">(Obrigatório)</span></label>
                                 </template>
                                 <money id="value" name="value" v-model="form.value" class="input-line" maxlength="14" v-bind="money"></money>
                             </div>
@@ -150,7 +150,7 @@
                                 <input v-model="form.street" class="input-line">
                             </div>
                             <div class="col-lg-3 mb-25">
-                                <label class="label-line">Cidade (Obrigatório)</label>
+                                <label class="label-line">Cidade <span class="required">(Obrigatório)</span></label>
                                 <ValidationProvider rules="required" v-slot="{ errors }">
                                     <input v-model="form.city" class="input-line">
                                     <span class="form-error">{{ errors[0] }}</span>
@@ -160,14 +160,14 @@
 
                         <div class="row">
                             <div class="col-lg-4 mb-25">
-                                <label class="label-line">Bairro (Obrigatório)</label>
+                                <label class="label-line">Bairro <span class="required">(Obrigatório)</span></label>
                                 <ValidationProvider rules="required" v-slot="{ errors }">
                                     <input v-model="form.district" class="input-line">
                                     <span class="form-error">{{ errors[0] }}</span>
                                 </ValidationProvider> 
                             </div>
                             <div class="col-lg-2 mb-25">
-                                <label class="label-line">UF (Obrigatório)</label>
+                                <label class="label-line">UF <span class="required">(Obrigatório)</span></label>
                                 <ValidationProvider rules="required" v-slot="{ errors }">
                                     <input v-model="form.state" class="input-line">
                                     <span class="form-error">{{ errors[0] }}</span>
