@@ -7,7 +7,12 @@
                     <h4>Detalhes</h4>
                 </div>
                 <div class="col-md-12 text-justify">
-                    <p><strong>Anunciante: </strong> {{placeDetails.responsible_name}}</p>
+                    <template v-if="placeDetails.broker">
+                        <p><strong>Anunciante: </strong> {{placeDetails.broker}}</p>
+                    </template>
+                    <template v-else>
+                        <p><strong>Anunciante: </strong> {{placeDetails.responsible_name}}</p>
+                    </template>
                     <p><strong>Contato: </strong> {{maskPhone(placeDetails.phone)}}</p>
                     <p><strong>Endereço: </strong> <span v-html="textAddress(placeDetails, 1000)"></span></p>
                     <p><strong>Descrição: </strong> {{placeDetails.description}}</p>

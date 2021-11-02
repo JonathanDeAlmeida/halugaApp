@@ -118,7 +118,8 @@
                         <button class="btn-general blue" @click="showModalAllPhotos = true">Ver Todas As Fotos</button>
                     </div>
                     <div class="responsible-place">
-                        <span class="responsible-name"><strong>Anunciante</strong> {{place.responsible_name}}</span>
+                        <span v-if="place.broker" class="responsible-name"><strong>Anunciante</strong> {{place.broker}}</span>
+                        <span v-else class="responsible-name"><strong>Anunciante</strong> {{place.responsible_name}}</span>
                         <span class="responsible-phone"><strong>Contato</strong>
                           {{ maskPhone(place.phone)}}
                         </span>

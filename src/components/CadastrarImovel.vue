@@ -82,6 +82,14 @@
                         </div>
                         <div class="row">
                             <div class="col-lg-2 mb-25">
+                                <label class="label-line">Valor do Condomínio</label>
+                                <money id="condominium_value" name="condominium_value" v-model="form.condominium_value" class="input-line" maxlength="14" v-bind="money"></money>
+                            </div>
+                            <div class="col-lg-2 mb-25">
+                                <label class="label-line">IPTU</label>
+                                <money id="iptu" name="iptu" v-model="form.iptu" class="input-line" maxlength="14" v-bind="money"></money>
+                            </div>
+                            <div class="col-lg-1 mb-25">
                                 <label class="label-line">Banheiros</label>
                                 <ValidationProvider rules="integer" v-slot="{ errors }">
                                     <input v-model="form.bathrooms" class="input-line">
@@ -89,34 +97,30 @@
                                 </ValidationProvider>
                             </div>
                             <template>
-                                <div class="col-lg-2 mb-25">
+                                <div class="col-lg-1 mb-25">
                                     <label class="label-line">Quartos</label>
                                     <ValidationProvider rules="integer" v-slot="{ errors }">
                                         <input v-model="form.rooms" class="input-line">
                                         <span class="form-error">{{ errors[0] }}</span>
                                     </ValidationProvider>
                                 </div>
-                                <div class="col-lg-2 mb-25">
+                                <div class="col-lg-1 mb-25">
                                     <label class="label-line">Suítes</label>
                                     <ValidationProvider rules="integer" v-slot="{ errors }">
                                         <input v-model="form.suites" class="input-line">
                                         <span class="form-error">{{ errors[0] }}</span>
                                     </ValidationProvider>
                                 </div>
-                                <div class="col-lg-2 mb-25">
-                                    <label class="label-line">Valor do Condomínio</label>
-                                    <money id="condominium_value" name="condominium_value" v-model="form.condominium_value" class="input-line" maxlength="14" v-bind="money"></money>
-                                </div>
-                                <div class="col-lg-2 mb-25">
-                                    <label class="label-line">IPTU</label>
-                                    <money id="iptu" name="iptu" v-model="form.iptu" class="input-line" maxlength="14" v-bind="money"></money>
-                                </div>
-                                <div class="col-lg-2 mb-25">
+                                <div class="col-lg-1 mb-25">
                                     <label class="label-line">Vagas</label>
                                     <ValidationProvider rules="integer" v-slot="{ errors }">
                                         <input v-model="form.vacancies" class="input-line">
                                         <span class="form-error">{{ errors[0] }}</span>
                                     </ValidationProvider>
+                                </div>
+                                <div class="col-lg-4 mb-25">
+                                    <label class="label-line">Corretor/Corretora</label>
+                                    <input v-model="form.broker" class="input-line">
                                 </div>
                             </template>
                         </div>
@@ -261,6 +265,7 @@ export default {
             sale_value: 0,
             condominium_value: 0,
             iptu: 0,
+            broker: null,
             description: null
         }
     }),
