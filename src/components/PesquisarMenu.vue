@@ -3,8 +3,8 @@
       <div class="w-100">
         <div class="d-inline-flex mr-2">
           <b-dropdown class="mr-1" :text="intentText">
-            <b-dropdown-item @click="changeIntent('rent', 'Alugar')">Alugar</b-dropdown-item>
             <b-dropdown-item @click="changeIntent('sell', 'Comprar')">Comprar</b-dropdown-item>
+            <b-dropdown-item @click="changeIntent('rent', 'Alugar')">Alugar</b-dropdown-item>
           </b-dropdown>
           <b-dropdown :text="addressTypeText">
             <b-dropdown-item @click="changeAddressType('city', 'Cidade')">Cidade</b-dropdown-item>
@@ -31,7 +31,7 @@
 export default {
   name: 'Menu',
   data: () => ({
-    intentText: 'Alugar',
+    intentText: 'Comprar',
     addressTypeText: 'Cidade'
   }),
   methods: {

@@ -28,7 +28,7 @@ const store = new Vuex.Store({
     city: "",
     district: "",
     street: "",
-    intent: "rent",
+    intent: "sell",
     search: false,
     modalFilterShow: false,
     alert: {

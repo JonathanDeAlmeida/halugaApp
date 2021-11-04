@@ -155,8 +155,8 @@
                                     Mais Filtros
                                 </button>
                                 <b-dropdown :text="intentText" class="float-right pr-2">
-                                    <b-dropdown-item @click="changeIntent('rent', 'Alugar')">Alugar</b-dropdown-item>
                                     <b-dropdown-item @click="changeIntent('sell', 'Comprar')">Comprar</b-dropdown-item>
+                                    <b-dropdown-item @click="changeIntent('rent', 'Alugar')">Alugar</b-dropdown-item>
                                 </b-dropdown>
                             </div>
                         </div>
@@ -184,8 +184,8 @@
                         </ul>
                         
                         <b-dropdown :text="intentText">
-                            <b-dropdown-item @click="changeIntent('rent', 'Alugar')">Alugar</b-dropdown-item>
                             <b-dropdown-item @click="changeIntent('sell', 'Comprar')">Comprar</b-dropdown-item>
+                            <b-dropdown-item @click="changeIntent('rent', 'Alugar')">Alugar</b-dropdown-item>
                         </b-dropdown>
                         <button style="padding: 8px 15px" class="btn-general blue float-right" @click.prevent="setFilter()">
                             Mais Filtros
@@ -329,7 +329,7 @@ export default {
         placeDetails: null,
         showModalPlaceDetails: false,
         pagination: {},
-        intentText: 'Alugar',
+        intentText: 'Comprar',
         addressTypeText: 'Cidade'
     }),
     methods: {
