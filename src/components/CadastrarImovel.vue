@@ -64,8 +64,8 @@
                                 <masked-input v-model="form.phone" mask="(11) 11111-1111" class="input-line" />                                
                             </div>
                             <div class="col-lg-2 mb-25 mt-2">         
-                                <label class="label-line">Área útil (m²) <span class="required">(Obrigatório)</span></label>                               
-                                <ValidationProvider rules="required|integer" v-slot="{ errors }">
+                                <label class="label-line">Área útil (m²)</label>                               
+                                <ValidationProvider rules="integer" v-slot="{ errors }">
                                     <input v-model="form.area" class="input-line">
                                     <span class="form-error">{{ errors[0] }}</span>
                                 </ValidationProvider>
