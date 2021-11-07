@@ -371,9 +371,9 @@ export default {
         textAddress (place, limit) {
             let address = ''
             if (place.street) {
-                address = place.street + ', ' + 'Bairro ' + place.district + ', ' + place.city
+                address = place.street + ', ' + place.district + ', ' + place.city
             } else {
-                address = 'Bairro ' + place.district + ', ' + place.city
+                address = place.district + ', ' + place.city
             }
             return (address.length > limit ? address.substr(0, limit) + '...' : address)
         },
