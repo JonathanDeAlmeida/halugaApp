@@ -7,7 +7,7 @@
                     <h4>Excluir</h4>
                 </div>
                 <div class="col-md-12 text-justify">
-                    Tem certeza que deseja excluir permanentemente ?
+                    Seu perfil e seus anúncios serão excluídos, Tem certeza que deseja excluir permanentemente?
                 </div>
                 <hr>
                 <div class="col-md-12">

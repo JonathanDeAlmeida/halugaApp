@@ -106,10 +106,10 @@
                             <!-- <span class="material-icons-two-tone">airline_seat_individual_suite</span> -->
                         </div>
                     </div>
-                    <p v-if="place.street" class="place-address mt-4 text-center-mobile">{{place.street}}, {{place.district}}, {{place.city}}
+                    <p v-if="place.street" class="place-address mt-4 text-center-mobile">{{place.street}}, {{place.district}}, {{place.city}} - {{place.state}}
                         <span v-if="place.complement"> , {{place.complement}} </span>
                     </p>
-                    <p v-else class="place-address mt-4 text-center-mobile">{{place.district}}, {{place.city}}
+                    <p v-else class="place-address mt-4 text-center-mobile">{{place.district}}, {{place.city}} - {{place.state}}
                         <span v-if="place.complement"> , {{place.complement}} </span>
                     </p>
                 </div>
