@@ -119,7 +119,7 @@
                                     </ValidationProvider>
                                 </div>
                                 <div class="col-lg-4 mb-25">
-                                    <label class="label-line">Corretor/Corretora</label>
+                                    <label class="label-line">Anunciante</label>
                                     <input v-model="form.broker" class="input-line">
                                 </div>
                             </template>

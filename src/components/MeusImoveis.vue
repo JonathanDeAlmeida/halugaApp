@@ -4,9 +4,10 @@
         <b-modal v-model="showModalPlaceDetails" hide-header hide-footer size="lg"> 
             <template v-if="placeDetails">
                 <div class="col-md-12 modal-border">
-                    <h4>Detalhes</h4>
+                    <h4>Descrição</h4>
                 </div>
                 <div class="col-md-12 text-justify">
+                    <!--
                     <template v-if="placeDetails.broker">
                         <p><strong>Anunciante: </strong> {{placeDetails.broker}}</p>
                     </template>
@@ -16,6 +17,8 @@
                     <p><strong>Contato: </strong> {{maskPhone(placeDetails.phone)}}</p>
                     <p><strong>Endereço: </strong> <span v-html="textAddress(placeDetails, 1000)"></span></p>
                     <p><strong>Descrição: </strong> {{placeDetails.description}}</p>
+                    -->
+                    <p>{{placeDetails.description}}</p>
                 </div>
                 <hr>
                 <div class="col-md-12">
